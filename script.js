@@ -112,12 +112,33 @@
   });
 
 
-  /* ── Staggered: process steps ───────────────────── */
-  gsap.utils.toArray('.process-step').forEach(el => gsap.set(el, { y: 30, opacity: 0 }));
-  ScrollTrigger.batch('.process-step', {
-    onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: 1, ease: 'power2.out', stagger: 0.15 }),
-    start: 'top 85%'
-  });
+  /* ── Process timeline scroll-scrub ────────────────── */
+  const processSteps = gsap.utils.toArray('.process-step');
+  const processFill = document.querySelector('.process-line-fill');
+
+  if (processFill && processSteps.length) {
+    // Animate the line fill width with scroll
+    gsap.to(processFill, {
+      width: '90%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.process-timeline',
+        start: 'top 75%',
+        end: 'bottom 50%',
+        scrub: 0.8
+      }
+    });
+
+    // Activate each step sequentially as user scrolls
+    processSteps.forEach((step, i) => {
+      ScrollTrigger.create({
+        trigger: '.process-timeline',
+        start: `top ${75 - (i * 8)}%`,
+        onEnter: () => step.classList.add('is-active'),
+        onLeaveBack: () => step.classList.remove('is-active')
+      });
+    });
+  }
 
   /* ── About stat count-up ─────────────────────────── */
   document.querySelectorAll('.about-stat').forEach(stat => {
