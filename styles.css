@@ -663,10 +663,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    REEL
    ═══════════════════════════════════════════════════════ */
-.reel{overflow:hidden;padding:100px 0;position:relative}
+.reel{overflow:hidden;padding:100px 0;position:relative;display:flex;flex-direction:column;gap:14px}
 .reel-track{
   display:flex;gap:14px;
   animation:reelScroll 40s linear infinite;
+}
+.reel-track--reverse{
+  animation:reelScrollReverse 45s linear infinite;
 }
 .reel-track img,.reel-track video{
   height:340px;aspect-ratio:3/4;
@@ -674,6 +677,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   flex-shrink:0;
 }
 @keyframes reelScroll{to{transform:translateX(-50%)}}
+@keyframes reelScrollReverse{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 
 /* ═══════════════════════════════════════════════════════
    OUR WORK — visual showcase
@@ -1081,6 +1085,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   color:var(--text-secondary);
   letter-spacing:.01em;
   white-space:nowrap;
+}
+.brands-logo{
+  width:180px;height:60px;
+  object-fit:contain;
+  opacity:0.7;
+  transition:opacity .3s var(--ease);
+}
+.brands-tile:hover .brands-logo{
+  opacity:1;
 }
 @keyframes brandsScroll{to{transform:translateX(-50%)}}
 
