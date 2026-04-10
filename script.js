@@ -395,16 +395,6 @@
     start: 'top 85%'
   });
 
-  /* ── Staggered: brand cards ─────────────────────────── */
-  gsap.utils.toArray('.brand-card').forEach(el => gsap.set(el, { y: 20, opacity: 0 }));
-  ScrollTrigger.batch('.brand-card', {
-    onEnter: batch => gsap.to(batch, {
-      y: 0, opacity: 1,
-      duration: 0.8, ease: 'power2.out', stagger: 0.08
-    }),
-    start: 'top 88%'
-  });
-
   /* ── FAQ accordion ──────────────────────────────── */
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {
