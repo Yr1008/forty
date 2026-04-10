@@ -365,6 +365,46 @@
     });
   }
 
+  /* ── Case study accordion ─────────────────────────── */
+  document.querySelectorAll('.case-study-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const cs = btn.closest('.case-study');
+      const isOpen = cs.classList.contains('open');
+
+      document.querySelectorAll('.case-study.open').forEach(openCs => {
+        openCs.classList.remove('open');
+        openCs.querySelector('.case-study-toggle').setAttribute('aria-expanded', 'false');
+      });
+
+      if (!isOpen) {
+        cs.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  /* ── Staggered: case study cards ────────────────────── */
+  gsap.utils.toArray('.case-study').forEach(el => {
+    gsap.set(el, { opacity: 0, y: 50 });
+  });
+  ScrollTrigger.batch('.case-study', {
+    onEnter: batch => gsap.to(batch, {
+      y: 0, opacity: 1,
+      duration: 1, ease: 'power2.out', stagger: 0.15
+    }),
+    start: 'top 85%'
+  });
+
+  /* ── Staggered: brand cards ─────────────────────────── */
+  gsap.utils.toArray('.brand-card').forEach(el => gsap.set(el, { y: 20, opacity: 0 }));
+  ScrollTrigger.batch('.brand-card', {
+    onEnter: batch => gsap.to(batch, {
+      y: 0, opacity: 1,
+      duration: 0.8, ease: 'power2.out', stagger: 0.08
+    }),
+    start: 'top 88%'
+  });
+
   /* ── FAQ accordion ──────────────────────────────── */
   document.querySelectorAll('.faq-q').forEach(btn => {
     btn.addEventListener('click', () => {
