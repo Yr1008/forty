@@ -112,42 +112,157 @@
   });
 
 
-  /* ── Staggered: process cards (fixaplan style) ────── */
-  gsap.utils.toArray('.process-card').forEach(el => gsap.set(el, { y: 40, opacity: 0 }));
-  ScrollTrigger.batch('.process-card', {
-    onEnter: batch => gsap.to(batch, {
-      y: 0, opacity: 1,
-      duration: 1.1, ease: 'power3.out', stagger: 0.12
-    }),
-    start: 'top 85%'
-  });
+  /* ── Process section: scroll-linked motion ────────── */
+  const processSection = document.querySelector('.process');
+  if (processSection) {
+    // Cards cascade with scroll scrub
+    const processCards = gsap.utils.toArray('.process-card');
+    gsap.set(processCards, { y: 60, opacity: 0 });
+    gsap.to(processCards, {
+      y: 0,
+      opacity: 1,
+      ease: 'none',
+      stagger: 0.15,
+      scrollTrigger: {
+        trigger: '.process-cards',
+        start: 'top 88%',
+        end: 'top 45%',
+        scrub: 1
+      }
+    });
 
-  /* ── About stat count-up ─────────────────────────── */
+    // Headline word-by-word reveal
+    const headingLines = gsap.utils.toArray('.process-big-line-1, .process-big-line-2');
+    headingLines.forEach(line => {
+      const words = line.textContent.split(' ');
+      line.innerHTML = words.map(w => `<span class="process-word">${w}</span>`).join(' ');
+    });
+    const processWords = gsap.utils.toArray('.process-word');
+    processWords.forEach(w => { w.style.display = 'inline-block'; });
+    gsap.set(processWords, { y: '100%', opacity: 0 });
+    gsap.to(processWords, {
+      y: '0%',
+      opacity: 1,
+      ease: 'none',
+      stagger: 0.08,
+      scrollTrigger: {
+        trigger: '.process-intro',
+        start: 'top 80%',
+        end: 'top 40%',
+        scrub: 1
+      }
+    });
+
+    // Green line draws itself
+    const processLine = processSection.querySelector('.process-line');
+    if (processLine) {
+      gsap.to(processLine, {
+        scaleY: 1,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.process',
+          start: 'top 85%',
+          end: 'bottom 60%',
+          scrub: 1.2
+        }
+      });
+    }
+
+    // Floating particles with parallax
+    const particles = gsap.utils.toArray('.process-particle');
+    particles.forEach((p, i) => {
+      const speed = 30 + (i * 20);
+      const dir = i % 2 === 0 ? 1 : -1;
+      gsap.to(p, {
+        y: -speed * dir,
+        x: (i % 3 - 1) * 15,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.process',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5
+        }
+      });
+      // Subtle opacity pulse
+      gsap.to(p, {
+        opacity: 0.3,
+        duration: 2 + i * 0.3,
+        ease: 'power1.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: i * 0.2
+      });
+    });
+
+    // Soft glow breathing (GPU-efficient opacity only)
+    gsap.to('.process-glow-a', {
+      opacity: 0.6,
+      duration: 4,
+      ease: 'power1.inOut',
+      yoyo: true,
+      repeat: -1
+    });
+    gsap.to('.process-glow-b', {
+      opacity: 0.6,
+      duration: 5,
+      ease: 'power1.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: 1
+    });
+
+    // Card icon pulse on entry
+    ScrollTrigger.create({
+      trigger: '.process-cards',
+      start: 'top 70%',
+      once: true,
+      onEnter: () => {
+        gsap.fromTo('.process-card-icon',
+          { scale: 1, filter: 'drop-shadow(0 0 0 rgba(0,255,160,0))' },
+          {
+            scale: 1.15,
+            filter: 'drop-shadow(0 0 12px rgba(0,255,160,0.6))',
+            duration: 0.5,
+            ease: 'power2.out',
+            stagger: 0.1,
+            yoyo: true,
+            repeat: 1
+          }
+        );
+      }
+    });
+  }
+
+  /* ── About stat count-up (butter-smooth) ─────────── */
   document.querySelectorAll('.about-stat').forEach(stat => {
     const numEl = stat.querySelector('.about-stat-num');
     if (!numEl) return;
-
     const target = parseInt(numEl.dataset.count);
     if (isNaN(target)) return;
 
+    numEl.style.fontVariantNumeric = 'tabular-nums';
     const obj = { val: 0 };
-    gsap.set(stat, { y: 20, opacity: 0 });
+    gsap.set(stat, { y: 20, opacity: 0, force3D: true });
 
     ScrollTrigger.create({
       trigger: stat,
       start: 'top 90%',
       once: true,
       onEnter: () => {
-        gsap.to(stat, { y: 0, opacity: 1, duration: 1, ease: 'power2.out' });
+        gsap.to(stat, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', force3D: true });
         gsap.to(obj, {
-          val: target, duration: 2.2, ease: 'power2.out',
-          onUpdate: () => { numEl.textContent = Math.round(obj.val); }
+          val: target,
+          duration: 2,
+          ease: 'expo.out',
+          onUpdate: () => { numEl.textContent = Math.round(obj.val); },
+          onComplete: () => { numEl.textContent = target; }
         });
       }
     });
   });
 
-  /* ── Performance counters + ring charts ──────────── */
+  /* ── Performance counters + ring charts (butter-smooth) ─ */
   const circumference = 2 * Math.PI * 25;
 
   document.querySelectorAll('.perf-item').forEach(item => {
@@ -157,30 +272,34 @@
     if (!numEl || isNaN(target)) return;
 
     const isDecimal = target % 1 !== 0;
+    numEl.style.fontVariantNumeric = 'tabular-nums';
     const obj = { val: 0 };
     const ringPercent = parseFloat(ringFill?.dataset.percent || 50);
     const targetOffset = circumference - (circumference * ringPercent / 100);
 
-    gsap.set(item, { y: 30, opacity: 0 });
+    gsap.set(item, { y: 30, opacity: 0, force3D: true });
 
     ScrollTrigger.create({
       trigger: item,
       start: 'top 85%',
       once: true,
       onEnter: () => {
-        gsap.to(item, { y: 0, opacity: 1, duration: 1, ease: 'power2.out' });
-
+        gsap.to(item, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', force3D: true });
         gsap.to(obj, {
-          val: target, duration: 2.4, ease: 'power2.out',
+          val: target,
+          duration: 2.2,
+          ease: 'expo.out',
           onUpdate: () => {
             numEl.textContent = isDecimal ? obj.val.toFixed(1) : Math.round(obj.val);
+          },
+          onComplete: () => {
+            numEl.textContent = isDecimal ? target.toFixed(1) : target;
           }
         });
-
         if (ringFill) {
           gsap.to(ringFill, {
             attr: { 'stroke-dashoffset': targetOffset },
-            duration: 2.4, ease: 'power2.out'
+            duration: 2.2, ease: 'expo.out'
           });
         }
       }
@@ -439,82 +558,91 @@
     });
   });
 
-  /* ── Reel carousels with scroll-velocity boost ────── */
-  const reelTracks = gsap.utils.toArray('.reel-track');
-  const reelTweens = [];
-  reelTracks.forEach(track => {
+  /* ── Reel + brands carousels with smooth scroll-velocity boost ─ */
+  const allCarouselTracks = [];
+
+  // Reel tracks
+  gsap.utils.toArray('.reel-track').forEach(track => {
     const isReverse = track.classList.contains('reel-track--reverse');
     const isMobile = window.innerWidth <= 768;
     const baseDuration = isMobile ? 24 : 40;
-
     const tween = gsap.to(track, {
       xPercent: isReverse ? 0 : -50,
       duration: baseDuration,
       ease: 'none',
-      repeat: -1
+      repeat: -1,
+      force3D: true
     });
-
     if (isReverse) {
       gsap.set(track, { xPercent: -50 });
       tween.vars.xPercent = 0;
       tween.invalidate();
     }
-
-    reelTweens.push({ tween, isReverse });
+    allCarouselTracks.push({ tween, currentScale: 1, targetScale: 1 });
   });
 
-  // Scroll velocity -> carousel speed boost
+  // Brands track
+  const brandsTrack = document.querySelector('.brands-track');
+  if (brandsTrack) {
+    brandsTrack.style.animation = 'none';
+    brandsTrack.style.willChange = 'transform';
+    const isMobileBrands = window.innerWidth <= 768;
+    const brandsDuration = isMobileBrands ? 22 : 50;
+    const tween = gsap.to(brandsTrack, {
+      xPercent: -50,
+      duration: brandsDuration,
+      ease: 'none',
+      repeat: -1,
+      force3D: true
+    });
+    allCarouselTracks.push({ tween, currentScale: 1, targetScale: 1 });
+  }
+
+  // Single rAF loop that smoothly lerps timeScale towards target — no per-tick tweens
+  let carouselLoopRunning = false;
+  function carouselLoop() {
+    let stillAnimating = false;
+    allCarouselTracks.forEach(t => {
+      const diff = t.targetScale - t.currentScale;
+      if (Math.abs(diff) > 0.005) {
+        t.currentScale += diff * 0.08; // smooth lerp
+        t.tween.timeScale(t.currentScale);
+        stillAnimating = true;
+      } else if (t.currentScale !== t.targetScale) {
+        t.currentScale = t.targetScale;
+        t.tween.timeScale(t.currentScale);
+      }
+    });
+    if (stillAnimating) {
+      requestAnimationFrame(carouselLoop);
+    } else {
+      carouselLoopRunning = false;
+    }
+  }
+
+  // One ScrollTrigger that just updates target values — no tween creation
   let scrollIdleTimer;
   ScrollTrigger.create({
     start: 0,
     end: 'max',
     onUpdate: (self) => {
-      const velocity = self.getVelocity();
-      const boost = gsap.utils.clamp(0.8, 4, 1 + Math.abs(velocity) / 800);
-      reelTweens.forEach(({ tween }) => {
-        gsap.to(tween, { timeScale: boost, duration: 0.3, ease: 'power2.out', overwrite: true });
-      });
-
+      const velocity = Math.abs(self.getVelocity());
+      const boost = Math.min(4, 1 + velocity / 1000);
+      allCarouselTracks.forEach(t => { t.targetScale = boost; });
+      if (!carouselLoopRunning) {
+        carouselLoopRunning = true;
+        requestAnimationFrame(carouselLoop);
+      }
       clearTimeout(scrollIdleTimer);
       scrollIdleTimer = setTimeout(() => {
-        reelTweens.forEach(({ tween }) => {
-          gsap.to(tween, { timeScale: 1, duration: 1.2, ease: 'power2.out', overwrite: true });
-        });
-      }, 150);
+        allCarouselTracks.forEach(t => { t.targetScale = 1; });
+        if (!carouselLoopRunning) {
+          carouselLoopRunning = true;
+          requestAnimationFrame(carouselLoop);
+        }
+      }, 200);
     }
   });
-
-  /* ── Brands carousel with scroll-velocity boost ────── */
-  const brandsTrack = document.querySelector('.brands-track');
-  if (brandsTrack) {
-    // Disable CSS animation so we can control via GSAP
-    brandsTrack.style.animation = 'none';
-    brandsTrack.style.willChange = 'transform';
-    const isMobileBrands = window.innerWidth <= 768;
-    const brandsDuration = isMobileBrands ? 22 : 50;
-
-    const brandsTween = gsap.to(brandsTrack, {
-      xPercent: -50,
-      duration: brandsDuration,
-      ease: 'none',
-      repeat: -1
-    });
-
-    let brandsIdleTimer;
-    ScrollTrigger.create({
-      start: 0,
-      end: 'max',
-      onUpdate: (self) => {
-        const velocity = self.getVelocity();
-        const boost = gsap.utils.clamp(0.8, 3.5, 1 + Math.abs(velocity) / 1000);
-        gsap.to(brandsTween, { timeScale: boost, duration: 0.3, ease: 'power2.out', overwrite: true });
-        clearTimeout(brandsIdleTimer);
-        brandsIdleTimer = setTimeout(() => {
-          gsap.to(brandsTween, { timeScale: 1, duration: 1.2, ease: 'power2.out', overwrite: true });
-        }, 150);
-      }
-    });
-  }
 
   /* ── Lazy video play/pause via IntersectionObserver ── */
   const lazyVideos = document.querySelectorAll('video[preload="none"]');

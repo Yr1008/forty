@@ -263,7 +263,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .about-stat-num{
   font-size:clamp(2rem,4vw,3.2rem);
   font-weight:200;letter-spacing:-.03em;line-height:1.1;
-  display:inline;
+  display:inline-block;
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum";
 }
 .about-stat-suffix{
   font-size:clamp(1.4rem,2.5vw,2rem);
@@ -479,31 +481,42 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   padding:100px 0;
   overflow:hidden;
 }
-.process::before{
-  content:'';
+.process-glow-a,
+.process-glow-b{
   position:absolute;
-  top:20%;left:-10%;
-  width:60%;height:60%;
-  background:radial-gradient(circle,rgba(0,255,160,0.08),transparent 60%);
+  border-radius:50%;
   pointer-events:none;
-  animation:glowDriftA 14s ease-in-out infinite alternate;
+  will-change:transform,opacity;
+  filter:blur(40px);
 }
-.process::after{
-  content:'';
+.process-glow-a{
+  top:15%;left:-15%;
+  width:40%;height:40%;
+  background:radial-gradient(circle,rgba(0,255,160,0.18),transparent 70%);
+}
+.process-glow-b{
+  bottom:10%;right:-15%;
+  width:38%;height:38%;
+  background:radial-gradient(circle,rgba(0,200,255,0.12),transparent 70%);
+}
+.process-line{
   position:absolute;
-  bottom:10%;right:-10%;
-  width:55%;height:55%;
-  background:radial-gradient(circle,rgba(0,200,255,0.06),transparent 60%);
+  top:0;left:40px;
+  width:1px;height:100%;
+  background:linear-gradient(180deg,transparent,rgba(0,255,160,0.4) 20%,rgba(0,255,160,0.4) 80%,transparent);
+  transform:scaleY(0);
+  transform-origin:top center;
   pointer-events:none;
-  animation:glowDriftB 18s ease-in-out infinite alternate;
+  box-shadow:0 0 8px rgba(0,255,160,0.4),0 0 20px rgba(0,255,160,0.15);
 }
-@keyframes glowDriftA{
-  0%{transform:translate(0,0) scale(1)}
-  100%{transform:translate(40px,-30px) scale(1.1)}
-}
-@keyframes glowDriftB{
-  0%{transform:translate(0,0) scale(1)}
-  100%{transform:translate(-30px,20px) scale(1.15)}
+.process-particle{
+  position:absolute;
+  width:4px;height:4px;
+  border-radius:50%;
+  background:rgba(0,255,160,0.5);
+  box-shadow:0 0 8px rgba(0,255,160,0.6),0 0 16px rgba(0,255,160,0.3);
+  pointer-events:none;
+  will-change:transform,opacity;
 }
 .process-inner{
   position:relative;z-index:1;
@@ -528,8 +541,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   letter-spacing:-.025em;
   line-height:1.05;
 }
-.process-big-line-1{display:block;color:var(--text)}
-.process-big-line-2{display:block;color:rgba(255,255,255,0.5)}
+.process-big-line-1{display:block;color:var(--text);overflow:hidden}
+.process-big-line-2{display:block;color:rgba(255,255,255,0.5);overflow:hidden}
+.process-word{display:inline-block;will-change:transform,opacity}
 .process-cards{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -845,6 +859,156 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 /* ═══════════════════════════════════════════════════════
+   DESIGN THEORY — website showcase
+   ═══════════════════════════════════════════════════════ */
+.theory{
+  padding:90px 0 100px;
+  position:relative;
+}
+.theory-inner{
+  max-width:1200px;
+  margin:0 auto;
+  padding:0 40px;
+}
+.theory-header{
+  text-align:center;
+  margin-bottom:64px;
+  max-width:720px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.theory-heading{
+  font-size:clamp(1.9rem,4vw,3.2rem);
+  font-weight:600;
+  line-height:1.08;
+  letter-spacing:-.03em;
+  color:var(--text);
+  margin-top:12px;
+  margin-bottom:16px;
+}
+.theory-sub{
+  font-size:.95rem;
+  color:var(--text-secondary);
+  line-height:1.6;
+  max-width:540px;
+  margin:0 auto;
+}
+.theory-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:24px;
+}
+.theory-card{
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  text-decoration:none;
+  color:inherit;
+  transition:transform .5s var(--ease);
+}
+.theory-card:hover{
+  transform:translateY(-6px);
+}
+.theory-browser{
+  position:relative;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.02);
+  box-shadow:0 20px 40px rgba(0,0,0,0.4),0 0 0 1px rgba(255,255,255,0.02);
+  transition:border-color .5s var(--ease),box-shadow .5s var(--ease);
+}
+.theory-card:hover .theory-browser{
+  border-color:rgba(0,255,160,0.3);
+  box-shadow:0 30px 60px rgba(0,0,0,0.5),0 0 30px rgba(0,255,160,0.15);
+}
+.theory-browser-bar{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:10px 14px;
+  background:rgba(20,20,22,0.95);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+  position:relative;
+}
+.theory-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+}
+.theory-dot:nth-child(1){background:#ff5f57}
+.theory-dot:nth-child(2){background:#febc2e}
+.theory-dot:nth-child(3){background:#28c840}
+.theory-url{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:.7rem;
+  color:var(--text-tertiary);
+  letter-spacing:.02em;
+  font-weight:500;
+  padding:3px 14px;
+  background:rgba(255,255,255,0.04);
+  border-radius:50px;
+}
+.theory-browser-viewport{
+  position:relative;
+  aspect-ratio:4/3;
+  background:rgba(255,255,255,0.02);
+  overflow:hidden;
+}
+.theory-browser-viewport iframe{
+  width:1400px;
+  height:1050px;
+  border:0;
+  transform:scale(0.42);
+  transform-origin:top left;
+  pointer-events:none;
+}
+.theory-browser-overlay{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(180deg,transparent 60%,rgba(10,10,10,0.2));
+}
+.theory-meta{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:16px;
+  padding:0 4px;
+}
+.theory-name{
+  font-size:1.15rem;
+  font-weight:500;
+  letter-spacing:-.01em;
+  color:var(--text);
+  margin-bottom:4px;
+}
+.theory-desc{
+  font-size:.8rem;
+  color:var(--text-secondary);
+  font-weight:400;
+  line-height:1.5;
+}
+.theory-visit{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:.75rem;
+  font-weight:500;
+  color:var(--text-secondary);
+  letter-spacing:.02em;
+  white-space:nowrap;
+  padding-top:4px;
+  transition:color .3s var(--ease);
+}
+.theory-card:hover .theory-visit{
+  color:var(--neon);
+}
+
+/* ═══════════════════════════════════════════════════════
    PERFORMANCE / IMPACT (full-bleed cinematic)
    ═══════════════════════════════════════════════════════ */
 .perf{padding:90px 0}
@@ -885,6 +1049,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   font-size:clamp(2.4rem,4.5vw,3.8rem);
   font-weight:200;letter-spacing:-.03em;
   line-height:1;color:var(--text);
+  font-variant-numeric:tabular-nums;
+  font-feature-settings:"tnum";
+  display:inline-block;
+  min-width:2.5ch;
 }
 .perf-unit{
   font-size:clamp(1.2rem,2vw,1.8rem);
@@ -1087,12 +1255,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .case-study-details{
   max-height:0;overflow:hidden;
-  transition:max-height .6s var(--ease),opacity .4s var(--ease);
+  transition:max-height 1s cubic-bezier(.22,.61,.36,1),opacity .8s cubic-bezier(.22,.61,.36,1);
   opacity:0;
 }
 .case-study.open .case-study-details{
-  max-height:2000px;
+  max-height:2400px;
   opacity:1;
+  transition:max-height 1.2s cubic-bezier(.22,.61,.36,1),opacity 1s cubic-bezier(.22,.61,.36,1) .15s;
 }
 
 /* Impact hero panel inside expanded case study */
@@ -1283,6 +1452,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .case-study-header{grid-template-columns:1fr 1fr;gap:0}
   .case-study-grid{grid-template-columns:1fr 1fr 1fr;gap:20px;padding:0 28px 28px;padding-top:24px}
   .brands-track{animation-duration:30s}
+  .theory{padding:80px 0}
+  .theory-grid{grid-template-columns:1fr 1fr;gap:20px}
 }
 
 @media(max-width:768px){
@@ -1340,6 +1511,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   /* Speed up brands carousel on mobile */
   .brands-track{animation-duration:22s}
   .brands-tile{min-width:170px;padding:18px 32px}
+  .theory{padding:60px 0}
+  .theory-inner{padding:0 22px}
+  .theory-header{margin-bottom:40px}
+  .theory-grid{grid-template-columns:1fr;gap:28px}
+  .theory-browser-viewport iframe{width:1200px;height:900px;transform:scale(0.5)}
 }
 
 @media(max-width:480px){
