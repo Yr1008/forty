@@ -117,38 +117,17 @@
   if (processSection) {
     // Cards cascade with scroll scrub
     const processCards = gsap.utils.toArray('.process-card');
-    gsap.set(processCards, { y: 60, opacity: 0 });
+    gsap.set(processCards, { y: 60, opacity: 0, force3D: true });
     gsap.to(processCards, {
       y: 0,
       opacity: 1,
       ease: 'none',
       stagger: 0.15,
+      force3D: true,
       scrollTrigger: {
         trigger: '.process-cards',
         start: 'top 88%',
         end: 'top 45%',
-        scrub: 1
-      }
-    });
-
-    // Headline word-by-word reveal
-    const headingLines = gsap.utils.toArray('.process-big-line-1, .process-big-line-2');
-    headingLines.forEach(line => {
-      const words = line.textContent.split(' ');
-      line.innerHTML = words.map(w => `<span class="process-word">${w}</span>`).join(' ');
-    });
-    const processWords = gsap.utils.toArray('.process-word');
-    processWords.forEach(w => { w.style.display = 'inline-block'; });
-    gsap.set(processWords, { y: '100%', opacity: 0 });
-    gsap.to(processWords, {
-      y: '0%',
-      opacity: 1,
-      ease: 'none',
-      stagger: 0.08,
-      scrollTrigger: {
-        trigger: '.process-intro',
-        start: 'top 80%',
-        end: 'top 40%',
         scrub: 1
       }
     });
