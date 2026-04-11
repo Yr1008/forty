@@ -781,18 +781,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .reel{overflow:hidden;padding:70px 0;position:relative;display:flex;flex-direction:column;gap:14px}
 .reel-track{
   display:flex;gap:14px;
-  animation:reelScroll 40s linear infinite;
-}
-.reel-track--reverse{
-  animation:reelScrollReverse 45s linear infinite;
+  will-change:transform;
 }
 .reel-track img,.reel-track video{
   height:340px;aspect-ratio:3/4;
   border-radius:18px;object-fit:cover;
   flex-shrink:0;
 }
-@keyframes reelScroll{to{transform:translateX(-50%)}}
-@keyframes reelScrollReverse{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 
 /* ═══════════════════════════════════════════════════════
    OUR WORK — visual showcase

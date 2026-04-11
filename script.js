@@ -368,29 +368,26 @@
     });
   }
 
-  /* ── Case study accordion with smooth impact count-up ─ */
-  function runImpactCountUp(caseStudy) {
+  /* ── Case study accordion with subtle fade-in on impact ─ */
+  function revealImpactNumbers(caseStudy) {
     const nums = caseStudy.querySelectorAll('.case-study-impact-num');
-    nums.forEach((numEl) => {
+    nums.forEach((numEl, idx) => {
       const target = parseFloat(numEl.dataset.num);
       const suffix = numEl.dataset.suffix || '';
       if (isNaN(target)) return;
       const isDecimal = target % 1 !== 0;
-      const obj = { val: 0 };
-      gsap.killTweensOf(obj);
-      gsap.to(obj, {
-        val: target,
-        duration: 1.2,
-        ease: 'power2.out',
-        onUpdate: () => {
-          const v = isDecimal ? obj.val.toFixed(1) : Math.round(obj.val);
-          numEl.textContent = v + suffix;
-        },
-        onComplete: () => {
-          const v = isDecimal ? target.toFixed(1) : target;
-          numEl.textContent = v + suffix;
+      const displayVal = (isDecimal ? target.toFixed(1) : target) + suffix;
+      numEl.textContent = displayVal;
+
+      gsap.killTweensOf(numEl);
+      gsap.fromTo(numEl,
+        { opacity: 0, y: 16 },
+        {
+          opacity: 1, y: 0,
+          duration: 1.1, ease: 'power2.out',
+          delay: idx * 0.08
         }
-      });
+      );
     });
   }
 
@@ -407,7 +404,7 @@
       if (!isOpen) {
         cs.classList.add('open');
         btn.setAttribute('aria-expanded', 'true');
-        requestAnimationFrame(() => runImpactCountUp(cs));
+        requestAnimationFrame(() => revealImpactNumbers(cs));
       }
     });
   });
@@ -441,6 +438,83 @@
       }
     });
   });
+
+  /* ── Reel carousels with scroll-velocity boost ────── */
+  const reelTracks = gsap.utils.toArray('.reel-track');
+  const reelTweens = [];
+  reelTracks.forEach(track => {
+    const isReverse = track.classList.contains('reel-track--reverse');
+    const isMobile = window.innerWidth <= 768;
+    const baseDuration = isMobile ? 24 : 40;
+
+    const tween = gsap.to(track, {
+      xPercent: isReverse ? 0 : -50,
+      duration: baseDuration,
+      ease: 'none',
+      repeat: -1
+    });
+
+    if (isReverse) {
+      gsap.set(track, { xPercent: -50 });
+      tween.vars.xPercent = 0;
+      tween.invalidate();
+    }
+
+    reelTweens.push({ tween, isReverse });
+  });
+
+  // Scroll velocity -> carousel speed boost
+  let scrollIdleTimer;
+  ScrollTrigger.create({
+    start: 0,
+    end: 'max',
+    onUpdate: (self) => {
+      const velocity = self.getVelocity();
+      const boost = gsap.utils.clamp(0.8, 4, 1 + Math.abs(velocity) / 800);
+      reelTweens.forEach(({ tween }) => {
+        gsap.to(tween, { timeScale: boost, duration: 0.3, ease: 'power2.out', overwrite: true });
+      });
+
+      clearTimeout(scrollIdleTimer);
+      scrollIdleTimer = setTimeout(() => {
+        reelTweens.forEach(({ tween }) => {
+          gsap.to(tween, { timeScale: 1, duration: 1.2, ease: 'power2.out', overwrite: true });
+        });
+      }, 150);
+    }
+  });
+
+  /* ── Brands carousel with scroll-velocity boost ────── */
+  const brandsTrack = document.querySelector('.brands-track');
+  if (brandsTrack) {
+    // Disable CSS animation so we can control via GSAP
+    brandsTrack.style.animation = 'none';
+    brandsTrack.style.willChange = 'transform';
+    const isMobileBrands = window.innerWidth <= 768;
+    const brandsDuration = isMobileBrands ? 22 : 50;
+
+    const brandsTween = gsap.to(brandsTrack, {
+      xPercent: -50,
+      duration: brandsDuration,
+      ease: 'none',
+      repeat: -1
+    });
+
+    let brandsIdleTimer;
+    ScrollTrigger.create({
+      start: 0,
+      end: 'max',
+      onUpdate: (self) => {
+        const velocity = self.getVelocity();
+        const boost = gsap.utils.clamp(0.8, 3.5, 1 + Math.abs(velocity) / 1000);
+        gsap.to(brandsTween, { timeScale: boost, duration: 0.3, ease: 'power2.out', overwrite: true });
+        clearTimeout(brandsIdleTimer);
+        brandsIdleTimer = setTimeout(() => {
+          gsap.to(brandsTween, { timeScale: 1, duration: 1.2, ease: 'power2.out', overwrite: true });
+        }, 150);
+      }
+    });
+  }
 
   /* ── Lazy video play/pause via IntersectionObserver ── */
   const lazyVideos = document.querySelectorAll('video[preload="none"]');
