@@ -567,36 +567,32 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .process-big-line-1{display:block;color:var(--text);overflow:hidden}
 .process-big-line-2{display:block;color:rgba(255,255,255,0.5);overflow:hidden}
 .process-word{display:inline-block}
-/* Method phrase — oversized Apple-style kinetic tagline */
+/* Method phrase — narrative sentence with highlighted verbs */
 .method-phrase{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  align-items:baseline;
-  gap:48px 56px;
-  max-width:1100px;
+  max-width:920px;
   margin:0 auto 80px;
-  padding:8px 20px;
+  padding:0 32px;
+  font-size:clamp(1.3rem,2.6vw,2.1rem);
+  font-weight:400;
+  line-height:1.35;
+  letter-spacing:-.015em;
+  color:rgba(255,255,255,0.45);
+  text-align:center;
   position:relative;
   z-index:1;
-  text-align:center;
 }
 .method-word{
   position:relative;
-  font-size:clamp(1.9rem,4vw,3.3rem);
-  font-weight:500;
-  line-height:1.05;
-  letter-spacing:-.025em;
-  color:rgba(255,255,255,0.35);
-  transition:color .7s var(--ease),transform .7s var(--ease);
-  white-space:nowrap;
   display:inline-block;
+  color:rgba(255,255,255,0.55);
+  font-weight:500;
+  transition:color .7s var(--ease);
 }
 .method-word::after{
   content:'';
   position:absolute;
-  left:8%;right:calc(8% + 12px);
-  bottom:-10px;
+  left:0;right:0;
+  bottom:-4px;
   height:2px;
   border-radius:2px;
   background:linear-gradient(90deg,rgba(0,255,160,0.8),rgba(80,180,255,0.5));
@@ -1623,7 +1619,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .perf-item:nth-child(3),.perf-item:nth-child(4){border-top:1px solid var(--border)}
   .story{padding:80px 0 60px}
   .story-founders{grid-template-columns:1fr 1fr;gap:16px}
-  .method-phrase{gap:32px 40px;margin-bottom:64px}
+  .method-phrase{margin-bottom:64px;font-size:clamp(1.2rem,2.6vw,1.8rem)}
   .process{padding:80px 0}
   .process-intro{margin-bottom:48px}
   .process-big-heading{font-size:clamp(1.9rem,4.5vw,3rem)}
@@ -1672,8 +1668,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .process{padding:60px 0}
   .process-intro{margin-bottom:32px}
   .process-big-heading{font-size:clamp(1.8rem,8vw,2.6rem)}
-  .method-phrase{flex-direction:column;gap:18px;margin-bottom:48px}
-  .method-word{font-size:clamp(1.6rem,7vw,2.2rem)}
+  .method-phrase{margin-bottom:48px;font-size:clamp(1.05rem,4.5vw,1.4rem);padding:0 20px;line-height:1.45}
   .case-study-impact{padding:40px 22px 32px}
   .case-study-impact-row{grid-template-columns:1fr;gap:32px}
   .case-study-impact-num{font-size:clamp(2.6rem,12vw,4rem)}
