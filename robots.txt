@@ -1,4 +1,4 @@
-# robots.txt for Forty — https://www.createforty.com/
+# robots.txt for Forty — https://www.createwithforty.com/
 # All respectful crawlers welcome, including AI/LLM indexers.
 
 User-agent: *
@@ -58,4 +58,4 @@ Allow: /
 User-agent: cohere-ai
 Allow: /
 
-Sitemap: https://www.createforty.com/sitemap.xml
+Sitemap: https://www.createwithforty.com/sitemap.xml
