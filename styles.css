@@ -966,6 +966,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   display:block;
   transition:transform .8s var(--ease);
 }
+.theory-screenshot--center{
+  object-position:center center;
+}
 .theory-card:hover .theory-screenshot{
   transform:scale(1.03);
 }
