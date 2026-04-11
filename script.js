@@ -624,7 +624,7 @@
   });
 
   /* ── Lazy video play/pause via IntersectionObserver ── */
-  const lazyVideos = document.querySelectorAll('video[preload="none"]');
+  const lazyVideos = document.querySelectorAll('video[preload="none"], video[preload="metadata"]');
   if (lazyVideos.length && 'IntersectionObserver' in window) {
     const videoObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -635,9 +635,21 @@
           if (!video.paused) video.pause();
         }
       });
-    }, { rootMargin: '200px 0px' });
+    }, { rootMargin: '600px 0px' });
 
     lazyVideos.forEach(video => videoObserver.observe(video));
+  }
+
+  /* ── Fade in CTA video when ready ───────────────── */
+  const ctaVideo = document.querySelector('.cta .full-bleed-video');
+  if (ctaVideo) {
+    const markReady = () => ctaVideo.classList.add('is-ready');
+    if (ctaVideo.readyState >= 2) {
+      markReady();
+    } else {
+      ctaVideo.addEventListener('loadeddata', markReady, { once: true });
+      ctaVideo.addEventListener('canplay', markReady, { once: true });
+    }
   }
 
 })();

@@ -1112,7 +1112,18 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    CTA
    ═══════════════════════════════════════════════════════ */
-.cta{min-height:80vh;display:flex;align-items:center;justify-content:center}
+.cta{
+  min-height:80vh;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#14141c,#0a0a0a 60%,#1a1a22);
+}
+.cta .full-bleed-video{
+  opacity:0;
+  transition:opacity .8s var(--ease);
+}
+.cta .full-bleed-video.is-ready{
+  opacity:1;
+}
 .cta-content{
   position:relative;z-index:2;
   text-align:center;padding:60px 40px;
