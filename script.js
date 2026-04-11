@@ -112,44 +112,31 @@
   });
 
 
-  /* ── Process section: scroll-linked motion ────────── */
+  /* ── Process section: kinetic phrase motion ───────── */
   const processSection = document.querySelector('.process');
   if (processSection) {
-    // Compact method steps fade in on enter
-    const methodSteps = gsap.utils.toArray('.method-step');
-    gsap.set(methodSteps, { y: 30, opacity: 0, force3D: true });
-    ScrollTrigger.batch('.method-step', {
+    // Method words fade up on enter
+    const methodWords = gsap.utils.toArray('.method-word');
+    gsap.set(methodWords, { y: 28, opacity: 0, force3D: true });
+    ScrollTrigger.batch('.method-word', {
       onEnter: batch => gsap.to(batch, {
         y: 0,
         opacity: 1,
-        duration: 0.8,
+        duration: 1,
         ease: 'power3.out',
-        stagger: 0.12,
+        stagger: 0.15,
         force3D: true
       }),
       start: 'top 90%'
     });
 
-    // Timeline fill animates + steps activate sequentially on scroll
-    const trackFill = document.querySelector('.method-track-fill');
-    if (trackFill) {
-      gsap.to(trackFill, {
-        width: '100%',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.method-flow',
-          start: 'top 78%',
-          end: 'top 38%',
-          scrub: 1
-        }
-      });
-    }
-    methodSteps.forEach((step, i) => {
+    // Each word gains .is-active sequentially for neon underline reveal
+    methodWords.forEach((word, i) => {
       ScrollTrigger.create({
-        trigger: '.method-flow',
-        start: `top ${74 - (i * 8)}%`,
-        onEnter: () => step.classList.add('is-active'),
-        onLeaveBack: () => step.classList.remove('is-active')
+        trigger: '.method-phrase',
+        start: `top ${82 - (i * 5)}%`,
+        onEnter: () => word.classList.add('is-active'),
+        onLeaveBack: () => word.classList.remove('is-active')
       });
     });
 
@@ -212,17 +199,6 @@
       });
     });
 
-    // Method step number subtle pulse
-    gsap.utils.toArray('.method-num').forEach((num, i) => {
-      gsap.to(num, {
-        opacity: 0.9,
-        duration: 2.5 + (i * 0.3),
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: i * 0.35
-      });
-    });
   }
 
   /* ── About stat count-up (butter-smooth) ─────────── */
