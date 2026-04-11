@@ -133,94 +133,31 @@
   });
 
 
-  /* ── Process section: kinetic phrase motion ───────── */
-  const processSection = document.querySelector('.process');
-  if (processSection) {
-    // Method words fade up on enter
-    const methodWords = gsap.utils.toArray('.method-word');
-    gsap.set(methodWords, { y: 28, opacity: 0, force3D: true });
-    ScrollTrigger.batch('.method-word', {
-      onEnter: batch => gsap.to(batch, {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        stagger: 0.15,
-        force3D: true
-      }),
-      start: 'top 90%'
+  /* ── Process section: integrated method rail entrance ───── */
+  const methodRail = document.querySelector('.method-rail');
+  if (methodRail) {
+    ScrollTrigger.create({
+      trigger: methodRail,
+      start: 'top 82%',
+      once: true,
+      onEnter: () => methodRail.classList.add('is-in')
     });
-
-    // Each word gains .is-active sequentially for neon underline reveal
-    methodWords.forEach((word, i) => {
-      ScrollTrigger.create({
-        trigger: '.method-phrase',
-        start: `top ${82 - (i * 5)}%`,
-        onEnter: () => word.classList.add('is-active'),
-        onLeaveBack: () => word.classList.remove('is-active')
-      });
-    });
-
-    // Floating particles with parallax
-    const particles = gsap.utils.toArray('.process-particle');
-    particles.forEach((p, i) => {
-      const speed = 30 + (i * 20);
-      const dir = i % 2 === 0 ? 1 : -1;
-      gsap.to(p, {
-        y: -speed * dir,
-        x: (i % 3 - 1) * 15,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.process',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5
-        }
-      });
-      // Subtle opacity pulse
-      gsap.to(p, {
-        opacity: 0.3,
-        duration: 2 + i * 0.3,
-        ease: 'power1.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: i * 0.2
-      });
-    });
-
-    // Generic neon particles across sections (services, story, etc.)
-    gsap.utils.toArray('.neon-particle').forEach((p, i) => {
-      const section = p.closest('section');
-      if (!section) return;
-      // Varied drift distances and directions for organic motion
-      const ySpeed = 20 + ((i * 13) % 60);
-      const xSpeed = ((i * 7) % 18) - 9;
-      const dir = i % 2 === 0 ? 1 : -1;
-      const minOpacity = 0.25 + ((i * 0.07) % 0.25);
-
-      gsap.to(p, {
-        y: -ySpeed * dir,
-        x: xSpeed,
-        ease: 'none',
-        force3D: true,
-        scrollTrigger: {
-          trigger: section,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5
-        }
-      });
-      gsap.to(p, {
-        opacity: minOpacity,
-        duration: 2.8 + ((i * 0.5) % 2.2),
-        ease: 'power1.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: (i * 0.27) % 3
-      });
-    });
-
   }
+
+  /* ── Ambient particles: in-place opacity pulse only ──
+     All scroll-coupled movement for particles is now handled once in the
+     site-wide parallax block below (with low amplitude). No double tweens. */
+  gsap.utils.toArray('.process-particle, .neon-particle').forEach((p, i) => {
+    const minOpacity = 0.3 + ((i * 0.06) % 0.2);
+    gsap.to(p, {
+      opacity: minOpacity,
+      duration: 3 + ((i * 0.4) % 2),
+      ease: 'power1.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: (i * 0.25) % 2.5
+    });
+  });
 
   /* ── About stat count-up (butter-smooth) ─────────── */
   document.querySelectorAll('.about-stat').forEach(stat => {
@@ -536,16 +473,20 @@
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReduced && !isTouchOnly && !lowEndDevice) {
+    // Unified, gentle scrub for all parallax so everything drifts in
+    // concert. Higher scrub = more lag = smoother glide behind the page.
+    const SCRUB = 1.4;
+
     // Full-bleed background videos drift slightly as the section scrolls.
     gsap.utils.toArray('.full-bleed .full-bleed-video').forEach(video => {
       gsap.to(video, {
-        yPercent: 8,
+        yPercent: 3,
         ease: 'none',
         scrollTrigger: {
           trigger: video.closest('.full-bleed'),
           start: 'top bottom',
           end: 'bottom top',
-          scrub: 0.8
+          scrub: SCRUB
         }
       });
     });
@@ -553,40 +494,40 @@
     // Full-bleed content rises gently against the video drift
     gsap.utils.toArray('.full-bleed .full-bleed-content').forEach(content => {
       gsap.fromTo(content,
-        { y: 30 },
+        { y: 12 },
         {
-          y: -30,
+          y: -12,
           ease: 'none',
           scrollTrigger: {
             trigger: content.closest('.full-bleed'),
             start: 'top bottom',
             end: 'bottom top',
-            scrub: 0.8
+            scrub: SCRUB
           }
         }
       );
     });
 
-    // Case study hero image — a whisper of zoom/drift
+    // Case study hero image — a whisper of drift
     gsap.utils.toArray('.case-study-img .case-study-media').forEach(img => {
       gsap.fromTo(img,
-        { y: -12 },
+        { y: -5 },
         {
-          y: 12,
+          y: 5,
           ease: 'none',
           scrollTrigger: {
             trigger: img.closest('.case-study'),
             start: 'top bottom',
             end: 'bottom top',
-            scrub: 1
+            scrub: SCRUB
           }
         }
       );
     });
 
-    // Theory cards — subtle staggered drift
+    // Theory cards — very subtle staggered drift
     gsap.utils.toArray('.theory-card').forEach((card, i) => {
-      const depth = 12 + (i % 3) * 6; // stagger depths: 12, 18, 24
+      const depth = 5 + (i % 3) * 2; // stagger depths: 5, 7, 9
       gsap.fromTo(card,
         { y: depth },
         {
@@ -596,7 +537,7 @@
             trigger: card,
             start: 'top bottom',
             end: 'bottom top',
-            scrub: 1.1
+            scrub: SCRUB
           }
         }
       );
@@ -606,37 +547,38 @@
     const heroContent = document.querySelector('.hero-content');
     if (heroContent) {
       gsap.to(heroContent, {
-        yPercent: -18,
-        opacity: 0.65,
+        yPercent: -10,
+        opacity: 0.7,
         ease: 'none',
         scrollTrigger: {
           trigger: '.hero',
           start: 'top top',
           end: 'bottom top',
-          scrub: 0.6
+          scrub: 1.0
         }
       });
     }
 
-    // Hero background video parallax
-    const heroVideo = document.querySelector('.hero-video');
-    if (heroVideo) {
-      gsap.to(heroVideo, {
-        yPercent: 10,
-        scale: 1.06,
+    // Hero background video parallax — small and smooth
+    const heroVideoEl = document.querySelector('.hero-video');
+    if (heroVideoEl) {
+      gsap.to(heroVideoEl, {
+        yPercent: 5,
+        scale: 1.03,
         ease: 'none',
         scrollTrigger: {
           trigger: '.hero',
           start: 'top top',
           end: 'bottom top',
-          scrub: 0.8
+          scrub: 1.2
         }
       });
     }
 
-    // Ambient neon particles drift a bit faster (background depth effect)
+    // Ambient neon particles: a faint drift, with very low amplitude.
+    // This is the ONLY scroll-coupled motion particles have now.
     gsap.utils.toArray('.neon-particle, .process-particle').forEach((p, i) => {
-      const depth = 20 + (i % 4) * 10;
+      const depth = 8 + (i % 4) * 3; // 8, 11, 14, 17
       gsap.fromTo(p,
         { y: depth },
         {
@@ -646,14 +588,11 @@
             trigger: p.closest('section') || p,
             start: 'top bottom',
             end: 'bottom top',
-            scrub: 0.7
+            scrub: SCRUB
           }
         }
       );
     });
-
-    // Reel tracks — subtle horizontal parallax offset on top of loop
-    // (skipped intentionally — the continuous loop already reads as motion)
   }
 
 })();
