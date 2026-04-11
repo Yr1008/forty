@@ -115,21 +115,19 @@
   /* ── Process section: scroll-linked motion ────────── */
   const processSection = document.querySelector('.process');
   if (processSection) {
-    // Cards cascade with scroll scrub
+    // Cards fade in quickly when section enters view (no scroll scrub lag)
     const processCards = gsap.utils.toArray('.process-card');
-    gsap.set(processCards, { y: 60, opacity: 0, force3D: true });
-    gsap.to(processCards, {
-      y: 0,
-      opacity: 1,
-      ease: 'none',
-      stagger: 0.15,
-      force3D: true,
-      scrollTrigger: {
-        trigger: '.process-cards',
-        start: 'top 88%',
-        end: 'top 45%',
-        scrub: 1
-      }
+    gsap.set(processCards, { y: 40, opacity: 0, force3D: true });
+    ScrollTrigger.batch('.process-card', {
+      onEnter: batch => gsap.to(batch, {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        ease: 'power3.out',
+        stagger: 0.1,
+        force3D: true
+      }),
+      start: 'top 90%'
     });
 
     // Green line draws itself
@@ -167,6 +165,33 @@
       gsap.to(p, {
         opacity: 0.3,
         duration: 2 + i * 0.3,
+        ease: 'power1.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: i * 0.2
+      });
+    });
+
+    // Generic neon particles across sections (services, story, etc.)
+    gsap.utils.toArray('.neon-particle').forEach((p, i) => {
+      const section = p.closest('section');
+      if (!section) return;
+      const speed = 25 + (i * 15);
+      const dir = i % 2 === 0 ? 1 : -1;
+      gsap.to(p, {
+        y: -speed * dir,
+        x: (i % 3 - 1) * 12,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 1.5
+        }
+      });
+      gsap.to(p, {
+        opacity: 0.3,
+        duration: 2.5 + (i % 4) * 0.4,
         ease: 'power1.inOut',
         yoyo: true,
         repeat: -1,

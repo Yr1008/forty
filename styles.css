@@ -283,9 +283,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    STORY (premium centered)
    ═══════════════════════════════════════════════════════ */
-.story{padding:100px 0 70px}
+.story{padding:100px 0 70px;position:relative;overflow:hidden}
 .story-container{
   max-width:900px;margin:0 auto;padding:0 40px;
+  position:relative;z-index:1;
 }
 
 /* ── Narrative ─────────────────────────────────────── */
@@ -509,7 +510,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   pointer-events:none;
   box-shadow:0 0 8px rgba(0,255,160,0.4),0 0 20px rgba(0,255,160,0.15);
 }
-.process-particle{
+.process-particle,
+.neon-particle{
   position:absolute;
   width:4px;height:4px;
   border-radius:50%;
@@ -517,6 +519,16 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   box-shadow:0 0 8px rgba(0,255,160,0.6),0 0 16px rgba(0,255,160,0.3);
   pointer-events:none;
   will-change:transform,opacity;
+  z-index:0;
+}
+.neon-particle--sm{
+  width:3px;height:3px;
+  background:rgba(0,255,160,0.4);
+  box-shadow:0 0 6px rgba(0,255,160,0.5),0 0 12px rgba(0,255,160,0.2);
+}
+.neon-particle--blue{
+  background:rgba(0,200,255,0.45);
+  box-shadow:0 0 8px rgba(0,200,255,0.6),0 0 16px rgba(0,200,255,0.25);
 }
 .process-inner{
   position:relative;z-index:1;
@@ -592,8 +604,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    SERVICES — Apple bento with animated visuals
    ═══════════════════════════════════════════════════════ */
-.services{padding:100px 0}
-.services-inner{max-width:1100px;margin:0 auto;padding:0 40px}
+.services{padding:100px 0;position:relative;overflow:hidden}
+.services-inner{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:1}
 .svc-header{text-align:center;margin-bottom:56px}
 .svc-heading{
   font-size:clamp(1.6rem,3.2vw,2.6rem);
