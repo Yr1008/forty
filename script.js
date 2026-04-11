@@ -115,16 +115,16 @@
   /* ── Process section: scroll-linked motion ────────── */
   const processSection = document.querySelector('.process');
   if (processSection) {
-    // Cards fade in quickly when section enters view (no scroll scrub lag)
-    const processCards = gsap.utils.toArray('.process-card');
-    gsap.set(processCards, { y: 40, opacity: 0, force3D: true });
-    ScrollTrigger.batch('.process-card', {
+    // Compact method steps fade in on enter
+    const methodSteps = gsap.utils.toArray('.method-step');
+    gsap.set(methodSteps, { y: 30, opacity: 0, force3D: true });
+    ScrollTrigger.batch('.method-step', {
       onEnter: batch => gsap.to(batch, {
         y: 0,
         opacity: 1,
-        duration: 0.9,
+        duration: 0.8,
         ease: 'power3.out',
-        stagger: 0.1,
+        stagger: 0.12,
         force3D: true
       }),
       start: 'top 90%'
@@ -189,49 +189,15 @@
       });
     });
 
-    // Card icon pulse on entry
-    ScrollTrigger.create({
-      trigger: '.process-cards',
-      start: 'top 80%',
-      once: true,
-      onEnter: () => {
-        gsap.fromTo('.process-card-icon',
-          { scale: 1 },
-          {
-            scale: 1.12,
-            duration: 0.5,
-            ease: 'power2.out',
-            stagger: 0.1,
-            yoyo: true,
-            repeat: 1,
-            force3D: true
-          }
-        );
-      }
-    });
-
-    // Continuous subtle breathing glow on process card icons (idle)
-    gsap.utils.toArray('.process-card-icon').forEach((icon, i) => {
-      gsap.to(icon, {
-        boxShadow: '0 0 18px rgba(0,255,160,0.25),inset 0 0 10px rgba(0,255,160,0.08)',
+    // Method step number subtle pulse
+    gsap.utils.toArray('.method-num').forEach((num, i) => {
+      gsap.to(num, {
+        opacity: 0.9,
         duration: 2.5 + (i * 0.3),
         ease: 'sine.inOut',
         yoyo: true,
         repeat: -1,
-        delay: i * 0.4
-      });
-    });
-
-    // Process card number floats slowly
-    gsap.utils.toArray('.process-card-num').forEach((num, i) => {
-      gsap.to(num, {
-        y: -4,
-        duration: 2.8 + (i * 0.25),
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: i * 0.35,
-        force3D: true
+        delay: i * 0.35
       });
     });
   }

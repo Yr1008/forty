@@ -567,12 +567,57 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .process-big-line-1{display:block;color:var(--text);overflow:hidden}
 .process-big-line-2{display:block;color:rgba(255,255,255,0.5);overflow:hidden}
 .process-word{display:inline-block}
-.process-cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-  position:relative;z-index:1;
+/* Compact method flow — horizontal Apple-minimalistic */
+.method-flow{
+  display:flex;
+  align-items:stretch;
+  gap:0;
+  max-width:1100px;
+  margin:0 auto 72px;
+  padding:32px 28px;
+  border-radius:22px;
+  background:linear-gradient(145deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));
+  border:1px solid rgba(255,255,255,0.06);
+  position:relative;
+  z-index:1;
 }
+.method-step{
+  flex:1;
+  padding:8px 20px;
+  display:flex;flex-direction:column;
+  align-items:flex-start;
+  gap:6px;
+}
+.method-num{
+  font-size:.68rem;
+  font-weight:600;
+  letter-spacing:.14em;
+  color:rgba(0,255,160,0.6);
+  font-variant-numeric:tabular-nums;
+  margin-bottom:6px;
+}
+.method-title{
+  font-size:1.05rem;
+  font-weight:500;
+  color:var(--text);
+  letter-spacing:-.01em;
+}
+.method-desc{
+  font-size:.78rem;
+  color:var(--text-secondary);
+  line-height:1.55;
+  font-weight:400;
+}
+.method-connector{
+  width:1px;
+  background:linear-gradient(180deg,transparent,rgba(0,255,160,0.2),transparent);
+  flex-shrink:0;
+  align-self:stretch;
+  margin:8px 0;
+}
+
+/* Keep old process-cards class around for responsive but hide it */
+.process-cards{display:none}
 .process-card{
   position:relative;overflow:hidden;
   display:flex;flex-direction:column;justify-content:space-between;
@@ -1582,10 +1627,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .perf-item:nth-child(3),.perf-item:nth-child(4){border-top:1px solid var(--border)}
   .story{padding:80px 0 60px}
   .story-founders{grid-template-columns:1fr 1fr;gap:16px}
-  .process-cards{grid-template-columns:repeat(2,1fr);gap:16px}
-  .process-card{min-height:280px;padding:32px 28px}
+  .method-flow{flex-wrap:wrap;padding:24px 20px;margin-bottom:56px}
+  .method-step{flex:1 1 calc(50% - 8px);padding:14px 16px}
+  .method-connector{display:none}
   .process{padding:80px 0}
-  .process-intro{margin-bottom:56px}
+  .process-intro{margin-bottom:48px}
   .process-big-heading{font-size:clamp(1.9rem,4.5vw,3rem)}
   .case-study-impact-row{gap:32px}
   .work-project{grid-template-columns:1fr 1fr;gap:32px}
@@ -1630,10 +1676,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .reel-track img,.reel-track video{height:240px}
   .services{padding:60px 0}
   .process{padding:60px 0}
-  .process-intro{margin-bottom:40px}
+  .process-intro{margin-bottom:36px}
   .process-big-heading{font-size:clamp(1.8rem,8vw,2.6rem)}
-  .process-cards{grid-template-columns:1fr;gap:14px}
-  .process-card{min-height:220px;padding:28px 24px}
+  .method-flow{flex-direction:column;padding:18px 16px;margin-bottom:44px;gap:0}
+  .method-step{flex:1 1 auto;padding:14px 12px;border-bottom:1px solid rgba(255,255,255,0.06)}
+  .method-step:last-child{border-bottom:none}
   .case-study-impact{padding:40px 22px 32px}
   .case-study-impact-row{grid-template-columns:1fr;gap:32px}
   .case-study-impact-num{font-size:clamp(2.6rem,12vw,4rem)}
