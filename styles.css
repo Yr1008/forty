@@ -1266,58 +1266,120 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 /* ═══════════════════════════════════════════════════════
-   NEON RAIN ZONE + FOOTER CTA
+   FOOTER CTA — elegant wordmark with shimmer + grid
    ═══════════════════════════════════════════════════════ */
-.neon-rain-zone{
+.footer-cta-zone{
   position:relative;
   overflow:hidden;
   padding:0;
+  isolation:isolate;
 }
-.neon-rain-canvas{
-  position:absolute;inset:0;
-  width:100%;height:100%;
+/* Ambient architectural grid — subtle, barely-there rhythm */
+.footer-cta-grid{
+  position:absolute;inset:-1px;
   pointer-events:none;
   z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 70% 55% at 50% 55%, #000 0%, transparent 80%);
+  -webkit-mask-image:radial-gradient(ellipse 70% 55% at 50% 55%, #000 0%, transparent 80%);
+  opacity:.6;
 }
 .footer-cta-inner{
   position:relative;z-index:2;
-  padding:120px 0 100px;
+  padding:140px 0 120px;
   text-align:center;
 }
 
 .footer-cta-title{
-  font-size:clamp(2.8rem,7.5vw,6.5rem);
-  font-weight:600;line-height:.94;letter-spacing:-.03em;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  font-weight:600;line-height:.9;letter-spacing:-.03em;
 }
-.footer-cta-solid{color:var(--text)}
-.footer-cta-stroke{
-  display:block;
-  color:rgba(0,255,160,0.95);
-  -webkit-text-stroke:1.2px rgba(0,255,160,0.55);
-  text-shadow:
-    0 0 16px rgba(0,255,160,0.6),
-    0 0 40px rgba(0,255,160,0.35),
-    0 0 90px rgba(0,255,160,0.15);
-  animation:fortyGlow 3.6s ease-in-out infinite;
-  position:relative;
+.footer-cta-eyebrow{
+  display:inline-block;
+  font-size:clamp(.78rem,1.1vw,.95rem);
+  font-weight:500;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--text-tertiary);
 }
-@keyframes fortyGlow{
-  0%,100%{
-    opacity:.88;
-    text-shadow:
-      0 0 14px rgba(0,255,160,0.5),
-      0 0 32px rgba(0,255,160,0.28),
-      0 0 70px rgba(0,255,160,0.12);
-    transform:scale(1);
-  }
-  50%{
-    opacity:1;
-    text-shadow:
-      0 0 22px rgba(0,255,160,0.75),
-      0 0 55px rgba(0,255,160,0.45),
-      0 0 110px rgba(0,255,160,0.22);
-    transform:scale(1.015);
-  }
+
+/* Wordmark — letter-by-letter split reveal with a sweeping shine */
+.footer-cta-wordmark{
+  position:relative;display:inline-flex;
+  font-size:clamp(3.4rem,9.5vw,9rem);
+  font-weight:600;
+  letter-spacing:-.035em;
+  line-height:.92;
+  color:var(--text);
+  padding:0 .04em;
+}
+.footer-cta-letter{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(60%) rotateX(-55deg);
+  transform-origin:50% 100%;
+  will-change:transform, opacity;
+}
+.footer-cta-wordmark.is-in .footer-cta-letter{
+  animation:fortyLetterIn 1.1s cubic-bezier(.2,.75,.2,1) both;
+  animation-delay:calc(var(--i) * 90ms + 120ms);
+}
+@keyframes fortyLetterIn{
+  0%{opacity:0;transform:translateY(65%) rotateX(-60deg)}
+  60%{opacity:1}
+  100%{opacity:1;transform:translateY(0) rotateX(0)}
+}
+
+/* Shine sweep — a clean diagonal highlight that drifts across the letters
+   only once in a while. Uses mix-blend to read as light, not color. */
+.footer-cta-shine{
+  position:absolute;inset:0;
+  pointer-events:none;
+  background:linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255,255,255,0.45) 48%,
+    rgba(255,255,255,0.75) 50%,
+    rgba(255,255,255,0.45) 52%,
+    transparent 65%
+  );
+  mix-blend-mode:overlay;
+  transform:translateX(-120%);
+  opacity:0;
+}
+.footer-cta-wordmark.is-in .footer-cta-shine{
+  animation:fortyShine 5.2s ease-in-out 1.4s infinite;
+}
+@keyframes fortyShine{
+  0%{transform:translateX(-120%);opacity:0}
+  8%{opacity:1}
+  30%,100%{transform:translateX(120%);opacity:0}
+}
+
+/* Clean thin rule under wordmark — minimal architectural flourish */
+.footer-cta-rule{
+  width:0;height:1px;
+  margin:28px auto 0;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.25) 30%,
+    rgba(255,255,255,0.4) 50%,
+    rgba(255,255,255,0.25) 70%,
+    transparent 100%);
+  transition:width 1.4s cubic-bezier(.22,.75,.22,1) .9s;
+}
+.footer-cta-wordmark.is-in ~ * .footer-cta-rule,
+.footer-cta-rule.is-in{
+  width:min(280px, 60%);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .footer-cta-letter{opacity:1;transform:none;animation:none !important}
+  .footer-cta-shine{display:none}
+  .footer-cta-rule{width:min(280px, 60%);transition:none}
 }
 
 /* ═══════════════════════════════════════════════════════
