@@ -123,48 +123,45 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════
-     OUR STORY
+     OUR STORY — fixaplan-style narrative + founder cards
      ═══════════════════════════════════════════════════════ -->
 <section class="story" id="story">
   <div class="story-container">
-    <!-- Top: centered narrative -->
-    <div class="story-narrative reveal">
-      <span class="label">Our Story</span>
-      <div class="story-google-badge">
-        <svg class="story-google-icon" viewBox="0 0 24 24" width="28" height="28">
-          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/>
-          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18A10.96 10.96 0 0 0 1 12c0 1.77.42 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
-          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-        </svg>
-      </div>
-      <h2 class="story-heading">Forged at <span class="story-google-text">Google</span>.<br>Refined by obsession.</h2>
-      <p class="story-body">The industry drew a line. Art on one side, numbers on the other. We erased it. Forty exists to prove the most powerful brands don't choose between looking extraordinary and performing exceptionally. They demand both.</p>
+    <div class="story-intro reveal">
+      <p class="story-eyebrow">The industry drew a line. Art on one side, numbers on the other. We erased it.</p>
+      <h2 class="story-big-heading">
+        <span class="story-big-line-1">Forged at <span class="story-google-text">Google</span>.</span>
+        <span class="story-big-line-2">Refined by obsession.</span>
+      </h2>
     </div>
 
-    <!-- Divider -->
-    <div class="story-divider reveal">
-      <div class="story-divider-line"></div>
-      <span class="story-divider-text">The founders</span>
-      <div class="story-divider-line"></div>
-    </div>
-
-    <!-- Bottom: founder cards side by side -->
-    <div class="story-founders reveal">
-      <a class="story-fcard" href="https://www.linkedin.com/in/yashghere/" target="_blank" rel="noopener">
-        <div class="story-fcard-glow"></div>
-        <div class="story-fcard-initial">YG</div>
-        <span class="story-fcard-name">Yash Gupta</span>
-        <span class="story-fcard-role">Co-founder &amp; Director</span>
-        <span class="story-fcard-exp">Ex Google Search / Performance Max, North America</span>
+    <div class="story-fcards">
+      <a class="story-fcard reveal" href="https://www.linkedin.com/in/yashghere/" target="_blank" rel="noopener">
+        <div class="story-fcard-icon">
+          <svg viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="11" r="5"/>
+            <path d="M5 28a11 11 0 0 1 22 0"/>
+          </svg>
+        </div>
+        <div class="story-fcard-body">
+          <h3 class="story-fcard-name">Yash Gupta</h3>
+          <p class="story-fcard-role">Co-founder &amp; Director</p>
+          <p class="story-fcard-exp">Ex Google Search / Performance Max, North America. Built and scaled performance campaigns for Fortune 500 brands before turning that craft to Forty.</p>
+        </div>
         <span class="story-fcard-link">LinkedIn &nearr;</span>
       </a>
-      <a class="story-fcard" href="https://www.linkedin.com/in/satwikvaishnava/" target="_blank" rel="noopener">
-        <div class="story-fcard-glow"></div>
-        <div class="story-fcard-initial">SV</div>
-        <span class="story-fcard-name">Satwik Vaishnava</span>
-        <span class="story-fcard-role">Co-founder &amp; Director</span>
-        <span class="story-fcard-exp">Ex Google India, Marketing Research</span>
+      <a class="story-fcard reveal" href="https://www.linkedin.com/in/satwikvaishnava/" target="_blank" rel="noopener">
+        <div class="story-fcard-icon">
+          <svg viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="11" r="5"/>
+            <path d="M5 28a11 11 0 0 1 22 0"/>
+          </svg>
+        </div>
+        <div class="story-fcard-body">
+          <h3 class="story-fcard-name">Satwik Vaishnava</h3>
+          <p class="story-fcard-role">Co-founder &amp; Director</p>
+          <p class="story-fcard-exp">Ex Google India, Marketing Research. Translates consumer insight into brand strategy that performs at every stage of the funnel.</p>
+        </div>
         <span class="story-fcard-link">LinkedIn &nearr;</span>
       </a>
     </div>
@@ -237,93 +234,70 @@
 </section>
 
 <!-- ═══════════════════════════════════════════════════════
-     SERVICES — Apple-style bento with animated visuals
+     SERVICES — fixaplan-style card grid
      ═══════════════════════════════════════════════════════ -->
 <section class="services" id="services">
   <div class="services-inner">
-    <div class="svc-header reveal">
-      <span class="label">What we do</span>
-      <h2 class="svc-heading">Four disciplines.<br>One integrated approach.</h2>
+    <div class="svc-intro reveal">
+      <p class="svc-eyebrow">Four disciplines. One team. One integrated approach.</p>
+      <h2 class="svc-big-heading">
+        <span class="svc-big-line-1">What we</span>
+        <span class="svc-big-line-2">do best.</span>
+      </h2>
     </div>
 
-    <div class="svc-bento">
-      <!-- Featured: Content Creation (wide) -->
-      <div class="svc-tile svc-tile--wide reveal">
-        <div class="svc-tile-visual">
-          <div class="svc-viz-engagement">
-            <div class="svc-bar" style="--h:45%"><span>Mon</span></div>
-            <div class="svc-bar" style="--h:62%"><span>Tue</span></div>
-            <div class="svc-bar svc-bar--accent" style="--h:88%"><span>Wed</span></div>
-            <div class="svc-bar" style="--h:74%"><span>Thu</span></div>
-            <div class="svc-bar" style="--h:56%"><span>Fri</span></div>
-            <div class="svc-bar svc-bar--accent" style="--h:92%"><span>Sat</span></div>
-            <div class="svc-bar" style="--h:68%"><span>Sun</span></div>
-          </div>
+    <div class="svc-cards">
+      <div class="svc-card reveal">
+        <div class="svc-card-icon">
+          <svg viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="24" height="24" rx="3"/>
+            <path d="M4 12h24M10 4v8"/>
+            <circle cx="20" cy="20" r="3"/>
+          </svg>
         </div>
-        <div class="svc-tile-info">
-          <h3 class="svc-tile-title">Content Creation</h3>
-          <p class="svc-tile-desc">Scroll-stopping content that builds audience and drives meaningful engagement at scale.</p>
+        <div class="svc-card-body">
+          <h3 class="svc-card-title">Content Creation</h3>
+          <p class="svc-card-desc">Scroll-stopping content that builds audience and drives meaningful engagement at scale.</p>
         </div>
       </div>
 
-      <!-- Brand Strategy (tall) -->
-      <div class="svc-tile svc-tile--tall reveal">
-        <div class="svc-tile-visual">
-          <div class="svc-viz-orbit">
-            <div class="svc-orbit-ring svc-orbit-ring--1"></div>
-            <div class="svc-orbit-ring svc-orbit-ring--2"></div>
-            <div class="svc-orbit-ring svc-orbit-ring--3"></div>
-            <div class="svc-orbit-core"></div>
-            <div class="svc-orbit-dot svc-orbit-dot--1"></div>
-            <div class="svc-orbit-dot svc-orbit-dot--2"></div>
-            <div class="svc-orbit-dot svc-orbit-dot--3"></div>
-          </div>
+      <div class="svc-card reveal">
+        <div class="svc-card-icon">
+          <svg viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="16" cy="16" r="12"/>
+            <circle cx="16" cy="16" r="7"/>
+            <circle cx="16" cy="16" r="2" fill="currentColor"/>
+          </svg>
         </div>
-        <div class="svc-tile-info">
-          <h3 class="svc-tile-title">Brand Strategy</h3>
-          <p class="svc-tile-desc">Identity systems so compelling, they resonate long after the first impression.</p>
+        <div class="svc-card-body">
+          <h3 class="svc-card-title">Brand Strategy</h3>
+          <p class="svc-card-desc">Identity systems so compelling, they resonate long after the first impression.</p>
         </div>
       </div>
 
-      <!-- Performance Marketing -->
-      <div class="svc-tile reveal">
-        <div class="svc-tile-visual">
-          <div class="svc-viz-graph">
-            <svg viewBox="0 0 200 80" preserveAspectRatio="none" class="svc-graph-svg">
-              <defs>
-                <linearGradient id="graphFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="rgba(0,255,160,0.2)"/>
-                  <stop offset="100%" stop-color="rgba(0,255,160,0)"/>
-                </linearGradient>
-              </defs>
-              <path class="svc-graph-area" d="M0,70 Q25,65 50,50 T100,30 T150,15 T200,5 L200,80 L0,80 Z" fill="url(#graphFill)"/>
-              <path class="svc-graph-line" d="M0,70 Q25,65 50,50 T100,30 T150,15 T200,5" fill="none" stroke="rgba(0,255,160,0.6)" stroke-width="2"/>
-            </svg>
-            <div class="svc-graph-label">
-              <span class="svc-graph-val">4.2x</span>
-              <span class="svc-graph-sub">avg ROAS</span>
-            </div>
-          </div>
+      <div class="svc-card reveal">
+        <div class="svc-card-icon">
+          <svg viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 24l6-8 6 4 8-12"/>
+            <path d="M24 8h4v4"/>
+          </svg>
         </div>
-        <div class="svc-tile-info">
-          <h3 class="svc-tile-title">Performance Marketing</h3>
-          <p class="svc-tile-desc">Precision-targeted campaigns. Lower CPA. Higher LTV.</p>
+        <div class="svc-card-body">
+          <h3 class="svc-card-title">Performance Marketing</h3>
+          <p class="svc-card-desc">Precision-targeted campaigns. Lower CPA. Higher LTV. Every rupee accountable.</p>
         </div>
       </div>
 
-      <!-- E-commerce Growth -->
-      <div class="svc-tile reveal">
-        <div class="svc-tile-visual">
-          <div class="svc-viz-funnel">
-            <div class="svc-funnel-step" style="--w:100%"><span>Visitors</span></div>
-            <div class="svc-funnel-step" style="--w:68%"><span>Add to cart</span></div>
-            <div class="svc-funnel-step" style="--w:42%"><span>Checkout</span></div>
-            <div class="svc-funnel-step svc-funnel-step--accent" style="--w:28%"><span>Purchase</span></div>
-          </div>
+      <div class="svc-card reveal">
+        <div class="svc-card-icon">
+          <svg viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 10h20l-2 14H8z"/>
+            <path d="M11 10V7a5 5 0 0 1 10 0v3"/>
+          </svg>
         </div>
-        <div class="svc-tile-info">
-          <h3 class="svc-tile-title">E-commerce Growth</h3>
-          <p class="svc-tile-desc">End-to-end commerce acceleration, from launch to profitability.</p>
+        <div class="svc-card-body">
+          <h3 class="svc-card-title">E-commerce Growth</h3>
+          <p class="svc-card-desc">End-to-end commerce acceleration, from launch to profitability on Shopify and beyond.</p>
         </div>
       </div>
     </div>
