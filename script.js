@@ -161,12 +161,17 @@
     gsap.utils.toArray('.neon-particle').forEach((p, i) => {
       const section = p.closest('section');
       if (!section) return;
-      const speed = 25 + (i * 15);
+      // Varied drift distances and directions for organic motion
+      const ySpeed = 20 + ((i * 13) % 60);
+      const xSpeed = ((i * 7) % 18) - 9;
       const dir = i % 2 === 0 ? 1 : -1;
+      const minOpacity = 0.25 + ((i * 0.07) % 0.25);
+
       gsap.to(p, {
-        y: -speed * dir,
-        x: (i % 3 - 1) * 12,
+        y: -ySpeed * dir,
+        x: xSpeed,
         ease: 'none',
+        force3D: true,
         scrollTrigger: {
           trigger: section,
           start: 'top bottom',
@@ -175,12 +180,12 @@
         }
       });
       gsap.to(p, {
-        opacity: 0.3,
-        duration: 2.5 + (i % 4) * 0.4,
+        opacity: minOpacity,
+        duration: 2.8 + ((i * 0.5) % 2.2),
         ease: 'power1.inOut',
         yoyo: true,
         repeat: -1,
-        delay: i * 0.2
+        delay: (i * 0.27) % 3
       });
     });
 
