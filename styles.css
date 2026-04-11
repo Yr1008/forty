@@ -567,53 +567,137 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .process-big-line-1{display:block;color:var(--text);overflow:hidden}
 .process-big-line-2{display:block;color:rgba(255,255,255,0.5);overflow:hidden}
 .process-word{display:inline-block}
-/* Compact method flow — horizontal Apple-minimalistic */
+/* Method flow — Apple-minimalistic timeline with glowing dots */
 .method-flow{
-  display:flex;
-  align-items:stretch;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
   gap:0;
   max-width:1100px;
-  margin:0 auto 72px;
-  padding:32px 28px;
-  border-radius:22px;
-  background:linear-gradient(145deg,rgba(255,255,255,0.03),rgba(255,255,255,0.01));
+  margin:0 auto 80px;
+  padding:56px 32px 40px;
+  border-radius:24px;
+  background:
+    linear-gradient(145deg,rgba(0,255,160,0.03),rgba(80,180,255,0.02) 50%,rgba(255,255,255,0.015)),
+    rgba(255,255,255,0.015);
   border:1px solid rgba(255,255,255,0.06);
   position:relative;
   z-index:1;
+  overflow:hidden;
+}
+/* Soft inner glow behind the track */
+.method-flow::before{
+  content:'';
+  position:absolute;
+  top:50%;left:50%;
+  width:80%;height:120%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse 60% 50%,rgba(0,255,160,0.06),transparent 70%);
+  pointer-events:none;
+}
+/* Timeline rail + animated fill */
+.method-track{
+  position:absolute;
+  top:76px;left:12%;right:12%;
+  height:1px;
+  pointer-events:none;
+  z-index:0;
+}
+.method-track-line{
+  position:absolute;inset:0;
+  background:rgba(255,255,255,0.08);
+}
+.method-track-fill{
+  position:absolute;top:0;left:0;
+  height:100%;width:0%;
+  background:linear-gradient(90deg,rgba(0,255,160,0.7),rgba(80,180,255,0.6));
+  box-shadow:0 0 10px rgba(0,255,160,0.5),0 0 24px rgba(0,255,160,0.2);
 }
 .method-step{
-  flex:1;
-  padding:8px 20px;
+  position:relative;
+  padding:0 18px;
   display:flex;flex-direction:column;
-  align-items:flex-start;
-  gap:6px;
+  align-items:center;
+  text-align:center;
+  z-index:1;
+  transition:transform .5s var(--ease);
+}
+.method-step:hover{
+  transform:translateY(-4px);
+}
+.method-dot{
+  position:absolute;
+  top:-60px;left:50%;
+  transform:translateX(-50%);
+  width:12px;height:12px;
+  border-radius:50%;
+  background:rgba(20,20,24,1);
+  border:2px solid rgba(255,255,255,0.25);
+  transition:all .5s var(--ease);
+  z-index:2;
+}
+.method-dot::after{
+  content:'';
+  position:absolute;inset:-6px;
+  border-radius:50%;
+  border:1px solid rgba(0,255,160,0);
+  transition:all .5s var(--ease);
+}
+.method-step.is-active .method-dot{
+  background:rgba(0,255,160,1);
+  border-color:rgba(0,255,160,0.4);
+  box-shadow:0 0 14px rgba(0,255,160,0.7),0 0 32px rgba(0,255,160,0.35);
+}
+.method-step.is-active .method-dot::after{
+  inset:-8px;
+  border-color:rgba(0,255,160,0.4);
+  animation:dotPing 2s var(--ease) infinite;
+}
+@keyframes dotPing{
+  0%{transform:scale(1);opacity:.6}
+  70%{transform:scale(2.2);opacity:0}
+  100%{transform:scale(2.2);opacity:0}
+}
+.method-icon{
+  width:46px;height:46px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:12px;
+  background:rgba(0,255,160,0.04);
+  border:1px solid rgba(0,255,160,0.12);
+  color:rgba(0,255,160,0.75);
+  margin-bottom:14px;
+  transition:all .5s var(--ease);
+}
+.method-step:hover .method-icon,
+.method-step.is-active .method-icon{
+  background:rgba(0,255,160,0.1);
+  border-color:rgba(0,255,160,0.32);
+  box-shadow:0 0 18px rgba(0,255,160,0.2),inset 0 0 10px rgba(0,255,160,0.08);
+  color:var(--neon);
+  transform:scale(1.05);
 }
 .method-num{
-  font-size:.68rem;
+  font-size:.62rem;
   font-weight:600;
-  letter-spacing:.14em;
-  color:rgba(0,255,160,0.6);
+  letter-spacing:.16em;
+  color:rgba(0,255,160,0.5);
   font-variant-numeric:tabular-nums;
   margin-bottom:6px;
+  text-transform:uppercase;
 }
 .method-title{
   font-size:1.05rem;
   font-weight:500;
   color:var(--text);
   letter-spacing:-.01em;
+  margin-bottom:6px;
+  transition:color .4s var(--ease);
 }
 .method-desc{
   font-size:.78rem;
   color:var(--text-secondary);
   line-height:1.55;
   font-weight:400;
-}
-.method-connector{
-  width:1px;
-  background:linear-gradient(180deg,transparent,rgba(0,255,160,0.2),transparent);
-  flex-shrink:0;
-  align-self:stretch;
-  margin:8px 0;
+  max-width:180px;
 }
 
 /* Keep old process-cards class around for responsive but hide it */

@@ -130,6 +130,29 @@
       start: 'top 90%'
     });
 
+    // Timeline fill animates + steps activate sequentially on scroll
+    const trackFill = document.querySelector('.method-track-fill');
+    if (trackFill) {
+      gsap.to(trackFill, {
+        width: '100%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.method-flow',
+          start: 'top 78%',
+          end: 'top 38%',
+          scrub: 1
+        }
+      });
+    }
+    methodSteps.forEach((step, i) => {
+      ScrollTrigger.create({
+        trigger: '.method-flow',
+        start: `top ${74 - (i * 8)}%`,
+        onEnter: () => step.classList.add('is-active'),
+        onLeaveBack: () => step.classList.remove('is-active')
+      });
+    });
+
     // Floating particles with parallax
     const particles = gsap.utils.toArray('.process-particle');
     particles.forEach((p, i) => {
@@ -274,34 +297,17 @@
     });
   });
 
-  /* ── Footer CTA entrance ────────────────────────── */
-  const strokeText = document.querySelector('.footer-cta-stroke');
-  if (strokeText) {
-    gsap.fromTo(strokeText,
-      { letterSpacing: '0.06em', opacity: 0 },
-      {
-        letterSpacing: '-0.03em', opacity: 1, ease: 'none',
-        scrollTrigger: {
-          trigger: '.neon-rain-zone',
-          start: 'top 60%',
-          end: 'center center',
-          scrub: 1.5
-        }
-      }
-    );
-  }
-
+  /* ── Footer CTA: solid entrance only (Forty text is always visible) ── */
   const solidText = document.querySelector('.footer-cta-solid');
   if (solidText) {
     gsap.fromTo(solidText,
       { y: 30, opacity: 0 },
       {
-        y: 0, opacity: 1, ease: 'none',
+        y: 0, opacity: 1, duration: 1.2, ease: 'power3.out',
         scrollTrigger: {
           trigger: '.neon-rain-zone',
-          start: 'top 70%',
-          end: 'top 35%',
-          scrub: 1.5
+          start: 'top 75%',
+          toggleActions: 'play none none none'
         }
       }
     );
@@ -339,21 +345,23 @@
   }
 
   /* ═══════════════════════════════════════════════════════
-     NEON RAIN CANVAS
+     FIREWORKS FROM "FORTY" TEXT
      ═══════════════════════════════════════════════════════ */
   const canvas = document.getElementById('neonRainCanvas');
-  if (canvas) {
+  const fortyText = document.querySelector('.footer-cta-stroke');
+  if (canvas && fortyText) {
     const ctx = canvas.getContext('2d');
-    let drops = [];
+    let particles = [];
     let animId;
     let isVisible = false;
+    let lastBurstTime = 0;
 
     const COLORS = [
       { r: 0, g: 255, b: 180 },
+      { r: 0, g: 255, b: 160 },
+      { r: 80, g: 255, b: 200 },
       { r: 0, g: 200, b: 255 },
-      { r: 120, g: 0, b: 255 },
-      { r: 0, g: 255, b: 120 },
-      { r: 80, g: 180, b: 255 },
+      { r: 140, g: 255, b: 220 },
     ];
 
     function resize() {
@@ -365,93 +373,152 @@
       ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
     }
 
-    function createDrop() {
-      const w = canvas.width / devicePixelRatio;
-      const h = canvas.height / devicePixelRatio;
-      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    function getFortyCenter() {
+      const canvasRect = canvas.getBoundingClientRect();
+      const textRect = fortyText.getBoundingClientRect();
       return {
-        x: Math.random() * w,
-        y: -Math.random() * h * 0.3,
-        speed: 1.5 + Math.random() * 3,
-        length: 40 + Math.random() * 100,
-        opacity: 0.08 + Math.random() * 0.18,
-        width: 0.5 + Math.random() * 1.5,
-        color,
-        drift: (Math.random() - 0.5) * 0.3,
+        x: textRect.left + textRect.width / 2 - canvasRect.left,
+        y: textRect.top + textRect.height / 2 - canvasRect.top
       };
     }
 
-    function initDrops() {
-      const w = canvas.width / devicePixelRatio;
-      const h = canvas.height / devicePixelRatio;
-      const count = Math.floor((w * h) / 4000);
-      drops = [];
+    function spawnBurst() {
+      const { x, y } = getFortyCenter();
+      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      const count = 28 + Math.floor(Math.random() * 14);
       for (let i = 0; i < count; i++) {
-        const d = createDrop();
-        d.y = Math.random() * h;
-        drops.push(d);
+        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.3;
+        const speed = 1.8 + Math.random() * 3.2;
+        particles.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1,
+          decay: 0.008 + Math.random() * 0.012,
+          size: 1.2 + Math.random() * 1.8,
+          color,
+          trail: []
+        });
       }
     }
 
-    function draw() {
+    function spawnRocket() {
+      const { x, y } = getFortyCenter();
+      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      const side = Math.random() < 0.5 ? -1 : 1;
+      const count = 18 + Math.floor(Math.random() * 10);
+      for (let i = 0; i < count; i++) {
+        const spread = (Math.random() - 0.5) * 0.9;
+        const speed = 2 + Math.random() * 2.5;
+        particles.push({
+          x: x + side * (30 + Math.random() * 40),
+          y: y + (Math.random() - 0.5) * 30,
+          vx: side * speed * (0.3 + Math.random() * 0.4) + spread * 2,
+          vy: -speed * (0.9 + Math.random() * 0.4),
+          life: 1,
+          decay: 0.01 + Math.random() * 0.014,
+          size: 1.3 + Math.random() * 1.5,
+          color,
+          gravity: 0.05,
+          trail: []
+        });
+      }
+    }
+
+    function draw(now) {
       const w = canvas.width / devicePixelRatio;
       const h = canvas.height / devicePixelRatio;
 
-      ctx.clearRect(0, 0, w, h);
+      // Trail fade (semi-transparent black overlay)
+      ctx.fillStyle = 'rgba(10,10,10,0.18)';
+      ctx.fillRect(0, 0, w, h);
 
-      for (let i = 0; i < drops.length; i++) {
-        const d = drops[i];
-        const grad = ctx.createLinearGradient(d.x, d.y, d.x, d.y + d.length);
-        grad.addColorStop(0, `rgba(${d.color.r},${d.color.g},${d.color.b},0)`);
-        grad.addColorStop(0.3, `rgba(${d.color.r},${d.color.g},${d.color.b},${d.opacity})`);
-        grad.addColorStop(1, `rgba(${d.color.r},${d.color.g},${d.color.b},0)`);
-
-        ctx.beginPath();
-        ctx.moveTo(d.x, d.y);
-        ctx.lineTo(d.x + d.drift * d.length, d.y + d.length);
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = d.width;
-        ctx.lineCap = 'round';
-        ctx.stroke();
-
-        d.y += d.speed;
-        d.x += d.drift * 0.3;
-
-        if (d.y > h + d.length) {
-          drops[i] = createDrop();
+      // Periodic bursts
+      if (!lastBurstTime || now - lastBurstTime > 1800 + Math.random() * 1200) {
+        lastBurstTime = now;
+        if (Math.random() < 0.55) {
+          spawnBurst();
+        } else {
+          spawnRocket();
         }
+      }
+
+      // Update + draw particles
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.gravity) p.vy += p.gravity;
+        p.vx *= 0.985;
+        p.vy *= 0.985;
+        p.life -= p.decay;
+
+        if (p.life <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+
+        const alpha = p.life * 0.9;
+        const r = p.color.r, g = p.color.g, b = p.color.b;
+
+        // Glow halo
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
+        grad.addColorStop(0, `rgba(${r},${g},${b},${alpha})`);
+        grad.addColorStop(0.4, `rgba(${r},${g},${b},${alpha * 0.4})`);
+        grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Core bright dot
+        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
       }
 
       animId = requestAnimationFrame(draw);
     }
 
     resize();
-    initDrops();
 
     ScrollTrigger.create({
       trigger: '.neon-rain-zone',
       start: 'top 90%',
       end: 'bottom top',
       onEnter: () => {
-        if (!isVisible) { isVisible = true; draw(); }
+        if (!isVisible) {
+          isVisible = true;
+          // Initial burst on entry
+          spawnBurst();
+          setTimeout(spawnRocket, 300);
+          animId = requestAnimationFrame(draw);
+        }
       },
       onLeave: () => {
         isVisible = false;
         cancelAnimationFrame(animId);
+        particles = [];
       },
       onEnterBack: () => {
-        if (!isVisible) { isVisible = true; draw(); }
+        if (!isVisible) {
+          isVisible = true;
+          spawnBurst();
+          animId = requestAnimationFrame(draw);
+        }
       },
       onLeaveBack: () => {
         isVisible = false;
         cancelAnimationFrame(animId);
+        particles = [];
       }
     });
 
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => { resize(); initDrops(); }, 200);
+      resizeTimer = setTimeout(resize, 200);
     });
   }
 
