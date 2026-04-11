@@ -192,22 +192,47 @@
     // Card icon pulse on entry
     ScrollTrigger.create({
       trigger: '.process-cards',
-      start: 'top 70%',
+      start: 'top 80%',
       once: true,
       onEnter: () => {
         gsap.fromTo('.process-card-icon',
-          { scale: 1, filter: 'drop-shadow(0 0 0 rgba(0,255,160,0))' },
+          { scale: 1 },
           {
-            scale: 1.15,
-            filter: 'drop-shadow(0 0 12px rgba(0,255,160,0.6))',
+            scale: 1.12,
             duration: 0.5,
             ease: 'power2.out',
             stagger: 0.1,
             yoyo: true,
-            repeat: 1
+            repeat: 1,
+            force3D: true
           }
         );
       }
+    });
+
+    // Continuous subtle breathing glow on process card icons (idle)
+    gsap.utils.toArray('.process-card-icon').forEach((icon, i) => {
+      gsap.to(icon, {
+        boxShadow: '0 0 18px rgba(0,255,160,0.25),inset 0 0 10px rgba(0,255,160,0.08)',
+        duration: 2.5 + (i * 0.3),
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: i * 0.4
+      });
+    });
+
+    // Process card number floats slowly
+    gsap.utils.toArray('.process-card-num').forEach((num, i) => {
+      gsap.to(num, {
+        y: -4,
+        duration: 2.8 + (i * 0.25),
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: i * 0.35,
+        force3D: true
+      });
     });
   }
 

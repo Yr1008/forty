@@ -553,41 +553,113 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .process-card{
   position:relative;overflow:hidden;
   display:flex;flex-direction:column;justify-content:space-between;
-  min-height:300px;
+  min-height:320px;
   padding:36px 30px;
   border-radius:22px;
-  background:rgba(255,255,255,0.025);
+  background:linear-gradient(145deg,rgba(255,255,255,0.04),rgba(255,255,255,0.015));
   border:1px solid rgba(255,255,255,0.06);
-  transition:border-color .5s var(--ease),transform .5s var(--ease),background .5s var(--ease);
+  transition:border-color .5s var(--ease),transform .5s var(--ease),background .5s var(--ease),box-shadow .5s var(--ease);
 }
+/* Neon sweep gradient on hover */
 .process-card::before{
   content:'';
   position:absolute;inset:-1px;
   border-radius:22px;
-  background:radial-gradient(circle at 50% 0%,rgba(0,255,160,0.12),transparent 60%);
+  background:radial-gradient(circle at 50% 0%,rgba(0,255,160,0.18),transparent 60%);
   opacity:0;
   transition:opacity .5s var(--ease);
   pointer-events:none;
 }
+/* Animated gradient border on hover */
+.process-card::after{
+  content:'';
+  position:absolute;inset:0;
+  border-radius:22px;
+  padding:1px;
+  background:linear-gradient(135deg,rgba(0,255,160,0.4),rgba(80,180,255,0.35),rgba(0,255,160,0.4));
+  background-size:200% 200%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+  mask-composite:exclude;
+  opacity:0;
+  transition:opacity .6s var(--ease);
+  animation:borderShift 6s linear infinite;
+  pointer-events:none;
+}
 .process-card:hover{
-  border-color:rgba(0,255,160,0.22);
-  background:rgba(255,255,255,0.04);
-  transform:translateY(-4px);
+  border-color:transparent;
+  background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(0,255,160,0.02));
+  transform:translateY(-6px);
+  box-shadow:0 30px 60px rgba(0,0,0,0.35),0 0 40px rgba(0,255,160,0.12);
 }
 .process-card:hover::before{opacity:1}
+.process-card:hover::after{opacity:1}
+@keyframes borderShift{
+  0%{background-position:0% 0%}
+  100%{background-position:200% 200%}
+}
 .process-card-icon{
-  color:rgba(255,255,255,0.55);
-  transition:color .5s var(--ease),transform .5s var(--ease),filter .5s var(--ease);
-  position:relative;z-index:1;
+  position:relative;
+  z-index:1;
+  width:56px;height:56px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:14px;
+  background:rgba(0,255,160,0.04);
+  border:1px solid rgba(0,255,160,0.12);
+  color:rgba(0,255,160,0.75);
+  transition:all .5s var(--ease);
+}
+.process-card-icon svg{
+  transition:transform .5s var(--ease);
 }
 .process-card:hover .process-card-icon{
+  background:rgba(0,255,160,0.1);
+  border-color:rgba(0,255,160,0.35);
+  box-shadow:0 0 20px rgba(0,255,160,0.25),inset 0 0 12px rgba(0,255,160,0.1);
   color:var(--neon);
-  transform:scale(1.08);
-  filter:drop-shadow(0 0 10px rgba(0,255,160,0.5));
+}
+.process-card:hover .process-card-icon svg{
+  transform:scale(1.1) rotate(-4deg);
+}
+/* Subtle floating number label */
+.process-card-num{
+  position:absolute;
+  top:28px;right:28px;
+  font-size:.68rem;
+  font-weight:600;
+  letter-spacing:.12em;
+  color:rgba(0,255,160,0.35);
+  font-variant-numeric:tabular-nums;
+  z-index:1;
 }
 .process-card-body{margin-top:auto;position:relative;z-index:1}
-.process-card-title{font-size:1.25rem;font-weight:500;letter-spacing:-.01em;color:var(--text);margin-bottom:10px}
-.process-card-desc{font-size:.85rem;color:var(--text-secondary);line-height:1.65;font-weight:400}
+.process-card-title{
+  font-size:1.3rem;
+  font-weight:500;
+  letter-spacing:-.01em;
+  color:var(--text);
+  margin-bottom:10px;
+  transition:color .4s var(--ease);
+}
+.process-card-desc{
+  font-size:.85rem;
+  color:var(--text-secondary);
+  line-height:1.65;
+  font-weight:400;
+}
+/* Inner glow accent line that slides in on hover */
+.process-card-body::before{
+  content:'';
+  position:absolute;
+  top:-16px;left:0;
+  width:0;
+  height:1px;
+  background:linear-gradient(90deg,rgba(0,255,160,0.6),transparent);
+  transition:width .6s var(--ease);
+}
+.process-card:hover .process-card-body::before{
+  width:40%;
+}
 
 /* ═══════════════════════════════════════════════════════
    SERVICES — Apple bento with animated visuals
