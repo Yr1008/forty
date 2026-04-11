@@ -130,21 +130,6 @@
       start: 'top 90%'
     });
 
-    // Green line draws itself
-    const processLine = processSection.querySelector('.process-line');
-    if (processLine) {
-      gsap.to(processLine, {
-        scaleY: 1,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.process',
-          start: 'top 85%',
-          end: 'bottom 60%',
-          scrub: 1.2
-        }
-      });
-    }
-
     // Floating particles with parallax
     const particles = gsap.utils.toArray('.process-particle');
     particles.forEach((p, i) => {

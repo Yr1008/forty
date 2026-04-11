@@ -487,28 +487,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   position:absolute;
   border-radius:50%;
   pointer-events:none;
-  will-change:transform,opacity;
-  filter:blur(40px);
+  will-change:opacity;
 }
 .process-glow-a{
   top:15%;left:-15%;
   width:40%;height:40%;
-  background:radial-gradient(circle,rgba(0,255,160,0.18),transparent 70%);
+  background:radial-gradient(circle,rgba(0,255,160,0.16),rgba(0,255,160,0.05) 40%,transparent 75%);
 }
 .process-glow-b{
   bottom:10%;right:-15%;
   width:38%;height:38%;
-  background:radial-gradient(circle,rgba(0,200,255,0.12),transparent 70%);
-}
-.process-line{
-  position:absolute;
-  top:0;left:40px;
-  width:1px;height:100%;
-  background:linear-gradient(180deg,transparent,rgba(0,255,160,0.4) 20%,rgba(0,255,160,0.4) 80%,transparent);
-  transform:scaleY(0);
-  transform-origin:top center;
-  pointer-events:none;
-  box-shadow:0 0 8px rgba(0,255,160,0.4),0 0 20px rgba(0,255,160,0.15);
+  background:radial-gradient(circle,rgba(0,200,255,0.12),rgba(0,200,255,0.04) 40%,transparent 75%);
 }
 .process-particle,
 .neon-particle{
@@ -555,7 +544,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .process-big-line-1{display:block;color:var(--text);overflow:hidden}
 .process-big-line-2{display:block;color:rgba(255,255,255,0.5);overflow:hidden}
-.process-word{display:inline-block;will-change:transform,opacity}
+.process-word{display:inline-block}
 .process-cards{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -822,6 +811,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   max-width:1200px;
   margin:0 auto;
   padding:70px 24px;
+  position:relative;
+  overflow:hidden;
 }
 .work-header{
   text-align:center;
@@ -876,11 +867,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .theory{
   padding:90px 0 100px;
   position:relative;
+  overflow:hidden;
 }
 .theory-inner{
   max-width:1200px;
   margin:0 auto;
   padding:0 40px;
+  position:relative;
+  z-index:1;
 }
 .theory-header{
   text-align:center;
@@ -1182,27 +1176,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   color:rgba(0,255,160,0.95);
   -webkit-text-stroke:1.2px rgba(0,255,160,0.6);
   text-shadow:
-    0 0 12px rgba(0,255,160,0.5),
-    0 0 28px rgba(0,255,160,0.35),
-    0 0 60px rgba(0,255,160,0.2),
-    0 0 100px rgba(0,255,160,0.1);
-  animation:fortyGlow 3.5s ease-in-out infinite;
+    0 0 14px rgba(0,255,160,0.55),
+    0 0 40px rgba(0,255,160,0.3),
+    0 0 90px rgba(0,255,160,0.12);
+  animation:fortyGlow 4s ease-in-out infinite;
+  will-change:text-shadow;
 }
 @keyframes fortyGlow{
-  0%,100%{
-    text-shadow:
-      0 0 12px rgba(0,255,160,0.5),
-      0 0 28px rgba(0,255,160,0.35),
-      0 0 60px rgba(0,255,160,0.2),
-      0 0 100px rgba(0,255,160,0.1);
-  }
-  50%{
-    text-shadow:
-      0 0 16px rgba(0,255,160,0.7),
-      0 0 36px rgba(0,255,160,0.5),
-      0 0 80px rgba(0,255,160,0.3),
-      0 0 130px rgba(0,255,160,0.15);
-  }
+  0%,100%{opacity:.92}
+  50%{opacity:1}
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1430,7 +1412,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    BRANDS (carousel)
    ═══════════════════════════════════════════════════════ */
-.brands{padding:60px 0 40px}
+.brands{padding:60px 0 40px;position:relative;overflow:hidden}
 .brands .brands-header{
   text-align:center;margin-bottom:48px;
   padding:0 40px;
@@ -1449,7 +1431,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .brands-track{
   display:flex;gap:16px;
-  animation:brandsScroll 50s linear infinite;
+  will-change:transform;
 }
 .brands-tile{
   flex-shrink:0;
@@ -1479,7 +1461,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .brands-tile:hover .brands-logo{
   opacity:1;
 }
-@keyframes brandsScroll{to{transform:translateX(-50%)}}
 
 /* ═══════════════════════════════════════════════════════
    RESPONSIVE
