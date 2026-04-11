@@ -523,7 +523,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   max-width:1200px;margin:0 auto;padding:0 40px;
 }
 .process-intro{
-  margin:0 auto 64px;
+  margin:0 auto 56px;
   max-width:720px;
   text-align:center;
 }
@@ -540,6 +540,29 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   font-weight:600;
   letter-spacing:-.025em;
   line-height:1.05;
+}
+.process-subtitle{
+  font-size:.95rem;
+  color:var(--text-secondary);
+  line-height:1.55;
+  max-width:480px;
+  margin:18px auto 0;
+  font-weight:400;
+}
+.process-divider{
+  display:flex;align-items:center;gap:20px;
+  max-width:800px;
+  margin:72px auto 48px;
+}
+.process-divider-line{
+  flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,255,160,0.25),transparent);
+}
+.process-divider-text{
+  font-size:.65rem;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(0,255,160,0.6);
+  white-space:nowrap;
 }
 .process-big-line-1{display:block;color:var(--text);overflow:hidden}
 .process-big-line-2{display:block;color:rgba(255,255,255,0.5);overflow:hidden}
@@ -1244,17 +1267,32 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .footer-cta-solid{color:var(--text)}
 .footer-cta-stroke{
   display:block;
-  color:rgba(80,180,255,0.95);
-  -webkit-text-stroke:1.2px rgba(80,180,255,0.6);
+  color:rgba(0,255,160,0.95);
+  -webkit-text-stroke:1.2px rgba(0,255,160,0.55);
   text-shadow:
-    0 0 14px rgba(80,180,255,0.6),
-    0 0 40px rgba(80,180,255,0.35),
-    0 0 90px rgba(0,150,255,0.18);
-  animation:fortyGlow 4s ease-in-out infinite;
+    0 0 16px rgba(0,255,160,0.6),
+    0 0 40px rgba(0,255,160,0.35),
+    0 0 90px rgba(0,255,160,0.15);
+  animation:fortyGlow 3.6s ease-in-out infinite;
+  position:relative;
 }
 @keyframes fortyGlow{
-  0%,100%{opacity:.92}
-  50%{opacity:1}
+  0%,100%{
+    opacity:.88;
+    text-shadow:
+      0 0 14px rgba(0,255,160,0.5),
+      0 0 32px rgba(0,255,160,0.28),
+      0 0 70px rgba(0,255,160,0.12);
+    transform:scale(1);
+  }
+  50%{
+    opacity:1;
+    text-shadow:
+      0 0 22px rgba(0,255,160,0.75),
+      0 0 55px rgba(0,255,160,0.45),
+      0 0 110px rgba(0,255,160,0.22);
+    transform:scale(1.015);
+  }
 }
 
 /* ═══════════════════════════════════════════════════════
