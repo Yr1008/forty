@@ -1,6 +1,25 @@
 (() => {
   'use strict';
 
+  /* ── Device + connection awareness ──────────────── */
+  const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+  const isTouchOnly = window.matchMedia('(hover: none)').matches;
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const saveData = !!(conn && conn.saveData);
+  const slowNetwork = !!(conn && /(^|\b)(2g|slow-2g)($|\b)/i.test(conn.effectiveType || ''));
+  const lowEndDevice = isMobileViewport || saveData || slowNetwork;
+
+  /* ── Mobile video bandwidth guard ───────────────── */
+  // On mobile / save-data / slow networks, downgrade the hero video to
+  // metadata preload so we don't burn ~3.5MB before first paint.
+  if (lowEndDevice) {
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+      heroVideo.setAttribute('preload', 'metadata');
+      heroVideo.removeAttribute('fetchpriority');
+    }
+  }
+
   /* ── Lenis smooth scroll ────────────────────────── */
   const lenis = new Lenis({
     duration: 1.2,
@@ -513,9 +532,8 @@
      Skipped entirely on touch devices or reduced-motion.
      ═══════════════════════════════════════════════════════ */
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isTouchDevice = window.matchMedia('(hover: none)').matches;
 
-  if (!prefersReduced && !isTouchDevice) {
+  if (!prefersReduced && !isTouchOnly && !lowEndDevice) {
     // Full-bleed background videos drift slightly as the section scrolls.
     gsap.utils.toArray('.full-bleed .full-bleed-video').forEach(video => {
       gsap.to(video, {
