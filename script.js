@@ -95,22 +95,12 @@
     start: 'top 85%'
   });
 
-  /* ── Staggered: service cards (fixaplan style) ──── */
-  gsap.utils.toArray('.svc-card').forEach(el => gsap.set(el, { y: 40, opacity: 0 }));
-  ScrollTrigger.batch('.svc-card', {
+  /* ── Staggered: service bento tiles ────────────── */
+  gsap.utils.toArray('.svc-tile').forEach(el => gsap.set(el, { y: 30, opacity: 0 }));
+  ScrollTrigger.batch('.svc-tile', {
     onEnter: batch => gsap.to(batch, {
       y: 0, opacity: 1,
-      duration: 1.2, ease: 'expo.out', stagger: 0.12
-    }),
-    start: 'top 88%'
-  });
-
-  /* ── Staggered: founder cards ───────────────────── */
-  gsap.utils.toArray('.story-fcard').forEach(el => gsap.set(el, { y: 40, opacity: 0 }));
-  ScrollTrigger.batch('.story-fcard', {
-    onEnter: batch => gsap.to(batch, {
-      y: 0, opacity: 1,
-      duration: 1.2, ease: 'expo.out', stagger: 0.15
+      duration: 1, ease: 'power2.out', stagger: 0.12
     }),
     start: 'top 88%'
   });
@@ -379,39 +369,26 @@
   }
 
   /* ── Case study accordion with smooth impact count-up ─ */
-  function formatImpactNumber(val, target, suffix) {
-    const isDecimal = target % 1 !== 0;
-    let displayVal;
-    if (isDecimal) {
-      displayVal = val.toFixed(1);
-    } else if (target >= 1000) {
-      // For numbers >= 1000, show without commas (cleaner with tabular-nums)
-      displayVal = Math.round(val).toString();
-    } else {
-      displayVal = Math.round(val).toString();
-    }
-    return displayVal + suffix;
-  }
-
   function runImpactCountUp(caseStudy) {
     const nums = caseStudy.querySelectorAll('.case-study-impact-num');
-    nums.forEach((numEl, idx) => {
+    nums.forEach((numEl) => {
       const target = parseFloat(numEl.dataset.num);
       const suffix = numEl.dataset.suffix || '';
       if (isNaN(target)) return;
+      const isDecimal = target % 1 !== 0;
       const obj = { val: 0 };
       gsap.killTweensOf(obj);
-      numEl.textContent = '0' + suffix;
       gsap.to(obj, {
         val: target,
-        duration: 2.4,
-        ease: 'expo.out',
-        delay: 0.15 + idx * 0.1,
+        duration: 1.2,
+        ease: 'power2.out',
         onUpdate: () => {
-          numEl.textContent = formatImpactNumber(obj.val, target, suffix);
+          const v = isDecimal ? obj.val.toFixed(1) : Math.round(obj.val);
+          numEl.textContent = v + suffix;
         },
         onComplete: () => {
-          numEl.textContent = formatImpactNumber(target, target, suffix);
+          const v = isDecimal ? target.toFixed(1) : target;
+          numEl.textContent = v + suffix;
         }
       });
     });
@@ -430,8 +407,7 @@
       if (!isOpen) {
         cs.classList.add('open');
         btn.setAttribute('aria-expanded', 'true');
-        // Wait for the panel to start opening, then animate
-        setTimeout(() => runImpactCountUp(cs), 250);
+        requestAnimationFrame(() => runImpactCountUp(cs));
       }
     });
   });
