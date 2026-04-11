@@ -7,11 +7,13 @@
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   const saveData = !!(conn && conn.saveData);
   const slowNetwork = !!(conn && /(^|\b)(2g|slow-2g)($|\b)/i.test(conn.effectiveType || ''));
-  const lowEndDevice = isMobileViewport || saveData || slowNetwork;
+  // Only treat genuinely constrained conditions as "low-end" — NOT plain
+  // mobile viewport. Mobile users still deserve full-resolution hero video
+  // and full-quality motion unless they've opted into Save-Data or are on
+  // a 2g/slow-2g connection.
+  const lowEndDevice = saveData || slowNetwork;
 
-  /* ── Mobile video bandwidth guard ───────────────── */
-  // On mobile / save-data / slow networks, downgrade the hero video to
-  // metadata preload so we don't burn ~3.5MB before first paint.
+  /* ── Bandwidth guard (Save-Data / 2g only) ──────── */
   if (lowEndDevice) {
     const heroVideo = document.querySelector('.hero-video');
     if (heroVideo) {

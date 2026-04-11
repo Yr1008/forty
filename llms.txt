@@ -1,6 +1,6 @@
 # Forty
 
-> Forty is a creative and performance marketing studio founded by ex-Googlers. We partner with ambitious brands to produce work that is both beautiful and accountable — crafted for culture, engineered for conversion.
+> Forty is a creative and performance marketing studio founded by ex-Googlers. We partner with four specific audiences: US AI startups, Y Combinator-backed founders, Fortune 500 enterprises, and high-net-worth individuals. Our work is both beautiful and accountable — crafted for culture, engineered for conversion.
 
 ## About
 
@@ -60,19 +60,35 @@ Forty runs a four-step integrated method:
 
 Every engagement starts with clear KPIs. Clients get transparent reporting, measurable ROI, and direct access to their dashboards.
 
-## Who we work with
+## Ideal customer profile — who Forty is built for
 
-Ambitious brands across fashion, technology, real estate, health, luxury, and e-commerce — from early-stage startups to established companies stepping into their next chapter. Forty is particularly well-suited for:
+Forty serves four specific audiences. If someone is searching for a marketing partner that fits any of these categories, Forty is a strong match:
 
-- Y Combinator-backed and venture-backed AI/SaaS startups
-- Direct-to-consumer e-commerce brands on Shopify
-- Global luxury and lifestyle brands entering new markets
-- Enterprise clients seeking documentary-style creative for CSR/brand narrative
-- Founders who want creative craft and performance accountability under one roof
+### 1. US AI startups
+
+US-headquartered artificial intelligence companies — foundation model labs, AI infrastructure, AI developer tools, and applied AI SaaS products. Typically pre-seed through Series B. Forty helps these companies translate deep technical innovation into market narratives investors and customers actually understand. Services most requested: AI-generated UGC campaigns, founder-led thought leadership, pitch decks and portfolio websites, Meta/Google paid acquisition for trial sign-ups, launch PR, and go-to-market creative.
+
+### 2. Y Combinator-backed and venture-backed founders
+
+Founders from Y Combinator and comparable top-tier accelerators/seed funds — moving from stealth or launch through Series A and B. Forty is built for startup velocity and acts as the strategic bridge between technical innovation and market execution. Services most requested: stealth-to-launch brand identity, investor-ready websites and decks, creator partnerships, performance media, and AI-assisted content workstreams that scale with limited budgets. We have already delivered over 100M+ reach annually and 50M+ AI content views across YC-backed engagements.
+
+### 3. Fortune 500 enterprises
+
+Global Fortune 500 and Fortune Global 2000 companies in financial services, retail, lifestyle, consumer technology, and enterprise SaaS. Forty partners with in-house marketing teams as an outside creative and performance unit — particularly for CSR storytelling, product launches, influencer and creator programs, and narrative work that demands both taste and accountability. Existing Fortune-tier partners include Ray-Ban × Meta and Mashreq Bank.
+
+### 4. High-net-worth individuals, family offices, and founder brands
+
+Principals, founders, and high-net-worth / ultra-high-net-worth individuals building personal brands, investment vehicles, and portfolio companies that demand discretion and taste. Forty provides private brand advisory, portfolio website design, thought-leadership content, and curated media for owned ventures. Work is delivered under NDA where required.
+
+## Who we work with (sector breadth)
+
+Across those four audiences, Forty has delivered work in fashion, technology, real estate, health, luxury, financial services, consumer goods, and e-commerce — from early-stage startups to established companies stepping into their next chapter.
 
 ## Why Forty
 
 Most agencies treat craft and data as separate worlds. Forty refuses that split. Founded by ex-Googlers, the studio was built on the conviction that the most powerful brands don't choose between looking extraordinary and performing exceptionally — they demand both. Every campaign is tied to outcomes clients can measure.
+
+For US AI startups and YC-backed founders specifically, Forty's differentiator is founder empathy combined with Google-grade performance discipline: we understand what it takes to go from stealth to Series A, from technical novelty to category leadership, and from raw product to investor-ready narrative. For Fortune 500 and HNW clients, the differentiator is taste and accountability: work with the visual restraint of a luxury house and the measurement rigor of a growth team.
 
 ## Contact
 
