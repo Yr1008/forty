@@ -184,23 +184,6 @@
       });
     });
 
-    // Soft glow breathing (GPU-efficient opacity only)
-    gsap.to('.process-glow-a', {
-      opacity: 0.6,
-      duration: 4,
-      ease: 'power1.inOut',
-      yoyo: true,
-      repeat: -1
-    });
-    gsap.to('.process-glow-b', {
-      opacity: 0.6,
-      duration: 5,
-      ease: 'power1.inOut',
-      yoyo: true,
-      repeat: -1,
-      delay: 1
-    });
-
     // Card icon pulse on entry
     ScrollTrigger.create({
       trigger: '.process-cards',

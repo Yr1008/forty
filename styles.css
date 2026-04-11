@@ -482,23 +482,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   padding:100px 0;
   overflow:hidden;
 }
-.process-glow-a,
-.process-glow-b{
-  position:absolute;
-  border-radius:50%;
-  pointer-events:none;
-  will-change:opacity;
-}
-.process-glow-a{
-  top:15%;left:-15%;
-  width:40%;height:40%;
-  background:radial-gradient(circle,rgba(0,255,160,0.16),rgba(0,255,160,0.05) 40%,transparent 75%);
-}
-.process-glow-b{
-  bottom:10%;right:-15%;
-  width:38%;height:38%;
-  background:radial-gradient(circle,rgba(0,200,255,0.12),rgba(0,200,255,0.04) 40%,transparent 75%);
-}
 .process-particle,
 .neon-particle{
   position:absolute;
