@@ -384,237 +384,82 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   white-space:nowrap;
 }
 
-/* ── Founder cards ─────────────────────────────────── */
+/* ── Founder cards — Apple-minimal ─────────────────
+   One mark. Name. Role. One line. LinkedIn link.
+   No blobs. No gradients. No tags. No pills.
+   Typography and whitespace do the work. */
 .story-founders{
-  display:grid;grid-template-columns:1fr 1fr;gap:20px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1px;                             /* hairline divider between cards */
+  background:rgba(255,255,255,0.05);   /* shows through the gap */
+  border-top:1px solid rgba(255,255,255,0.05);
+  border-bottom:1px solid rgba(255,255,255,0.05);
 }
 .story-fcard{
-  --accent-1:rgba(0,255,170,0.85);
-  --accent-2:rgba(80,180,255,0.55);
-  --accent-soft:rgba(0,255,170,0.08);
-  position:relative;overflow:hidden;
-  display:flex;flex-direction:column;
-  text-align:left;
-  padding:28px 28px 24px;
-  border-radius:22px;
-  border:1px solid rgba(255,255,255,0.08);
-  background:
-    linear-gradient(180deg,rgba(255,255,255,0.025) 0%,rgba(255,255,255,0.01) 100%);
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
-  transition:
-    border-color .5s var(--ease),
-    transform .5s var(--ease),
-    box-shadow .5s var(--ease);
-  min-height:280px;
-}
-.story-fcard--satwik{
-  --accent-1:rgba(80,180,255,0.85);
-  --accent-2:rgba(180,120,255,0.55);
-  --accent-soft:rgba(80,180,255,0.08);
+  display:flex;
+  flex-direction:column;
+  padding:56px 48px 52px;
+  background:#0a0a0a;
+  transition:background .4s var(--ease);
 }
 .story-fcard:hover{
-  border-color:rgba(255,255,255,0.18);
-  transform:translateY(-4px);
-  box-shadow:
-    0 24px 60px -20px rgba(0,0,0,0.6),
-    0 0 60px -20px var(--accent-1);
+  background:rgba(255,255,255,0.012);
 }
-
-/* Decorative corner accent blob — unique per founder */
-.story-fcard-accent{
-  position:absolute;
-  top:-60px;right:-60px;
-  width:240px;height:240px;
-  border-radius:50%;
-  background:radial-gradient(circle at 30% 30%,
-    var(--accent-1) 0%,
-    var(--accent-2) 35%,
-    transparent 70%);
-  filter:blur(50px);
-  opacity:.35;
-  pointer-events:none;
-  transition:opacity .6s var(--ease),transform .8s var(--ease);
-}
-.story-fcard:hover .story-fcard-accent{
-  opacity:.55;
-  transform:scale(1.12) translate(-6px,6px);
-}
-
-/* Subtle architectural grid texture */
-.story-fcard-grid{
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
-  background-size:28px 28px;
-  mask-image:radial-gradient(ellipse 90% 80% at 50% 40%,#000 30%,transparent 85%);
-  -webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 40%,#000 30%,transparent 85%);
-  opacity:.6;
-  pointer-events:none;
-}
-
-/* Header row: avatar + Google chip */
-.story-fcard-header{
-  position:relative;z-index:2;
-  display:flex;align-items:flex-start;justify-content:space-between;
-  gap:12px;
-  margin-bottom:22px;
-}
-.story-fcard-avatar{
-  position:relative;
-  width:64px;height:64px;
-  border-radius:18px;
-  background:
-    linear-gradient(135deg,
-      var(--accent-soft) 0%,
-      rgba(255,255,255,0.04) 60%,
-      transparent 100%);
+.story-fcard-mark{
+  width:40px;height:40px;
+  border-radius:10px;
   border:1px solid rgba(255,255,255,0.1);
   display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-  flex-shrink:0;
-}
-.story-fcard-avatar::before{
-  content:'';
-  position:absolute;inset:0;
-  background:radial-gradient(circle at 30% 25%,
-    var(--accent-1) 0%,
-    transparent 55%);
-  opacity:.35;
-  mix-blend-mode:screen;
-}
-.story-fcard-avatar-ring{
-  position:absolute;inset:-1px;
-  border-radius:inherit;
-  background:conic-gradient(from 0deg,
-    transparent 0deg,
-    var(--accent-1) 60deg,
-    transparent 140deg,
-    var(--accent-2) 220deg,
-    transparent 300deg);
-  mask:
-    linear-gradient(#000,#000) content-box,
-    linear-gradient(#000,#000);
-  -webkit-mask:
-    linear-gradient(#000,#000) content-box,
-    linear-gradient(#000,#000);
-  mask-composite:exclude;
-  -webkit-mask-composite:xor;
-  padding:1px;
-  opacity:.8;
-  animation:fcardRing 8s linear infinite;
-}
-@keyframes fcardRing{
-  to{transform:rotate(360deg)}
-}
-.story-fcard:hover .story-fcard-avatar-ring{
-  animation-duration:3.5s;
-}
-.story-fcard-initial{
-  position:relative;z-index:1;
-  font-size:1.2rem;
-  font-weight:600;
-  letter-spacing:.01em;
-  color:var(--text);
-  text-shadow:0 0 14px var(--accent-1);
-}
-
-/* Google alumnus chip */
-.story-fcard-google-chip{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:6px 10px 6px 8px;
-  font-size:.64rem;font-weight:500;
-  letter-spacing:.06em;
-  color:rgba(255,255,255,0.8);
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:50px;
-  backdrop-filter:blur(6px);
-  -webkit-backdrop-filter:blur(6px);
-  transition:background .4s var(--ease),border-color .4s var(--ease);
-}
-.story-fcard:hover .story-fcard-google-chip{
-  background:rgba(255,255,255,0.08);
-  border-color:rgba(255,255,255,0.16);
-}
-.story-fcard-google-g{
-  width:13px;height:13px;
-  flex-shrink:0;
-}
-
-.story-fcard-body{
-  position:relative;z-index:2;
-  flex:1;
-  display:flex;flex-direction:column;gap:6px;
-}
-.story-fcard-name{
-  font-size:1.3rem;
-  font-weight:600;
-  color:var(--text);
-  letter-spacing:-.015em;
-  line-height:1.15;
-}
-.story-fcard-role{
-  font-size:.75rem;
-  color:var(--text-secondary);
-  letter-spacing:.01em;
-  font-weight:400;
-}
-.story-fcard-tags{
-  display:flex;flex-wrap:wrap;gap:6px;
-  margin-top:14px;
-}
-.story-fcard-tag{
-  display:inline-block;
-  padding:5px 10px;
-  font-size:.62rem;
-  font-weight:500;
-  letter-spacing:.03em;
-  color:rgba(255,255,255,0.65);
-  background:rgba(255,255,255,0.03);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:50px;
-  transition:color .3s var(--ease),border-color .3s var(--ease),background .3s var(--ease);
-}
-.story-fcard:hover .story-fcard-tag{
-  color:var(--text);
-  border-color:rgba(255,255,255,0.14);
-  background:rgba(255,255,255,0.05);
-}
-
-/* Footer */
-.story-fcard-footer{
-  position:relative;z-index:2;
-  margin-top:22px;
-  padding-top:18px;
-  border-top:1px solid rgba(255,255,255,0.06);
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;
-}
-.story-fcard-link{
   font-size:.72rem;
   font-weight:500;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,0.65);
+  margin-bottom:36px;
+  transition:color .4s var(--ease),border-color .4s var(--ease);
+}
+.story-fcard:hover .story-fcard-mark{
   color:var(--text);
+  border-color:rgba(255,255,255,0.2);
+}
+.story-fcard-name{
+  font-size:clamp(1.4rem,1.9vw,1.7rem);
+  font-weight:500;
+  color:var(--text);
+  letter-spacing:-.018em;
+  line-height:1.15;
+  margin-bottom:8px;
+}
+.story-fcard-role{
+  font-size:.82rem;
+  color:var(--text-tertiary);
   letter-spacing:.01em;
+  font-weight:400;
+  margin-bottom:22px;
+}
+.story-fcard-bio{
+  font-size:.88rem;
+  color:var(--text-secondary);
+  line-height:1.6;
+  font-weight:400;
+  margin-bottom:40px;
+  max-width:38ch;
+  flex:1;
+}
+.story-fcard-link{
+  display:inline-flex;
+  align-items:center;
+  font-size:.82rem;
+  font-weight:500;
+  color:var(--text);
+  letter-spacing:.005em;
 }
 .story-fcard-arrow{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:28px;height:28px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-  color:var(--text);
-  transition:
-    background .4s var(--ease),
-    border-color .4s var(--ease),
-    transform .4s var(--ease);
+  display:inline-block;
+  transition:transform .35s var(--ease);
 }
 .story-fcard:hover .story-fcard-arrow{
-  background:var(--accent-1);
-  border-color:var(--accent-1);
-  color:#0a0a0a;
-  transform:translate(2px,-2px);
+  transform:translateX(4px);
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -2048,7 +1893,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .perf-item:nth-child(2){border-right:none}
   .perf-item:nth-child(3),.perf-item:nth-child(4){border-top:1px solid var(--border)}
   .story{padding:80px 0 60px}
-  .story-founders{grid-template-columns:1fr 1fr;gap:16px}
+  .story-founders{grid-template-columns:1fr 1fr;gap:1px}
   .method-rail{margin:20px auto 72px;padding:32px 20px 20px}
   .method-rail-line{left:60px;right:60px}
   .process{padding:80px 0}
@@ -2183,13 +2028,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .svc-tile-visual{padding:24px 20px 12px}
   .story-container{padding:0 16px}
   .story-heading{font-size:1.5rem}
-  .story-fcard{padding:22px 20px 20px;min-height:auto}
-  .story-fcard-avatar{width:54px;height:54px;border-radius:15px}
-  .story-fcard-initial{font-size:1rem}
-  .story-fcard-name{font-size:1.15rem}
-  .story-fcard-tags{gap:5px}
-  .story-fcard-tag{font-size:.58rem;padding:4px 8px}
-  .story-fcard-google-chip{padding:5px 9px 5px 7px;font-size:.6rem}
+  .story-fcard{padding:40px 24px 36px}
+  .story-fcard-mark{width:36px;height:36px;margin-bottom:24px;font-size:.68rem}
+  .story-fcard-name{font-size:1.2rem}
+  .story-fcard-role{margin-bottom:16px}
+  .story-fcard-bio{font-size:.84rem;margin-bottom:28px}
   .process-inner{padding:0 16px}
   .process-card{padding:24px 20px;min-height:200px}
   .perf-ring{width:40px;height:40px}
