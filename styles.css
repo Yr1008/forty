@@ -384,82 +384,139 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   white-space:nowrap;
 }
 
-/* ── Founder cards — Apple-minimal ─────────────────
-   One mark. Name. Role. One line. LinkedIn link.
-   No blobs. No gradients. No tags. No pills.
-   Typography and whitespace do the work. */
+/* ── Founder cards. Editorial layout. ─────────────────
+   Magazine-style rows. Big stacked display names.
+   Giant ordinal numbers. Hairline dividers between rows.
+   The name is the hero; everything else supports it. */
 .story-founders{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1px;                             /* hairline divider between cards */
-  background:rgba(255,255,255,0.05);   /* shows through the gap */
-  border-top:1px solid rgba(255,255,255,0.05);
-  border-bottom:1px solid rgba(255,255,255,0.05);
-}
-.story-fcard{
   display:flex;
   flex-direction:column;
-  padding:56px 48px 52px;
-  background:#0a0a0a;
-  transition:background .4s var(--ease);
 }
-.story-fcard:hover{
-  background:rgba(255,255,255,0.012);
+.story-fcard{
+  position:relative;
+  display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+  gap:min(8vw,80px);
+  padding:96px 0 92px;
+  border-top:1px solid rgba(255,255,255,0.08);
+  align-items:start;
+  transition:background .6s var(--ease);
 }
-.story-fcard-mark{
-  width:40px;height:40px;
-  border-radius:10px;
-  border:1px solid rgba(255,255,255,0.1);
-  display:flex;align-items:center;justify-content:center;
-  font-size:.72rem;
-  font-weight:500;
-  letter-spacing:.04em;
-  color:rgba(255,255,255,0.65);
-  margin-bottom:36px;
-  transition:color .4s var(--ease),border-color .4s var(--ease);
+.story-fcard:last-child{
+  border-bottom:1px solid rgba(255,255,255,0.08);
 }
-.story-fcard:hover .story-fcard-mark{
-  color:var(--text);
-  border-color:rgba(255,255,255,0.2);
+.story-fcard::before{
+  content:'';
+  position:absolute;
+  left:0;right:0;top:-1px;
+  height:1px;
+  background:linear-gradient(90deg,
+    rgba(0,255,170,0) 0%,
+    rgba(0,255,170,0.45) 50%,
+    rgba(0,255,170,0) 100%);
+  transform:scaleX(0);
+  transform-origin:center;
+  transition:transform 1.2s cubic-bezier(.22,.75,.22,1);
+  pointer-events:none;
+}
+.story-fcard:hover::before{
+  transform:scaleX(1);
+}
+
+.story-fcard-ordinal{
+  position:absolute;
+  top:48px;
+  right:0;
+  font-size:clamp(3.2rem,5.4vw,5.2rem);
+  font-weight:300;
+  letter-spacing:-.035em;
+  line-height:.9;
+  color:rgba(255,255,255,0.08);
+  font-variant-numeric:tabular-nums;
+  pointer-events:none;
+  user-select:none;
+  z-index:0;
+  transition:color .7s var(--ease),transform .9s var(--ease);
+}
+.story-fcard:hover .story-fcard-ordinal{
+  color:rgba(0,255,170,0.28);
+  transform:translateY(-4px);
+}
+
+.story-fcard-left{
+  position:relative;
+  z-index:1;
 }
 .story-fcard-name{
-  font-size:clamp(1.4rem,1.9vw,1.7rem);
+  font-size:clamp(2.6rem,4.8vw,4.6rem);
   font-weight:500;
   color:var(--text);
-  letter-spacing:-.018em;
-  line-height:1.15;
-  margin-bottom:8px;
+  letter-spacing:-.028em;
+  line-height:.94;
+  margin:0 0 16px;
+}
+.story-fcard-first,
+.story-fcard-last{
+  display:block;
+}
+.story-fcard-last{
+  color:rgba(255,255,255,0.55);
+  transition:color .6s var(--ease);
+}
+.story-fcard:hover .story-fcard-last{
+  color:var(--text);
 }
 .story-fcard-role{
-  font-size:.82rem;
+  font-size:.7rem;
+  font-weight:500;
+  letter-spacing:.16em;
+  text-transform:uppercase;
   color:var(--text-tertiary);
-  letter-spacing:.01em;
-  font-weight:400;
-  margin-bottom:22px;
+  margin-top:28px;
+}
+
+.story-fcard-right{
+  position:relative;
+  z-index:1;
+  padding-top:14px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:40px;
 }
 .story-fcard-bio{
-  font-size:.88rem;
+  font-size:clamp(.95rem,1.1vw,1.05rem);
   color:var(--text-secondary);
-  line-height:1.6;
+  line-height:1.7;
   font-weight:400;
-  margin-bottom:40px;
-  max-width:38ch;
-  flex:1;
+  max-width:42ch;
+}
+.story-fcard-hl{
+  color:var(--text);
+  font-weight:500;
 }
 .story-fcard-link{
   display:inline-flex;
   align-items:center;
-  font-size:.82rem;
+  gap:10px;
+  font-size:.72rem;
   font-weight:500;
+  letter-spacing:.14em;
+  text-transform:uppercase;
   color:var(--text);
-  letter-spacing:.005em;
+  padding-bottom:6px;
+  border-bottom:1px solid rgba(255,255,255,0.22);
+  transition:border-color .5s var(--ease);
+}
+.story-fcard:hover .story-fcard-link{
+  border-color:rgba(0,255,170,0.65);
 }
 .story-fcard-arrow{
   display:inline-block;
-  transition:transform .35s var(--ease);
+  transition:transform .45s var(--ease);
 }
 .story-fcard:hover .story-fcard-arrow{
-  transform:translateX(4px);
+  transform:translateX(5px);
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -623,7 +680,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .process-big-line-2{display:block;color:rgba(255,255,255,0.5);overflow:hidden}
 .process-word{display:inline-block}
 
-/* ── Integrated method rail — 4 steps on a single flowing line ─────
+/* ── Integrated method rail.4 steps on a single flowing line ─────
    Minimal text, Apple-style. A horizontal rail connects four nodes;
    when the section enters view, the rail draws in from left to right
    and the four step cards rise in sequence. One coordinated timeline,
@@ -856,7 +913,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 /* ═══════════════════════════════════════════════════════
-   SERVICES — Apple bento with animated visuals
+   SERVICES: Apple bento with animated visuals
    ═══════════════════════════════════════════════════════ */
 .services{padding:100px 0;position:relative;overflow:hidden}
 .services-inner{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:1}
@@ -1058,7 +1115,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 /* ═══════════════════════════════════════════════════════
-   OUR WORK — visual showcase
+   OUR WORK: visual showcase
    ═══════════════════════════════════════════════════════ */
 .work{
   max-width:1200px;
@@ -1115,7 +1172,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 /* ═══════════════════════════════════════════════════════
-   DESIGN THEORY — website showcase
+   DESIGN THEORY: website showcase
    ═══════════════════════════════════════════════════════ */
 .theory{
   padding:120px 0;
@@ -1401,7 +1458,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 /* ═══════════════════════════════════════════════════════
-   FOOTER CTA — typography-first, Apple/Notion refined
+   FOOTER CTA.typography-first, Apple/Notion refined
    A single soft halo + a slow rotating arc behind the text.
    The motion lives in the wordmark itself, not in the backdrop.
    ═══════════════════════════════════════════════════════ */
@@ -1413,7 +1470,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   background:#0a0a0a;
 }
 
-/* Static soft halo behind the wordmark — pure atmosphere, no motion */
+/* Static soft halo behind the wordmark. Pure atmosphere, no motion. */
 .footer-cta-halo{
   position:absolute;
   left:50%;top:50%;
@@ -1432,7 +1489,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   filter:blur(20px);
 }
 
-/* Slow rotating arc — a single 60-degree stroke of a big thin ring.
+/* Slow rotating arc. A single 60-degree stroke of a big thin ring.
    60s per rotation, barely perceptible unless you watch. Pure craft. */
 .footer-cta-arc{
   position:absolute;
@@ -1475,7 +1532,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   color:var(--text-tertiary);
 }
 
-/* Wordmark — typography-first motion. Solid white letters with a very
+/* Wordmark: typography-first motion. Solid white letters with a very
    subtle text-shadow pulse. Apple-style restraint: the arc rotates
    behind, the word softly breathes. No background-clip gymnastics. */
 .footer-cta-wordmark{
@@ -1594,7 +1651,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
     -webkit-backdrop-filter:blur(8px);
   }
 
-  /* Dampen the body::before aurora on mobile — heavy to composite */
+  /* Dampen the body::before aurora on mobile (heavy to composite) */
   body::before{
     animation:none;
     opacity:.7;
@@ -1893,7 +1950,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .perf-item:nth-child(2){border-right:none}
   .perf-item:nth-child(3),.perf-item:nth-child(4){border-top:1px solid var(--border)}
   .story{padding:80px 0 60px}
-  .story-founders{grid-template-columns:1fr 1fr;gap:1px}
+  .story-fcard{grid-template-columns:1fr;gap:36px;padding:80px 0}
+  .story-fcard-ordinal{position:static;margin-bottom:16px;font-size:3.2rem}
+  .story-fcard-name{font-size:clamp(2.4rem,7vw,3.4rem)}
+  .story-fcard-role{margin-top:20px}
+  .story-fcard-right{padding-top:0}
   .method-rail{margin:20px auto 72px;padding:32px 20px 20px}
   .method-rail-line{left:60px;right:60px}
   .process{padding:80px 0}
@@ -1919,7 +1980,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .about{padding:60px 0}
   .story{padding:60px 0 40px}
   .story-container{padding:0 22px}
-  .story-founders{grid-template-columns:1fr}
+  .story-fcard{padding:60px 0}
+  .story-fcard-name{font-size:clamp(2rem,9vw,3rem)}
   .perf{padding:60px 0}
   .work{padding:50px 16px}
   .work-project{grid-template-columns:1fr;gap:20px}
@@ -2028,11 +2090,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .svc-tile-visual{padding:24px 20px 12px}
   .story-container{padding:0 16px}
   .story-heading{font-size:1.5rem}
-  .story-fcard{padding:40px 24px 36px}
-  .story-fcard-mark{width:36px;height:36px;margin-bottom:24px;font-size:.68rem}
-  .story-fcard-name{font-size:1.2rem}
-  .story-fcard-role{margin-bottom:16px}
-  .story-fcard-bio{font-size:.84rem;margin-bottom:28px}
+  .story-fcard{padding:52px 0 48px;gap:28px}
+  .story-fcard-ordinal{font-size:2.4rem;margin-bottom:12px}
+  .story-fcard-name{font-size:clamp(2rem,9.5vw,2.8rem)}
+  .story-fcard-role{margin-top:18px;letter-spacing:.12em}
+  .story-fcard-bio{font-size:.92rem;line-height:1.6}
+  .story-fcard-right{gap:28px}
   .process-inner{padding:0 16px}
   .process-card{padding:24px 20px;min-height:200px}
   .perf-ring{width:40px;height:40px}
