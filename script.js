@@ -1,6 +1,27 @@
 (() => {
   'use strict';
 
+  /* ── Device + connection awareness ──────────────── */
+  const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
+  const isTouchOnly = window.matchMedia('(hover: none)').matches;
+  const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  const saveData = !!(conn && conn.saveData);
+  const slowNetwork = !!(conn && /(^|\b)(2g|slow-2g)($|\b)/i.test(conn.effectiveType || ''));
+  // Only treat genuinely constrained conditions as "low-end" — NOT plain
+  // mobile viewport. Mobile users still deserve full-resolution hero video
+  // and full-quality motion unless they've opted into Save-Data or are on
+  // a 2g/slow-2g connection.
+  const lowEndDevice = saveData || slowNetwork;
+
+  /* ── Bandwidth guard (Save-Data / 2g only) ──────── */
+  if (lowEndDevice) {
+    const heroVideo = document.querySelector('.hero-video');
+    if (heroVideo) {
+      heroVideo.setAttribute('preload', 'metadata');
+      heroVideo.removeAttribute('fetchpriority');
+    }
+  }
+
   /* ── Lenis smooth scroll ────────────────────────── */
   const lenis = new Lenis({
     duration: 1.2,
@@ -13,6 +34,16 @@
   lenis.on('scroll', ScrollTrigger.update);
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
+
+  /* ── Refresh ScrollTrigger when lazy videos finally load ─
+     Full-bleed videos use preload="none"; when they finally load their
+     intrinsic size can shift layout, which invalidates the scroll-trigger
+     positions captured on page load. A single refresh() per video on
+     loadedmetadata keeps all downstream triggers honest. */
+  document.querySelectorAll('video').forEach(v => {
+    v.addEventListener('loadedmetadata', () => ScrollTrigger.refresh(), { once: true });
+  });
+  window.addEventListener('load', () => ScrollTrigger.refresh());
 
   /* ── Menu overlay ─────────────────────────────────── */
   const burger = document.getElementById('burger');
@@ -74,11 +105,13 @@
     .from('.hero-sub', { y: 30, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
     .from('.hero-ctas', { y: 25, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.6');
 
-  /* ── Reveal animations (smooth fade-up) ──────────── */
+  /* ── Reveal animations (unified fade-up, Apple-grade cubic-bezier) ─ */
+  const REVEAL_EASE = 'cubic-bezier(.22,.61,.36,1)';
   gsap.utils.toArray('.reveal').forEach(el => {
     gsap.set(el, { y: 40, opacity: 0 });
     gsap.to(el, {
-      y: 0, opacity: 1, duration: 1.4, ease: 'expo.out',
+      y: 0, opacity: 1,
+      duration: 1.2, ease: REVEAL_EASE,
       scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
     });
   });
@@ -112,94 +145,31 @@
   });
 
 
-  /* ── Process section: kinetic phrase motion ───────── */
-  const processSection = document.querySelector('.process');
-  if (processSection) {
-    // Method words fade up on enter
-    const methodWords = gsap.utils.toArray('.method-word');
-    gsap.set(methodWords, { y: 28, opacity: 0, force3D: true });
-    ScrollTrigger.batch('.method-word', {
-      onEnter: batch => gsap.to(batch, {
-        y: 0,
-        opacity: 1,
-        duration: 1,
-        ease: 'power3.out',
-        stagger: 0.15,
-        force3D: true
-      }),
-      start: 'top 90%'
+  /* ── Process section: integrated method rail entrance ───── */
+  const methodRail = document.querySelector('.method-rail');
+  if (methodRail) {
+    ScrollTrigger.create({
+      trigger: methodRail,
+      start: 'top 82%',
+      once: true,
+      onEnter: () => methodRail.classList.add('is-in')
     });
-
-    // Each word gains .is-active sequentially for neon underline reveal
-    methodWords.forEach((word, i) => {
-      ScrollTrigger.create({
-        trigger: '.method-phrase',
-        start: `top ${82 - (i * 5)}%`,
-        onEnter: () => word.classList.add('is-active'),
-        onLeaveBack: () => word.classList.remove('is-active')
-      });
-    });
-
-    // Floating particles with parallax
-    const particles = gsap.utils.toArray('.process-particle');
-    particles.forEach((p, i) => {
-      const speed = 30 + (i * 20);
-      const dir = i % 2 === 0 ? 1 : -1;
-      gsap.to(p, {
-        y: -speed * dir,
-        x: (i % 3 - 1) * 15,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.process',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5
-        }
-      });
-      // Subtle opacity pulse
-      gsap.to(p, {
-        opacity: 0.3,
-        duration: 2 + i * 0.3,
-        ease: 'power1.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: i * 0.2
-      });
-    });
-
-    // Generic neon particles across sections (services, story, etc.)
-    gsap.utils.toArray('.neon-particle').forEach((p, i) => {
-      const section = p.closest('section');
-      if (!section) return;
-      // Varied drift distances and directions for organic motion
-      const ySpeed = 20 + ((i * 13) % 60);
-      const xSpeed = ((i * 7) % 18) - 9;
-      const dir = i % 2 === 0 ? 1 : -1;
-      const minOpacity = 0.25 + ((i * 0.07) % 0.25);
-
-      gsap.to(p, {
-        y: -ySpeed * dir,
-        x: xSpeed,
-        ease: 'none',
-        force3D: true,
-        scrollTrigger: {
-          trigger: section,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.5
-        }
-      });
-      gsap.to(p, {
-        opacity: minOpacity,
-        duration: 2.8 + ((i * 0.5) % 2.2),
-        ease: 'power1.inOut',
-        yoyo: true,
-        repeat: -1,
-        delay: (i * 0.27) % 3
-      });
-    });
-
   }
+
+  /* ── Ambient particles: in-place opacity pulse only ──
+     All scroll-coupled movement for particles is now handled once in the
+     site-wide parallax block below (with low amplitude). No double tweens. */
+  gsap.utils.toArray('.process-particle, .neon-particle').forEach((p, i) => {
+    const minOpacity = 0.3 + ((i * 0.06) % 0.2);
+    gsap.to(p, {
+      opacity: minOpacity,
+      duration: 3 + ((i * 0.4) % 2),
+      ease: 'power1.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: (i * 0.25) % 2.5
+    });
+  });
 
   /* ── About stat count-up (butter-smooth) ─────────── */
   document.querySelectorAll('.about-stat').forEach(stat => {
@@ -217,11 +187,11 @@
       start: 'top 90%',
       once: true,
       onEnter: () => {
-        gsap.to(stat, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', force3D: true });
+        gsap.to(stat, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', force3D: true });
         gsap.to(obj, {
           val: target,
-          duration: 2,
-          ease: 'expo.out',
+          duration: 1.4,
+          ease: 'power2.out',
           onUpdate: () => { numEl.textContent = Math.round(obj.val); },
           onComplete: () => { numEl.textContent = target; }
         });
@@ -230,7 +200,7 @@
   });
 
   /* ── Performance counters + ring charts (butter-smooth) ─ */
-  const circumference = 2 * Math.PI * 25;
+  const circumference = 2 * Math.PI * 25;   // ~157.08, matches HTML dasharray
 
   document.querySelectorAll('.perf-item').forEach(item => {
     const numEl = item.querySelector('.perf-num');
@@ -240,9 +210,13 @@
 
     const isDecimal = target % 1 !== 0;
     numEl.style.fontVariantNumeric = 'tabular-nums';
-    const obj = { val: 0 };
+    numEl.textContent = isDecimal ? '0.0' : '0';
+
     const ringPercent = parseFloat(ringFill?.dataset.percent || 50);
     const targetOffset = circumference - (circumference * ringPercent / 100);
+
+    // Idempotent initial state — don't rely on inline HTML alone
+    if (ringFill) ringFill.setAttribute('stroke-dashoffset', circumference);
 
     gsap.set(item, { y: 30, opacity: 0, force3D: true });
 
@@ -251,42 +225,56 @@
       start: 'top 85%',
       once: true,
       onEnter: () => {
-        gsap.to(item, { y: 0, opacity: 1, duration: 1, ease: 'expo.out', force3D: true });
-        gsap.to(obj, {
+        // Card rise
+        gsap.to(item, {
+          y: 0, opacity: 1,
+          duration: 0.9, ease: 'power3.out', force3D: true
+        });
+
+        // Number count-up
+        const numObj = { val: 0 };
+        gsap.to(numObj, {
           val: target,
-          duration: 2.2,
-          ease: 'expo.out',
+          duration: 1.6,
+          ease: 'power2.out',
           onUpdate: () => {
-            numEl.textContent = isDecimal ? obj.val.toFixed(1) : Math.round(obj.val);
+            numEl.textContent = isDecimal ? numObj.val.toFixed(1) : Math.round(numObj.val);
           },
           onComplete: () => {
             numEl.textContent = isDecimal ? target.toFixed(1) : target;
           }
         });
+
+        // Ring fill — plugin-free: animate a plain object and write the
+        // SVG attribute in onUpdate. Same pattern as the number counter,
+        // guaranteed to work regardless of AttrPlugin state.
         if (ringFill) {
-          gsap.to(ringFill, {
-            attr: { 'stroke-dashoffset': targetOffset },
-            duration: 2.2, ease: 'expo.out'
+          const ringObj = { offset: circumference };
+          gsap.to(ringObj, {
+            offset: targetOffset,
+            duration: 1.6,
+            ease: 'power2.out',
+            onUpdate: () => ringFill.setAttribute('stroke-dashoffset', ringObj.offset),
+            onComplete: () => ringFill.setAttribute('stroke-dashoffset', targetOffset)
           });
         }
       }
     });
   });
 
-  /* ── Footer CTA: solid entrance only (Forty text is always visible) ── */
-  const solidText = document.querySelector('.footer-cta-solid');
-  if (solidText) {
-    gsap.fromTo(solidText,
-      { y: 30, opacity: 0 },
-      {
-        y: 0, opacity: 1, duration: 1.2, ease: 'power3.out',
-        scrollTrigger: {
-          trigger: '.neon-rain-zone',
-          start: 'top 75%',
-          toggleActions: 'play none none none'
-        }
+  /* ── Footer CTA wordmark: trigger split-letter reveal + rule on scroll ── */
+  const fortyWordmark = document.querySelector('.footer-cta-wordmark');
+  const fortyRule = document.querySelector('.footer-cta-rule');
+  if (fortyWordmark) {
+    ScrollTrigger.create({
+      trigger: '.footer-cta-zone',
+      start: 'top 80%',
+      once: true,
+      onEnter: () => {
+        fortyWordmark.classList.add('is-in');
+        if (fortyRule) fortyRule.classList.add('is-in');
       }
-    );
+    });
   }
 
   /* ── Label slide-in ─────────────────────────────── */
@@ -320,183 +308,6 @@
     );
   }
 
-  /* ═══════════════════════════════════════════════════════
-     FIREWORKS FROM "FORTY" TEXT
-     ═══════════════════════════════════════════════════════ */
-  const canvas = document.getElementById('neonRainCanvas');
-  const fortyText = document.querySelector('.footer-cta-stroke');
-  if (canvas && fortyText) {
-    const ctx = canvas.getContext('2d');
-    let particles = [];
-    let animId;
-    let isVisible = false;
-    let lastBurstTime = 0;
-
-    const COLORS = [
-      { r: 0, g: 255, b: 180 },
-      { r: 0, g: 255, b: 160 },
-      { r: 80, g: 255, b: 200 },
-      { r: 0, g: 200, b: 255 },
-      { r: 140, g: 255, b: 220 },
-    ];
-
-    function resize() {
-      const rect = canvas.parentElement.getBoundingClientRect();
-      canvas.width = rect.width * devicePixelRatio;
-      canvas.height = rect.height * devicePixelRatio;
-      canvas.style.width = rect.width + 'px';
-      canvas.style.height = rect.height + 'px';
-      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-    }
-
-    function getFortyCenter() {
-      const canvasRect = canvas.getBoundingClientRect();
-      const textRect = fortyText.getBoundingClientRect();
-      return {
-        x: textRect.left + textRect.width / 2 - canvasRect.left,
-        y: textRect.top + textRect.height / 2 - canvasRect.top
-      };
-    }
-
-    function spawnBurst() {
-      const { x, y } = getFortyCenter();
-      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
-      const count = 28 + Math.floor(Math.random() * 14);
-      for (let i = 0; i < count; i++) {
-        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.3;
-        const speed = 1.8 + Math.random() * 3.2;
-        particles.push({
-          x, y,
-          vx: Math.cos(angle) * speed,
-          vy: Math.sin(angle) * speed,
-          life: 1,
-          decay: 0.008 + Math.random() * 0.012,
-          size: 1.2 + Math.random() * 1.8,
-          color,
-          trail: []
-        });
-      }
-    }
-
-    function spawnRocket() {
-      const { x, y } = getFortyCenter();
-      const color = COLORS[Math.floor(Math.random() * COLORS.length)];
-      const side = Math.random() < 0.5 ? -1 : 1;
-      const count = 18 + Math.floor(Math.random() * 10);
-      for (let i = 0; i < count; i++) {
-        const spread = (Math.random() - 0.5) * 0.9;
-        const speed = 2 + Math.random() * 2.5;
-        particles.push({
-          x: x + side * (30 + Math.random() * 40),
-          y: y + (Math.random() - 0.5) * 30,
-          vx: side * speed * (0.3 + Math.random() * 0.4) + spread * 2,
-          vy: -speed * (0.9 + Math.random() * 0.4),
-          life: 1,
-          decay: 0.01 + Math.random() * 0.014,
-          size: 1.3 + Math.random() * 1.5,
-          color,
-          gravity: 0.05,
-          trail: []
-        });
-      }
-    }
-
-    function draw(now) {
-      const w = canvas.width / devicePixelRatio;
-      const h = canvas.height / devicePixelRatio;
-
-      // Trail fade (semi-transparent black overlay)
-      ctx.fillStyle = 'rgba(10,10,10,0.18)';
-      ctx.fillRect(0, 0, w, h);
-
-      // Periodic bursts
-      if (!lastBurstTime || now - lastBurstTime > 1800 + Math.random() * 1200) {
-        lastBurstTime = now;
-        if (Math.random() < 0.55) {
-          spawnBurst();
-        } else {
-          spawnRocket();
-        }
-      }
-
-      // Update + draw particles
-      for (let i = particles.length - 1; i >= 0; i--) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.gravity) p.vy += p.gravity;
-        p.vx *= 0.985;
-        p.vy *= 0.985;
-        p.life -= p.decay;
-
-        if (p.life <= 0) {
-          particles.splice(i, 1);
-          continue;
-        }
-
-        const alpha = p.life * 0.9;
-        const r = p.color.r, g = p.color.g, b = p.color.b;
-
-        // Glow halo
-        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
-        grad.addColorStop(0, `rgba(${r},${g},${b},${alpha})`);
-        grad.addColorStop(0.4, `rgba(${r},${g},${b},${alpha * 0.4})`);
-        grad.addColorStop(1, `rgba(${r},${g},${b},0)`);
-        ctx.fillStyle = grad;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Core bright dot
-        ctx.fillStyle = `rgba(${r},${g},${b},${alpha})`;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      animId = requestAnimationFrame(draw);
-    }
-
-    resize();
-
-    ScrollTrigger.create({
-      trigger: '.neon-rain-zone',
-      start: 'top 90%',
-      end: 'bottom top',
-      onEnter: () => {
-        if (!isVisible) {
-          isVisible = true;
-          // Initial burst on entry
-          spawnBurst();
-          setTimeout(spawnRocket, 300);
-          animId = requestAnimationFrame(draw);
-        }
-      },
-      onLeave: () => {
-        isVisible = false;
-        cancelAnimationFrame(animId);
-        particles = [];
-      },
-      onEnterBack: () => {
-        if (!isVisible) {
-          isVisible = true;
-          spawnBurst();
-          animId = requestAnimationFrame(draw);
-        }
-      },
-      onLeaveBack: () => {
-        isVisible = false;
-        cancelAnimationFrame(animId);
-        particles = [];
-      }
-    });
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(resize, 200);
-    });
-  }
 
   /* ── Case study accordion with subtle fade-in on impact ─ */
   function revealImpactNumbers(caseStudy) {
@@ -682,6 +493,137 @@
       ctaVideo.addEventListener('loadeddata', markReady, { once: true });
       ctaVideo.addEventListener('canplay', markReady, { once: true });
     }
+  }
+
+  /* ═══════════════════════════════════════════════════════
+     SUBTLE PARALLAX — site-wide
+     Small, scrub-linked translations on full-bleed videos,
+     case study images, theory cards, and section headings.
+     Skipped entirely on touch devices or reduced-motion.
+     ═══════════════════════════════════════════════════════ */
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!prefersReduced && !isTouchOnly && !lowEndDevice) {
+    // Unified, gentle scrub for all parallax so everything drifts in
+    // concert. Higher scrub = more lag = smoother glide behind the page.
+    const SCRUB = 1.4;
+
+    // Full-bleed background videos drift slightly as the section scrolls.
+    gsap.utils.toArray('.full-bleed .full-bleed-video').forEach(video => {
+      gsap.to(video, {
+        yPercent: 3,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: video.closest('.full-bleed'),
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: SCRUB
+        }
+      });
+    });
+
+    // Full-bleed content rises gently against the video drift
+    gsap.utils.toArray('.full-bleed .full-bleed-content').forEach(content => {
+      gsap.fromTo(content,
+        { y: 12 },
+        {
+          y: -12,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: content.closest('.full-bleed'),
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: SCRUB
+          }
+        }
+      );
+    });
+
+    // Case study hero image — a whisper of drift
+    gsap.utils.toArray('.case-study-img .case-study-media').forEach(img => {
+      gsap.fromTo(img,
+        { y: -5 },
+        {
+          y: 5,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: img.closest('.case-study'),
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: SCRUB
+          }
+        }
+      );
+    });
+
+    // Theory cards — very subtle staggered drift
+    gsap.utils.toArray('.theory-card').forEach((card, i) => {
+      const depth = 5 + (i % 3) * 2; // stagger depths: 5, 7, 9
+      gsap.fromTo(card,
+        { y: depth },
+        {
+          y: -depth,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: SCRUB
+          }
+        }
+      );
+    });
+
+    // Hero content lifts slightly as you scroll away from the hero
+    const heroContent = document.querySelector('.hero-content');
+    if (heroContent) {
+      gsap.to(heroContent, {
+        yPercent: -10,
+        opacity: 0.7,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.0
+        }
+      });
+    }
+
+    // Hero background video parallax — small and smooth
+    const heroVideoEl = document.querySelector('.hero-video');
+    if (heroVideoEl) {
+      gsap.to(heroVideoEl, {
+        yPercent: 5,
+        scale: 1.03,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2
+        }
+      });
+    }
+
+    // Ambient neon particles: a faint drift, with very low amplitude.
+    // This is the ONLY scroll-coupled motion particles have now.
+    gsap.utils.toArray('.neon-particle, .process-particle').forEach((p, i) => {
+      const depth = 8 + (i % 4) * 3; // 8, 11, 14, 17
+      gsap.fromTo(p,
+        { y: depth },
+        {
+          y: -depth,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: p.closest('section') || p,
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: SCRUB
+          }
+        }
+      );
+    });
   }
 
 })();
