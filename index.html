@@ -11,7 +11,7 @@
   <meta name="apple-mobile-web-app-title" content="Forty">
 
   <!-- Primary SEO -->
-  <title>Forty. Marketing Studio for US AI Startups, Y Combinator Founders, Fortune 500 & HNW Brands | Ex-Googlers</title>
+  <title>Forty</title>
   <meta name="description" content="Forty is a creative and performance marketing studio founded by ex-Googlers. We partner with US AI startups, Y Combinator-backed founders, Fortune 500 enterprises, and high-net-worth individuals building personal and portfolio brands. 100M+ impressions, 400% average ROAS, brands scaled across 6 countries. Trusted by Ray-Ban Meta, Mashreq Bank, and YC-backed AI companies.">
   <meta name="keywords" content="marketing agency for AI startups, US AI startup marketing agency, Y Combinator marketing agency, YC backed startup marketing, Fortune 500 marketing agency, high net worth personal branding, ex-Google marketing studio, Silicon Valley marketing agency, venture backed startup marketing, AI SaaS go-to-market, founder led growth agency, enterprise brand strategy, luxury personal brand agency, family office marketing, HNW individual branding, creative and performance studio, performance marketing agency, influencer marketing, brand strategy studio, e-commerce growth agency, ROAS optimization, paid media agency, Meta ads, Google ads">
   <meta name="author" content="Forty">
@@ -292,7 +292,7 @@
 
   <!-- Preload critical above-the-fold assets for fast LCP -->
   <link rel="preload" as="image" href="assets/logo-white.png" fetchpriority="high">
-  <link rel="preload" as="style" href="styles.css?v=20260412d">
+  <link rel="preload" as="style" href="styles.css?v=20260412e">
   <!-- Kick off hero video fetch as early as possible without sacrificing
        quality. Modern browsers honour as="video"; legacy ones fall through
        to the <video preload="auto"> tag. -->
@@ -301,13 +301,13 @@
   <!-- Fonts (swap so text renders immediately) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.css">
-  <link rel="stylesheet" href="styles.css?v=20260412d">
+  <link rel="stylesheet" href="styles.css?v=20260412e">
 
   <!-- Scripts: defer external libs so parsing isn't blocked -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="script.js?v=20260412d" defer></script>
+  <script src="script.js?v=20260412e" defer></script>
 </head>
 <body>
 
@@ -403,15 +403,21 @@
       <div class="story-divider-line"></div>
     </div>
 
-    <!-- Bottom: founders. Side-by-side, compact editorial.
-         Ordinal top-right, stacked display name, role, bio, link
-         all flowing in one column per card. -->
+    <!-- Bottom: founders. Equals. Side-by-side with animated SVG
+         signet marks that draw in on scroll, plus a name reveal
+         that slides up from behind a mask. Google Material motion. -->
     <div class="story-founders reveal">
       <a class="story-fcard" href="https://www.linkedin.com/in/yashghere/" target="_blank" rel="noopener">
-        <span class="story-fcard-ordinal" aria-hidden="true">01</span>
+        <div class="story-fcard-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" class="story-fcard-mark-svg">
+            <circle class="story-fcard-mark-ring" cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="1"/>
+            <circle class="story-fcard-mark-dot" cx="32" cy="32" r="2.5" fill="currentColor"/>
+            <line class="story-fcard-mark-line" x1="32" y1="32" x2="54" y2="10" stroke="currentColor" stroke-width="1" stroke-linecap="round"/>
+          </svg>
+        </div>
         <h3 class="story-fcard-name">
-          <span class="story-fcard-first">Yash</span>
-          <span class="story-fcard-last">Gupta.</span>
+          <span class="story-fcard-line"><span class="story-fcard-first">Yash</span></span>
+          <span class="story-fcard-line"><span class="story-fcard-last">Gupta.</span></span>
         </h3>
         <p class="story-fcard-role">Co&#8209;founder &amp; Director</p>
         <p class="story-fcard-bio">
@@ -423,10 +429,16 @@
       </a>
 
       <a class="story-fcard" href="https://www.linkedin.com/in/satwikvaishnava/" target="_blank" rel="noopener">
-        <span class="story-fcard-ordinal" aria-hidden="true">02</span>
+        <div class="story-fcard-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" class="story-fcard-mark-svg">
+            <circle class="story-fcard-mark-ring" cx="32" cy="32" r="26" fill="none" stroke="currentColor" stroke-width="1"/>
+            <circle class="story-fcard-mark-ring-inner" cx="32" cy="32" r="15" fill="none" stroke="currentColor" stroke-width="1"/>
+            <circle class="story-fcard-mark-dot" cx="32" cy="32" r="2.5" fill="currentColor"/>
+          </svg>
+        </div>
         <h3 class="story-fcard-name">
-          <span class="story-fcard-first">Satwik</span>
-          <span class="story-fcard-last">Vaishnava.</span>
+          <span class="story-fcard-line"><span class="story-fcard-first">Satwik</span></span>
+          <span class="story-fcard-line"><span class="story-fcard-last">Vaishnava.</span></span>
         </h3>
         <p class="story-fcard-role">Co&#8209;founder &amp; Director</p>
         <p class="story-fcard-bio">
