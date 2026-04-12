@@ -98,49 +98,53 @@
     });
   }
 
-  /* ── Hero entrance ──────────────────────────────── */
-  const heroTL = gsap.timeline({ delay: 0.5 });
-  heroTL
-    .from('.hero-title', { y: 60, opacity: 0, duration: 1.4, ease: 'power3.out' })
-    .from('.hero-sub', { y: 30, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
-    .from('.hero-ctas', { y: 25, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.6');
+  /* ═══════════════════════════════════════════════════════
+     PREMIUM ANIMATION SYSTEM
+     One ease. One distance. One duration. Consistency
+     is what separates premium from flashy.
 
-  /* ── Reveal animations (unified fade-up, Apple-grade cubic-bezier) ─ */
-  const REVEAL_EASE = 'cubic-bezier(.22,.61,.36,1)';
+     Ease: power3.out (smooth deceleration, Apple-grade)
+     Distance: 24px translateY (small, refined, intentional)
+     Duration: 1.0s for reveals, 1.1s for hero, 0.8s for counters
+     Stagger: 0.1s uniform
+     ═══════════════════════════════════════════════════════ */
+  const EASE = 'power3.out';
+  const DIST = 24;
+  const DUR  = 1.0;
+
+  /* ── Hero entrance ──────────────────────────────── */
+  const heroTL = gsap.timeline({ delay: 0.6 });
+  heroTL
+    .from('.hero-title', { y: DIST, opacity: 0, duration: 1.1, ease: EASE })
+    .from('.hero-sub',   { y: 16,   opacity: 0, duration: 0.9, ease: EASE }, '-=0.7')
+    .from('.hero-ctas',  { y: 14,   opacity: 0, duration: 0.8, ease: EASE }, '-=0.55');
+
+  /* ── Reveal: unified fade-up for all .reveal elements ─ */
   gsap.utils.toArray('.reveal').forEach(el => {
-    gsap.set(el, { y: 40, opacity: 0 });
+    gsap.set(el, { y: DIST, opacity: 0 });
     gsap.to(el, {
       y: 0, opacity: 1,
-      duration: 1.2, ease: REVEAL_EASE,
+      duration: DUR, ease: EASE,
       scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
     });
   });
 
-  /* ── Staggered: work projects ────────────────────── */
-  gsap.utils.toArray('.work-project').forEach(el => {
-    gsap.set(el, { opacity: 0, y: 50 });
-  });
+  /* ── Staggered batches: same system, same values ── */
+  gsap.utils.toArray('.work-project').forEach(el => gsap.set(el, { opacity: 0, y: DIST }));
   ScrollTrigger.batch('.work-project', {
-    onEnter: batch => gsap.to(batch, {
-      y: 0, opacity: 1,
-      duration: 1, ease: 'power2.out', stagger: 0.15
-    }),
+    onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: DUR, ease: EASE, stagger: 0.1 }),
     start: 'top 85%'
   });
 
-  /* ── Staggered: service bento tiles ────────────── */
-  gsap.utils.toArray('.svc-tile').forEach(el => gsap.set(el, { y: 30, opacity: 0 }));
+  gsap.utils.toArray('.svc-tile').forEach(el => gsap.set(el, { y: DIST, opacity: 0 }));
   ScrollTrigger.batch('.svc-tile', {
-    onEnter: batch => gsap.to(batch, {
-      y: 0, opacity: 1,
-      duration: 1, ease: 'power2.out', stagger: 0.12
-    }),
+    onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: DUR, ease: EASE, stagger: 0.1 }),
     start: 'top 88%'
   });
 
-  /* ── Staggered: FAQ items ───────────────────────── */
+  gsap.utils.toArray('.faq-item').forEach(el => gsap.set(el, { y: DIST, opacity: 0 }));
   ScrollTrigger.batch('.faq-item', {
-    onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: 1.1, ease: 'power2.out', stagger: 0.1 }),
+    onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: DUR, ease: EASE, stagger: 0.08 }),
     start: 'top 85%'
   });
 
@@ -161,7 +165,7 @@
      tweens on every particle were causing frame-budget competition
      with the reveal and parallax animations. */
 
-  /* ── About stat count-up (butter-smooth) ─────────── */
+  /* ── About stat count-up ─────────────────────────── */
   document.querySelectorAll('.about-stat').forEach(stat => {
     const numEl = stat.querySelector('.about-stat-num');
     if (!numEl) return;
@@ -170,18 +174,18 @@
 
     numEl.style.fontVariantNumeric = 'tabular-nums';
     const obj = { val: 0 };
-    gsap.set(stat, { y: 20, opacity: 0, force3D: true });
+    gsap.set(stat, { y: DIST, opacity: 0, force3D: true });
 
     ScrollTrigger.create({
       trigger: stat,
-      start: 'top 90%',
+      start: 'top 88%',
       once: true,
       onEnter: () => {
-        gsap.to(stat, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', force3D: true });
+        gsap.to(stat, { y: 0, opacity: 1, duration: DUR, ease: EASE, force3D: true });
         gsap.to(obj, {
           val: target,
-          duration: 1.4,
-          ease: 'power2.out',
+          duration: 1.2,
+          ease: EASE,
           onUpdate: () => { numEl.textContent = Math.round(obj.val); },
           onComplete: () => { numEl.textContent = target; }
         });
@@ -208,7 +212,7 @@
     // Idempotent initial state. Don't rely on inline HTML alone.
     if (ringFill) ringFill.setAttribute('stroke-dashoffset', circumference);
 
-    gsap.set(item, { y: 30, opacity: 0, force3D: true });
+    gsap.set(item, { y: DIST, opacity: 0, force3D: true });
 
     ScrollTrigger.create({
       trigger: item,
@@ -218,7 +222,7 @@
         // Card rise
         gsap.to(item, {
           y: 0, opacity: 1,
-          duration: 0.9, ease: 'power3.out', force3D: true
+          duration: DUR, ease: EASE, force3D: true
         });
 
         // Number count-up
@@ -253,15 +257,14 @@
   });
 
   /* ── Founder cards: add .is-in on viewport entry so the CSS
-       animations (mark draw-in, name slide-up) fire in sequence. ── */
+       animations (SVG mark draw-in) fire on scroll. ── */
   gsap.utils.toArray('.story-fcard').forEach((card, i) => {
     ScrollTrigger.create({
       trigger: card,
       start: 'top 85%',
       once: true,
       onEnter: () => {
-        // Slight stagger between the two cards so they enter in concert
-        setTimeout(() => card.classList.add('is-in'), i * 160);
+        setTimeout(() => card.classList.add('is-in'), i * 100);
       }
     });
   });
@@ -283,30 +286,20 @@
 
   /* ── Label slide-in ─────────────────────────────── */
   gsap.utils.toArray('.label').forEach(label => {
-    gsap.set(label, { x: -15, opacity: 0 });
+    gsap.set(label, { x: -10, opacity: 0 });
     gsap.to(label, {
-      x: 0, opacity: 1, duration: 0.9, ease: 'power2.out',
+      x: 0, opacity: 1, duration: 0.8, ease: EASE,
       scrollTrigger: { trigger: label, start: 'top 90%', toggleActions: 'play none none none' }
     });
   });
 
-  /* ── Founder cards staggered rise ───────────────── */
-  gsap.utils.toArray('.story-founder').forEach((el, i) => {
-    gsap.set(el, { y: 25, opacity: 0 });
-    gsap.to(el, {
-      y: 0, opacity: 1, duration: 1, ease: 'power2.out',
-      delay: i * 0.12,
-      scrollTrigger: { trigger: el, start: 'top 92%', toggleActions: 'play none none none' }
-    });
-  });
-
-  /* ── Google badge pulse ─────────────────────────── */
+  /* ── Google badge entrance ───────────────────────── */
   const googleBadge = document.querySelector('.story-google-badge');
   if (googleBadge) {
     gsap.fromTo(googleBadge,
-      { scale: 0.85, opacity: 0 },
+      { scale: 0.92, opacity: 0 },
       {
-        scale: 1, opacity: 1, duration: 1.2, ease: 'elastic.out(1,0.5)',
+        scale: 1, opacity: 1, duration: DUR, ease: EASE,
         scrollTrigger: { trigger: googleBadge, start: 'top 88%', toggleActions: 'play none none none' }
       }
     );
@@ -355,14 +348,9 @@
   });
 
   /* ── Staggered: case study cards ────────────────────── */
-  gsap.utils.toArray('.case-study').forEach(el => {
-    gsap.set(el, { opacity: 0, y: 50 });
-  });
+  gsap.utils.toArray('.case-study').forEach(el => gsap.set(el, { opacity: 0, y: DIST }));
   ScrollTrigger.batch('.case-study', {
-    onEnter: batch => gsap.to(batch, {
-      y: 0, opacity: 1,
-      duration: 1, ease: 'power2.out', stagger: 0.15
-    }),
+    onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: DUR, ease: EASE, stagger: 0.1 }),
     start: 'top 85%'
   });
 
