@@ -1518,7 +1518,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 /* ═══════════════════════════════════════════════════════
-   FOOTER CTA — clean wordmark over an ambient motion backdrop
+   FOOTER CTA — clean, static. No ambient motion.
    ═══════════════════════════════════════════════════════ */
 .footer-cta-zone{
   position:relative;
@@ -1526,110 +1526,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   padding:0;
   isolation:isolate;
   background:#0a0a0a;
-}
-
-/* Background motion stack — all CSS, no JS, GPU-friendly transforms */
-.footer-cta-bg{
-  position:absolute;inset:0;
-  pointer-events:none;
-  z-index:0;
-  overflow:hidden;
-}
-
-/* Drifting aurora blobs — soft, slow radial gradients that move
-   diagonally. Three layers with different tints, sizes, and speeds
-   create a sense of depth without being loud. */
-.footer-cta-aurora{
-  position:absolute;
-  width:65vw;height:65vw;
-  max-width:900px;max-height:900px;
-  border-radius:50%;
-  filter:blur(90px);
-  opacity:.55;
-  will-change:transform;
-  mix-blend-mode:screen;
-}
-.footer-cta-aurora--a{
-  top:-20%;left:-15%;
-  background:radial-gradient(circle at 30% 30%,
-    rgba(0,255,170,0.35) 0%,
-    rgba(0,255,170,0.12) 35%,
-    transparent 70%);
-  animation:ctaAuroraA 22s ease-in-out infinite alternate;
-}
-.footer-cta-aurora--b{
-  bottom:-25%;right:-20%;
-  width:70vw;height:70vw;
-  background:radial-gradient(circle at 60% 60%,
-    rgba(80,140,255,0.28) 0%,
-    rgba(80,140,255,0.1) 40%,
-    transparent 75%);
-  animation:ctaAuroraB 28s ease-in-out infinite alternate;
-}
-.footer-cta-aurora--c{
-  top:30%;left:35%;
-  width:50vw;height:50vw;
-  background:radial-gradient(circle at 50% 50%,
-    rgba(180,120,255,0.18) 0%,
-    rgba(180,120,255,0.06) 45%,
-    transparent 75%);
-  animation:ctaAuroraC 34s ease-in-out infinite alternate;
-}
-@keyframes ctaAuroraA{
-  0%  {transform:translate3d(0,0,0) scale(1)}
-  50% {transform:translate3d(8%,6%,0) scale(1.08)}
-  100%{transform:translate3d(-4%,10%,0) scale(.96)}
-}
-@keyframes ctaAuroraB{
-  0%  {transform:translate3d(0,0,0) scale(1)}
-  50% {transform:translate3d(-10%,-4%,0) scale(1.1)}
-  100%{transform:translate3d(4%,-8%,0) scale(.94)}
-}
-@keyframes ctaAuroraC{
-  0%  {transform:translate3d(-50%,-50%,0) scale(1)}
-  50% {transform:translate3d(-55%,-42%,0) scale(1.12)}
-  100%{transform:translate3d(-45%,-58%,0) scale(.92)}
-}
-
-/* Architectural grid — now slowly panning diagonally so it reads as motion.
-   Double background-size layer keeps it from looking uniform. */
-.footer-cta-grid{
-  position:absolute;inset:-200px;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size:80px 80px;
-  mask-image:radial-gradient(ellipse 70% 55% at 50% 55%, #000 0%, transparent 80%);
-  -webkit-mask-image:radial-gradient(ellipse 70% 55% at 50% 55%, #000 0%, transparent 80%);
-  opacity:.5;
-  animation:ctaGridPan 60s linear infinite;
-  will-change:background-position;
-}
-@keyframes ctaGridPan{
-  from{background-position:0 0, 0 0}
-  to  {background-position:80px 80px, 80px 80px}
-}
-
-/* A single, very slow diagonal scanline for a hint of light travelling
-   across the composition. Thin, low opacity, purely ambient. */
-.footer-cta-scanline{
-  position:absolute;top:-25%;left:-40%;
-  width:180%;height:160%;
-  background:linear-gradient(
-    110deg,
-    transparent 42%,
-    rgba(255,255,255,0.05) 48%,
-    rgba(255,255,255,0.09) 50%,
-    rgba(255,255,255,0.05) 52%,
-    transparent 58%);
-  transform:translate3d(-40%,0,0);
-  animation:ctaScan 14s ease-in-out infinite;
-  will-change:transform;
-  mix-blend-mode:overlay;
-}
-@keyframes ctaScan{
-  0%,100%{transform:translate3d(-40%,0,0)}
-  50%    {transform:translate3d(40%,0,0)}
 }
 
 .footer-cta-inner{
@@ -1696,30 +1592,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 @media (prefers-reduced-motion: reduce){
   .footer-cta-letter{opacity:1;transform:none;animation:none !important}
-  .footer-cta-aurora,
-  .footer-cta-grid,
-  .footer-cta-scanline{animation:none !important}
   .footer-cta-rule{width:min(280px, 60%);transition:none}
 }
 
-/* Mobile: lighter blur + smaller aurora blobs for better perf on low-end GPUs */
 @media(max-width:768px){
   .footer-cta-inner{padding:90px 0 80px}
-  .footer-cta-aurora{
-    filter:blur(50px);
-    width:90vw;height:90vw;
-    opacity:.5;
-  }
-  .footer-cta-aurora--b{width:100vw;height:100vw}
-  .footer-cta-aurora--c{display:none}  /* drop the third layer on mobile */
-  .footer-cta-grid{background-size:60px 60px;animation-duration:80s;opacity:.35}
-  .footer-cta-scanline{animation-duration:20s}
   .footer-cta-eyebrow{letter-spacing:.24em}
 }
 @media(max-width:480px){
   .footer-cta-inner{padding:70px 0 60px}
-  .footer-cta-aurora{filter:blur(40px)}
-  .footer-cta-scanline{display:none}
 }
 
 /* ═══════════════════════════════════════════════════════
