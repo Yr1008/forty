@@ -384,27 +384,33 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   white-space:nowrap;
 }
 
-/* ── Founder cards. Editorial layout. ─────────────────
-   Magazine-style rows. Big stacked display names.
-   Giant ordinal numbers. Hairline dividers between rows.
-   The name is the hero; everything else supports it. */
+/* ── Founder cards. Side-by-side editorial, compact. ──
+   Two cards in a row. Ordinal top-right as a decorative
+   anchor. Stacked display name, role, bio, link flow in
+   a single column per card. Tight and clean. */
 .story-founders{
-  display:flex;
-  flex-direction:column;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  border-top:1px solid rgba(255,255,255,0.08);
+  border-bottom:1px solid rgba(255,255,255,0.08);
 }
 .story-fcard{
   position:relative;
-  display:grid;
-  grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
-  gap:min(8vw,80px);
-  padding:96px 0 92px;
-  border-top:1px solid rgba(255,255,255,0.08);
-  align-items:start;
-  transition:background .6s var(--ease);
+  display:flex;
+  flex-direction:column;
+  padding:44px 44px 40px;
+  transition:background .5s var(--ease);
+  min-height:0;
 }
-.story-fcard:last-child{
-  border-bottom:1px solid rgba(255,255,255,0.08);
+.story-fcard + .story-fcard{
+  border-left:1px solid rgba(255,255,255,0.08);
 }
+.story-fcard:hover{
+  background:rgba(255,255,255,0.015);
+}
+
+/* Decorative neon line that draws in along the top on hover */
 .story-fcard::before{
   content:'';
   position:absolute;
@@ -412,11 +418,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   height:1px;
   background:linear-gradient(90deg,
     rgba(0,255,170,0) 0%,
-    rgba(0,255,170,0.45) 50%,
+    rgba(0,255,170,0.5) 50%,
     rgba(0,255,170,0) 100%);
   transform:scaleX(0);
   transform-origin:center;
-  transition:transform 1.2s cubic-bezier(.22,.75,.22,1);
+  transition:transform 1s cubic-bezier(.22,.75,.22,1);
   pointer-events:none;
 }
 .story-fcard:hover::before{
@@ -425,35 +431,34 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 .story-fcard-ordinal{
   position:absolute;
-  top:48px;
-  right:0;
-  font-size:clamp(3.2rem,5.4vw,5.2rem);
+  top:36px;
+  right:44px;
+  font-size:clamp(2rem,2.8vw,2.6rem);
   font-weight:300;
-  letter-spacing:-.035em;
+  letter-spacing:-.03em;
   line-height:.9;
-  color:rgba(255,255,255,0.08);
+  color:rgba(255,255,255,0.09);
   font-variant-numeric:tabular-nums;
   pointer-events:none;
   user-select:none;
   z-index:0;
-  transition:color .7s var(--ease),transform .9s var(--ease);
+  transition:color .6s var(--ease),transform .7s var(--ease);
 }
 .story-fcard:hover .story-fcard-ordinal{
-  color:rgba(0,255,170,0.28);
-  transform:translateY(-4px);
+  color:rgba(0,255,170,0.3);
+  transform:translateY(-3px);
 }
 
-.story-fcard-left{
+.story-fcard-name{
   position:relative;
   z-index:1;
-}
-.story-fcard-name{
-  font-size:clamp(2.6rem,4.8vw,4.6rem);
+  font-size:clamp(1.8rem,2.9vw,2.5rem);
   font-weight:500;
   color:var(--text);
-  letter-spacing:-.028em;
-  line-height:.94;
-  margin:0 0 16px;
+  letter-spacing:-.022em;
+  line-height:.96;
+  margin:0 0 14px;
+  max-width:calc(100% - 60px);       /* leave room for ordinal */
 }
 .story-fcard-first,
 .story-fcard-last{
@@ -461,50 +466,49 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .story-fcard-last{
   color:rgba(255,255,255,0.55);
-  transition:color .6s var(--ease);
+  transition:color .5s var(--ease);
 }
 .story-fcard:hover .story-fcard-last{
   color:var(--text);
 }
 .story-fcard-role{
-  font-size:.7rem;
+  position:relative;
+  z-index:1;
+  font-size:.64rem;
   font-weight:500;
   letter-spacing:.16em;
   text-transform:uppercase;
   color:var(--text-tertiary);
-  margin-top:28px;
-}
-
-.story-fcard-right{
-  position:relative;
-  z-index:1;
-  padding-top:14px;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  gap:40px;
+  margin:14px 0 30px;
 }
 .story-fcard-bio{
-  font-size:clamp(.95rem,1.1vw,1.05rem);
+  position:relative;
+  z-index:1;
+  font-size:.9rem;
   color:var(--text-secondary);
-  line-height:1.7;
+  line-height:1.65;
   font-weight:400;
-  max-width:42ch;
+  max-width:38ch;
+  margin:0 0 32px;
+  flex:1;
 }
 .story-fcard-hl{
   color:var(--text);
   font-weight:500;
 }
 .story-fcard-link{
+  position:relative;
+  z-index:1;
+  align-self:flex-start;
   display:inline-flex;
   align-items:center;
   gap:10px;
-  font-size:.72rem;
+  font-size:.66rem;
   font-weight:500;
   letter-spacing:.14em;
   text-transform:uppercase;
   color:var(--text);
-  padding-bottom:6px;
+  padding-bottom:5px;
   border-bottom:1px solid rgba(255,255,255,0.22);
   transition:border-color .5s var(--ease);
 }
@@ -513,7 +517,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .story-fcard-arrow{
   display:inline-block;
-  transition:transform .45s var(--ease);
+  transition:transform .4s var(--ease);
 }
 .story-fcard:hover .story-fcard-arrow{
   transform:translateX(5px);
@@ -1950,11 +1954,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .perf-item:nth-child(2){border-right:none}
   .perf-item:nth-child(3),.perf-item:nth-child(4){border-top:1px solid var(--border)}
   .story{padding:80px 0 60px}
-  .story-fcard{grid-template-columns:1fr;gap:36px;padding:80px 0}
-  .story-fcard-ordinal{position:static;margin-bottom:16px;font-size:3.2rem}
-  .story-fcard-name{font-size:clamp(2.4rem,7vw,3.4rem)}
-  .story-fcard-role{margin-top:20px}
-  .story-fcard-right{padding-top:0}
+  .story-fcard{padding:36px 32px 32px}
+  .story-fcard-ordinal{top:28px;right:32px;font-size:1.9rem}
+  .story-fcard-name{font-size:clamp(1.7rem,3.2vw,2.3rem)}
   .method-rail{margin:20px auto 72px;padding:32px 20px 20px}
   .method-rail-line{left:60px;right:60px}
   .process{padding:80px 0}
@@ -1980,8 +1982,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .about{padding:60px 0}
   .story{padding:60px 0 40px}
   .story-container{padding:0 22px}
-  .story-fcard{padding:60px 0}
-  .story-fcard-name{font-size:clamp(2rem,9vw,3rem)}
+  /* Stack founder cards vertically on phone */
+  .story-founders{grid-template-columns:1fr}
+  .story-fcard{padding:40px 26px 36px}
+  .story-fcard + .story-fcard{
+    border-left:none;
+    border-top:1px solid rgba(255,255,255,0.08);
+  }
+  .story-fcard-ordinal{top:24px;right:26px;font-size:1.8rem}
+  .story-fcard-name{font-size:clamp(1.9rem,7vw,2.4rem)}
   .perf{padding:60px 0}
   .work{padding:50px 16px}
   .work-project{grid-template-columns:1fr;gap:20px}
@@ -2090,12 +2099,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .svc-tile-visual{padding:24px 20px 12px}
   .story-container{padding:0 16px}
   .story-heading{font-size:1.5rem}
-  .story-fcard{padding:52px 0 48px;gap:28px}
-  .story-fcard-ordinal{font-size:2.4rem;margin-bottom:12px}
-  .story-fcard-name{font-size:clamp(2rem,9.5vw,2.8rem)}
-  .story-fcard-role{margin-top:18px;letter-spacing:.12em}
-  .story-fcard-bio{font-size:.92rem;line-height:1.6}
-  .story-fcard-right{gap:28px}
+  .story-fcard{padding:34px 20px 30px}
+  .story-fcard-ordinal{top:22px;right:20px;font-size:1.6rem}
+  .story-fcard-name{font-size:clamp(1.7rem,8vw,2.1rem)}
+  .story-fcard-role{font-size:.6rem;margin:12px 0 22px}
+  .story-fcard-bio{font-size:.86rem;line-height:1.55;margin-bottom:24px}
   .process-inner{padding:0 16px}
   .process-card{padding:24px 20px;min-height:200px}
   .perf-ring{width:40px;height:40px}
