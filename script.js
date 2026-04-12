@@ -156,20 +156,10 @@
     });
   }
 
-  /* ── Ambient particles: in-place opacity pulse only ──
-     All scroll-coupled movement for particles is now handled once in the
-     site-wide parallax block below (with low amplitude). No double tweens. */
-  gsap.utils.toArray('.process-particle, .neon-particle').forEach((p, i) => {
-    const minOpacity = 0.3 + ((i * 0.06) % 0.2);
-    gsap.to(p, {
-      opacity: minOpacity,
-      duration: 3 + ((i * 0.4) % 2),
-      ease: 'power1.inOut',
-      yoyo: true,
-      repeat: -1,
-      delay: (i * 0.25) % 2.5
-    });
-  });
+  /* Particles: no continuous tweens. Scroll-coupled drift only
+     (handled in the parallax block below). Continuous opacity-pulse
+     tweens on every particle were causing frame-budget competition
+     with the reveal and parallax animations. */
 
   /* ── About stat count-up (butter-smooth) ─────────── */
   document.querySelectorAll('.about-stat').forEach(stat => {

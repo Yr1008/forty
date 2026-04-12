@@ -41,8 +41,9 @@ body::before{
     radial-gradient(ellipse 500px 500px at 75% 25%,rgba(0,255,200,0.05),transparent 50%);
   mask-image:linear-gradient(to bottom,transparent 0%,transparent 60vh,black 95vh);
   -webkit-mask-image:linear-gradient(to bottom,transparent 0%,transparent 60vh,black 95vh);
-  animation:auroraDrift 32s ease-in-out infinite alternate;
-  will-change:transform;
+  /* Aurora is now static. The continuous 32s drift was causing
+     a permanently composited full-viewport layer on every frame,
+     which makes all other animations jankier. */
 }
 @keyframes auroraDrift{
   0%{transform:translate(0,0) scale(1)}
@@ -242,13 +243,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .hero-video{
   position:absolute;inset:0;z-index:0;
   width:100%;height:100%;object-fit:cover;
-  filter:brightness(0.95);
-  /* Force GPU compositing so the parallax scroll stays smooth
-     and the video is sampled at full resolution */
-  will-change:transform;
   transform:translateZ(0);
   backface-visibility:hidden;
-  image-rendering:high-quality;
 }
 .hero-content{
   position:relative;z-index:3;
@@ -442,7 +438,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   pointer-events:none;
   z-index:0;
   transition:color .7s var(--ease),transform .8s var(--ease);
-  will-change:transform;
 }
 .story-fcard:hover .story-fcard-mark{
   color:rgba(0,255,170,0.82);
@@ -523,28 +518,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   margin:0 0 14px;
   max-width:calc(100% - 60px);        /* leave room for mark */
 }
-.story-fcard-line{
-  display:block;
-  overflow:hidden;
-  padding-bottom:.04em;               /* descenders stay visible */
-}
 .story-fcard-first,
 .story-fcard-last{
   display:block;
-  transform:translateY(108%);
-  opacity:0;
-  will-change:transform,opacity;
-}
-.story-fcard.is-in .story-fcard-first{
-  animation:nameSlide 1.1s cubic-bezier(.22,.75,.2,1) .25s forwards;
-}
-.story-fcard.is-in .story-fcard-last{
-  animation:nameSlide 1.1s cubic-bezier(.22,.75,.2,1) .42s forwards;
-}
-@keyframes nameSlide{
-  0%  {transform:translateY(108%);opacity:0}
-  60% {opacity:1}
-  100%{transform:translateY(0);opacity:1}
 }
 .story-fcard-last{
   color:rgba(255,255,255,0.55);
@@ -555,8 +531,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 @media (prefers-reduced-motion: reduce){
-  .story-fcard-first,
-  .story-fcard-last{transform:none;opacity:1;animation:none !important}
   .story-fcard-mark-ring,
   .story-fcard-mark-ring-inner,
   .story-fcard-mark-line{stroke-dashoffset:0;animation:none !important}
@@ -704,7 +678,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   background:rgba(0,255,160,0.45);
   box-shadow:0 0 8px rgba(0,255,160,0.55),0 0 18px rgba(0,255,160,0.25);
   pointer-events:none;
-  will-change:transform,opacity;
   z-index:0;
 }
 .neon-particle--sm{
@@ -1597,7 +1570,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   z-index:1;
   opacity:.85;
   animation:ctaArcRotate 60s linear infinite;
-  will-change:transform;
 }
 @keyframes ctaArcRotate{
   from{transform:translate(-50%,-50%) rotate(0deg)}
@@ -1649,7 +1621,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   opacity:0;
   transform:translateY(60%) rotateX(-55deg);
   transform-origin:50% 100%;
-  will-change:transform, opacity;
   color:inherit;
 }
 .footer-cta-wordmark.is-in .footer-cta-letter{
