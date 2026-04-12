@@ -262,6 +262,20 @@
     });
   });
 
+  /* ── Founder cards: add .is-in on viewport entry so the CSS
+       animations (mark draw-in, name slide-up) fire in sequence. ── */
+  gsap.utils.toArray('.story-fcard').forEach((card, i) => {
+    ScrollTrigger.create({
+      trigger: card,
+      start: 'top 85%',
+      once: true,
+      onEnter: () => {
+        // Slight stagger between the two cards so they enter in concert
+        setTimeout(() => card.classList.add('is-in'), i * 160);
+      }
+    });
+  });
+
   /* ── Footer CTA wordmark: trigger split-letter reveal + rule on scroll ── */
   const fortyWordmark = document.querySelector('.footer-cta-wordmark');
   const fortyRule = document.querySelector('.footer-cta-rule');

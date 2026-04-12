@@ -429,26 +429,89 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   transform:scaleX(1);
 }
 
-.story-fcard-ordinal{
+/* Signet mark: a minimal SVG that draws in on entrance and
+   holds a slow idle rotation. Unique per founder — targeting
+   reticle for Yash, concentric rings for Satwik. */
+.story-fcard-mark{
   position:absolute;
-  top:36px;
-  right:44px;
-  font-size:clamp(2rem,2.8vw,2.6rem);
-  font-weight:300;
-  letter-spacing:-.03em;
-  line-height:.9;
-  color:rgba(255,255,255,0.09);
-  font-variant-numeric:tabular-nums;
+  top:34px;
+  right:40px;
+  width:52px;
+  height:52px;
+  color:rgba(255,255,255,0.32);
   pointer-events:none;
-  user-select:none;
   z-index:0;
-  transition:color .6s var(--ease),transform .7s var(--ease);
+  transition:color .7s var(--ease),transform .8s var(--ease);
+  will-change:transform;
 }
-.story-fcard:hover .story-fcard-ordinal{
-  color:rgba(0,255,170,0.3);
-  transform:translateY(-3px);
+.story-fcard:hover .story-fcard-mark{
+  color:rgba(0,255,170,0.82);
+  transform:scale(1.08);
+}
+.story-fcard-mark-svg{
+  width:100%;
+  height:100%;
+  display:block;
+  overflow:visible;
+}
+.story-fcard-mark-ring,
+.story-fcard-mark-ring-inner{
+  transform-box:fill-box;
+  transform-origin:center;
+  stroke-dasharray:170;
+  stroke-dashoffset:170;
+  opacity:.9;
+}
+.story-fcard-mark-ring-inner{
+  stroke-dasharray:98;
+  stroke-dashoffset:98;
+}
+.story-fcard.is-in .story-fcard-mark-ring{
+  animation:
+    markDraw 1.5s cubic-bezier(.22,.72,.2,1) .35s forwards,
+    markSpin 28s linear 2s infinite;
+}
+.story-fcard.is-in .story-fcard-mark-ring-inner{
+  animation:
+    markDrawInner 1.4s cubic-bezier(.22,.72,.2,1) .55s forwards,
+    markSpinReverse 20s linear 2s infinite;
+}
+.story-fcard-mark-dot{
+  transform-box:fill-box;
+  transform-origin:center;
+  transform:scale(0);
+  opacity:0;
+}
+.story-fcard.is-in .story-fcard-mark-dot{
+  animation:markDotPop .8s cubic-bezier(.2,1.2,.35,1) 1.15s forwards;
+}
+.story-fcard-mark-line{
+  stroke-dasharray:34;
+  stroke-dashoffset:34;
+}
+.story-fcard.is-in .story-fcard-mark-line{
+  animation:markDraw .9s cubic-bezier(.22,.72,.2,1) .95s forwards;
+}
+@keyframes markDraw{
+  to{stroke-dashoffset:0}
+}
+@keyframes markDrawInner{
+  to{stroke-dashoffset:0}
+}
+@keyframes markDotPop{
+  0%{transform:scale(0);opacity:0}
+  60%{opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+@keyframes markSpin{
+  to{transform:rotate(360deg)}
+}
+@keyframes markSpinReverse{
+  to{transform:rotate(-360deg)}
 }
 
+/* Name — each line sits inside a clipping window so the
+   letters can slide up from below into view. */
 .story-fcard-name{
   position:relative;
   z-index:1;
@@ -458,11 +521,30 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   letter-spacing:-.022em;
   line-height:.96;
   margin:0 0 14px;
-  max-width:calc(100% - 60px);       /* leave room for ordinal */
+  max-width:calc(100% - 60px);        /* leave room for mark */
+}
+.story-fcard-line{
+  display:block;
+  overflow:hidden;
+  padding-bottom:.04em;               /* descenders stay visible */
 }
 .story-fcard-first,
 .story-fcard-last{
   display:block;
+  transform:translateY(108%);
+  opacity:0;
+  will-change:transform,opacity;
+}
+.story-fcard.is-in .story-fcard-first{
+  animation:nameSlide 1.1s cubic-bezier(.22,.75,.2,1) .25s forwards;
+}
+.story-fcard.is-in .story-fcard-last{
+  animation:nameSlide 1.1s cubic-bezier(.22,.75,.2,1) .42s forwards;
+}
+@keyframes nameSlide{
+  0%  {transform:translateY(108%);opacity:0}
+  60% {opacity:1}
+  100%{transform:translateY(0);opacity:1}
 }
 .story-fcard-last{
   color:rgba(255,255,255,0.55);
@@ -470,6 +552,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .story-fcard:hover .story-fcard-last{
   color:var(--text);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .story-fcard-first,
+  .story-fcard-last{transform:none;opacity:1;animation:none !important}
+  .story-fcard-mark-ring,
+  .story-fcard-mark-ring-inner,
+  .story-fcard-mark-line{stroke-dashoffset:0;animation:none !important}
+  .story-fcard-mark-dot{transform:scale(1);opacity:1;animation:none !important}
 }
 .story-fcard-role{
   position:relative;
