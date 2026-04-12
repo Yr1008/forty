@@ -7,7 +7,7 @@
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   const saveData = !!(conn && conn.saveData);
   const slowNetwork = !!(conn && /(^|\b)(2g|slow-2g)($|\b)/i.test(conn.effectiveType || ''));
-  // Only treat genuinely constrained conditions as "low-end" — NOT plain
+  // Only treat genuinely constrained conditions as "low-end", not plain
   // mobile viewport. Mobile users still deserve full-resolution hero video
   // and full-quality motion unless they've opted into Save-Data or are on
   // a 2g/slow-2g connection.
@@ -215,7 +215,7 @@
     const ringPercent = parseFloat(ringFill?.dataset.percent || 50);
     const targetOffset = circumference - (circumference * ringPercent / 100);
 
-    // Idempotent initial state — don't rely on inline HTML alone
+    // Idempotent initial state. Don't rely on inline HTML alone.
     if (ringFill) ringFill.setAttribute('stroke-dashoffset', circumference);
 
     gsap.set(item, { y: 30, opacity: 0, force3D: true });
@@ -245,7 +245,7 @@
           }
         });
 
-        // Ring fill — plugin-free: animate a plain object and write the
+        // Ring fill. Plugin-free: animate a plain object and write the
         // SVG attribute in onUpdate. Same pattern as the number counter,
         // guaranteed to work regardless of AttrPlugin state.
         if (ringFill) {
@@ -420,7 +420,7 @@
     allCarouselTracks.push({ tween, currentScale: 1, targetScale: 1 });
   }
 
-  // Single rAF loop that smoothly lerps timeScale towards target — no per-tick tweens
+  // Single rAF loop that smoothly lerps timeScale towards target (no per-tick tweens)
   let carouselLoopRunning = false;
   function carouselLoop() {
     let stillAnimating = false;
@@ -442,7 +442,7 @@
     }
   }
 
-  // One ScrollTrigger that just updates target values — no tween creation
+  // One ScrollTrigger that just updates target values (no tween creation)
   let scrollIdleTimer;
   ScrollTrigger.create({
     start: 0,
@@ -496,7 +496,7 @@
   }
 
   /* ═══════════════════════════════════════════════════════
-     SUBTLE PARALLAX — site-wide
+     SUBTLE PARALLAX: site-wide
      Small, scrub-linked translations on full-bleed videos,
      case study images, theory cards, and section headings.
      Skipped entirely on touch devices or reduced-motion.
@@ -539,7 +539,7 @@
       );
     });
 
-    // Case study hero image — a whisper of drift
+    // Case study hero image: a whisper of drift
     gsap.utils.toArray('.case-study-img .case-study-media').forEach(img => {
       gsap.fromTo(img,
         { y: -5 },
@@ -556,7 +556,7 @@
       );
     });
 
-    // Theory cards — very subtle staggered drift
+    // Theory cards: very subtle staggered drift
     gsap.utils.toArray('.theory-card').forEach((card, i) => {
       const depth = 5 + (i % 3) * 2; // stagger depths: 5, 7, 9
       gsap.fromTo(card,
@@ -590,7 +590,7 @@
       });
     }
 
-    // Hero background video parallax — small and smooth
+    // Hero background video parallax: small and smooth
     const heroVideoEl = document.querySelector('.hero-video');
     if (heroVideoEl) {
       gsap.to(heroVideoEl, {

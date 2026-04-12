@@ -1,4 +1,4 @@
-# robots.txt for Forty — https://www.createwithforty.com/
+# robots.txt for Forty:https://www.createwithforty.com/
 # All respectful crawlers welcome, including AI/LLM indexers.
 
 User-agent: *
@@ -15,7 +15,7 @@ Allow: /
 User-agent: DuckDuckBot
 Allow: /
 
-# AI / LLM crawlers — explicit opt-in
+# AI / LLM crawlers:explicit opt-in
 User-agent: GPTBot
 Allow: /
 
