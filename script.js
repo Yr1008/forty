@@ -35,6 +35,16 @@
   gsap.ticker.add(time => lenis.raf(time * 1000));
   gsap.ticker.lagSmoothing(0);
 
+  /* ── Refresh ScrollTrigger when lazy videos finally load ─
+     Full-bleed videos use preload="none"; when they finally load their
+     intrinsic size can shift layout, which invalidates the scroll-trigger
+     positions captured on page load. A single refresh() per video on
+     loadedmetadata keeps all downstream triggers honest. */
+  document.querySelectorAll('video').forEach(v => {
+    v.addEventListener('loadedmetadata', () => ScrollTrigger.refresh(), { once: true });
+  });
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+
   /* ── Menu overlay ─────────────────────────────────── */
   const burger = document.getElementById('burger');
   const overlay = document.getElementById('menuOverlay');
@@ -95,11 +105,13 @@
     .from('.hero-sub', { y: 30, opacity: 0, duration: 1, ease: 'power3.out' }, '-=0.8')
     .from('.hero-ctas', { y: 25, opacity: 0, duration: 0.9, ease: 'power3.out' }, '-=0.6');
 
-  /* ── Reveal animations (smooth fade-up) ──────────── */
+  /* ── Reveal animations (unified fade-up, Apple-grade cubic-bezier) ─ */
+  const REVEAL_EASE = 'cubic-bezier(.22,.61,.36,1)';
   gsap.utils.toArray('.reveal').forEach(el => {
     gsap.set(el, { y: 40, opacity: 0 });
     gsap.to(el, {
-      y: 0, opacity: 1, duration: 1.4, ease: 'expo.out',
+      y: 0, opacity: 1,
+      duration: 1.2, ease: REVEAL_EASE,
       scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' }
     });
   });
@@ -188,7 +200,7 @@
   });
 
   /* ── Performance counters + ring charts (butter-smooth) ─ */
-  const circumference = 2 * Math.PI * 25;
+  const circumference = 2 * Math.PI * 25;   // ~157.08, matches HTML dasharray
 
   document.querySelectorAll('.perf-item').forEach(item => {
     const numEl = item.querySelector('.perf-num');
@@ -198,9 +210,13 @@
 
     const isDecimal = target % 1 !== 0;
     numEl.style.fontVariantNumeric = 'tabular-nums';
-    const obj = { val: 0 };
+    numEl.textContent = isDecimal ? '0.0' : '0';
+
     const ringPercent = parseFloat(ringFill?.dataset.percent || 50);
     const targetOffset = circumference - (circumference * ringPercent / 100);
+
+    // Idempotent initial state — don't rely on inline HTML alone
+    if (ringFill) ringFill.setAttribute('stroke-dashoffset', circumference);
 
     gsap.set(item, { y: 30, opacity: 0, force3D: true });
 
@@ -209,22 +225,37 @@
       start: 'top 85%',
       once: true,
       onEnter: () => {
-        gsap.to(item, { y: 0, opacity: 1, duration: 0.9, ease: 'power3.out', force3D: true });
-        gsap.to(obj, {
+        // Card rise
+        gsap.to(item, {
+          y: 0, opacity: 1,
+          duration: 0.9, ease: 'power3.out', force3D: true
+        });
+
+        // Number count-up
+        const numObj = { val: 0 };
+        gsap.to(numObj, {
           val: target,
           duration: 1.6,
           ease: 'power2.out',
           onUpdate: () => {
-            numEl.textContent = isDecimal ? obj.val.toFixed(1) : Math.round(obj.val);
+            numEl.textContent = isDecimal ? numObj.val.toFixed(1) : Math.round(numObj.val);
           },
           onComplete: () => {
             numEl.textContent = isDecimal ? target.toFixed(1) : target;
           }
         });
+
+        // Ring fill — plugin-free: animate a plain object and write the
+        // SVG attribute in onUpdate. Same pattern as the number counter,
+        // guaranteed to work regardless of AttrPlugin state.
         if (ringFill) {
-          gsap.to(ringFill, {
-            attr: { 'stroke-dashoffset': targetOffset },
-            duration: 1.6, ease: 'power2.out'
+          const ringObj = { offset: circumference };
+          gsap.to(ringObj, {
+            offset: targetOffset,
+            duration: 1.6,
+            ease: 'power2.out',
+            onUpdate: () => ringFill.setAttribute('stroke-dashoffset', ringObj.offset),
+            onComplete: () => ringFill.setAttribute('stroke-dashoffset', targetOffset)
           });
         }
       }

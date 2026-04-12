@@ -102,6 +102,31 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .gap-md{margin-bottom:0}
 .gap-sm{margin-bottom:0}
 
+/* ── Focus-visible: neon outline for keyboard navigation ──
+   Only shows for keyboard users (not mouse clicks). WCAG 2.4.7. */
+:focus{outline:none}
+:focus-visible{
+  outline:2px solid rgba(0,255,170,0.85);
+  outline-offset:3px;
+  border-radius:6px;
+  transition:outline-offset .15s ease;
+}
+.btn:focus-visible,
+.nav-burger:focus-visible,
+.faq-q:focus-visible,
+.story-fcard:focus-visible,
+.case-study-toggle:focus-visible,
+.menu-link:focus-visible,
+.theory-card:focus-visible{
+  outline-offset:4px;
+  border-radius:999px;
+}
+.faq-q:focus-visible,
+.story-fcard:focus-visible,
+.theory-card:focus-visible{
+  border-radius:14px;
+}
+
 /* ── Buttons ───────────────────────────────────────── */
 .btn{
   display:inline-flex;align-items:center;gap:6px;
@@ -111,17 +136,25 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   cursor:pointer;white-space:nowrap;
   letter-spacing:.01em;
 }
-.btn:hover{opacity:.8;transform:translateY(-1px)}
+.btn:hover{opacity:.9;transform:translateY(-1px)}
 .btn--glass{
   background:rgba(255,255,255,0.08);
   border:1px solid rgba(255,255,255,0.12);
   backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
   color:var(--text);
 }
-.btn--glass:hover{background:rgba(255,255,255,0.14)}
+.btn--glass:hover{
+  background:rgba(255,255,255,0.14);
+  border-color:rgba(255,255,255,0.2);
+}
 .btn--solid{
   background:var(--text);color:var(--canvas);
   border:1px solid var(--text);
+  position:relative;
+}
+.btn--solid:hover{
+  transform:translateY(-1px) translateX(1px);
+  box-shadow:0 10px 30px -10px rgba(255,255,255,0.25);
 }
 
 /* ── Labels ────────────────────────────────────────── */
@@ -157,7 +190,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   border:1px solid rgba(255,255,255,0.08);
   transition:transform .4s var(--ease);
 }
-.nav-pill.scrolled{transform:scale(0.9)}
+.nav-pill.scrolled{
+  transform:scale(0.92);
+  background:rgba(255,255,255,0.09);
+  border-color:rgba(255,255,255,0.14);
+}
 
 .nav-burger{display:flex;flex-direction:column;gap:3px;padding:4px;cursor:pointer}
 .nav-burger span{
@@ -238,7 +275,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    ABOUT (full-bleed cinematic)
    ═══════════════════════════════════════════════════════ */
-.about{padding:90px 0;margin-top:40px}
+.about{padding:120px 0;margin-top:40px}
 .about .full-bleed-video{opacity:1}
 .about .full-bleed-content{
   max-width:900px;margin:0 auto;padding:0 40px;
@@ -296,7 +333,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    STORY (premium centered)
    ═══════════════════════════════════════════════════════ */
-.story{padding:100px 0 70px;position:relative;overflow:hidden}
+.story{padding:120px 0 90px;position:relative;overflow:hidden}
 .story-container{
   max-width:900px;margin:0 auto;padding:0 40px;
   position:relative;z-index:1;
@@ -659,7 +696,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ═══════════════════════════════════════════════════════ */
 .process{
   position:relative;
-  padding:100px 0;
+  padding:120px 0;
   overflow:hidden;
 }
 .process-particle,
@@ -1164,7 +1201,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    REEL
    ═══════════════════════════════════════════════════════ */
-.reel{overflow:hidden;padding:70px 0;position:relative;display:flex;flex-direction:column;gap:14px}
+.reel{overflow:hidden;padding:90px 0;position:relative;display:flex;flex-direction:column;gap:14px}
 .reel-track{
   display:flex;gap:14px;
   will-change:transform;
@@ -1236,7 +1273,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    DESIGN THEORY — website showcase
    ═══════════════════════════════════════════════════════ */
 .theory{
-  padding:90px 0 100px;
+  padding:120px 0;
   position:relative;
   overflow:hidden;
 }
@@ -1394,7 +1431,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    PERFORMANCE / IMPACT (full-bleed cinematic)
    ═══════════════════════════════════════════════════════ */
-.perf{padding:90px 0}
+.perf{padding:120px 0}
 .perf .full-bleed-video{opacity:1}
 .perf .full-bleed-overlay{background:rgba(0,0,0,0.45)}
 .perf .full-bleed-content{
@@ -1450,7 +1487,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    FAQ (open canvas, accent-left style)
    ═══════════════════════════════════════════════════════ */
-.faq-section{padding:80px 0}
+.faq-section{padding:120px 0}
 .faq-section .section-open{padding:80px 56px}
 .faq-heading{
   text-align:center;
@@ -1467,7 +1504,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   transition:border-left-color .4s var(--ease);
 }
 .faq-item.open{
-  border-left-color:rgba(255,255,255,0.2);
+  border-left-color:rgba(0,255,170,0.55);
+  box-shadow:-2px 0 12px -4px rgba(0,255,170,0.25);
 }
 .faq-q{
   width:100%;display:flex;align-items:center;justify-content:space-between;
@@ -1518,7 +1556,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 /* ═══════════════════════════════════════════════════════
-   FOOTER CTA — clean, static. No ambient motion.
+   FOOTER CTA — clean wordmark over slow neon rain
    ═══════════════════════════════════════════════════════ */
 .footer-cta-zone{
   position:relative;
@@ -1526,6 +1564,61 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   padding:0;
   isolation:isolate;
   background:#0a0a0a;
+}
+
+/* Neon rain — CSS-only, ambient, Matrix-soft. Masked at top/bottom so
+   drops fade into the zone rather than hard-clip the section edges. */
+.footer-cta-rain{
+  position:absolute;inset:0;
+  pointer-events:none;
+  z-index:0;
+  overflow:hidden;
+  mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 18%,#000 82%,transparent 100%);
+}
+.rain-drop{
+  position:absolute;
+  left:var(--x,50%);
+  top:0;
+  width:1px;
+  height:var(--h,100px);
+  background:linear-gradient(
+    180deg,
+    rgba(0,255,170,0) 0%,
+    rgba(0,255,170,0.15) 30%,
+    rgba(0,255,170,0.65) 75%,
+    rgba(0,255,170,0.95) 100%);
+  box-shadow:
+    0 0 6px rgba(0,255,170,0.35),
+    0 0 14px rgba(0,255,170,0.15);
+  transform:translate3d(0,-120%,0);
+  animation:ctaRain var(--d,6s) linear infinite;
+  animation-delay:var(--delay,0s);
+  will-change:transform,opacity;
+  opacity:.75;
+}
+/* A couple of drops get a slightly blue tint for visual depth */
+.rain-drop:nth-child(3n){
+  background:linear-gradient(
+    180deg,
+    rgba(80,180,255,0) 0%,
+    rgba(80,180,255,0.15) 30%,
+    rgba(80,180,255,0.55) 75%,
+    rgba(80,180,255,0.85) 100%);
+  box-shadow:
+    0 0 6px rgba(80,180,255,0.32),
+    0 0 14px rgba(80,180,255,0.12);
+  opacity:.55;
+}
+@keyframes ctaRain{
+  0%   {transform:translate3d(0,-120%,0);opacity:0}
+  8%   {opacity:.9}
+  92%  {opacity:.9}
+  100% {transform:translate3d(0,140vh,0);opacity:0}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .rain-drop{animation:none;display:none}
 }
 
 .footer-cta-inner{
@@ -1598,9 +1691,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 @media(max-width:768px){
   .footer-cta-inner{padding:90px 0 80px}
   .footer-cta-eyebrow{letter-spacing:.24em}
+  .rain-drop:nth-child(n+9){display:none}  /* thin rain on mobile */
 }
 @media(max-width:480px){
   .footer-cta-inner{padding:70px 0 60px}
+  .rain-drop:nth-child(n+6){display:none}  /* even thinner on small phones */
 }
 
 /* ═══════════════════════════════════════════════════════
