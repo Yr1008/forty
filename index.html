@@ -292,7 +292,7 @@
 
   <!-- Preload critical above-the-fold assets for fast LCP -->
   <link rel="preload" as="image" href="assets/logo-white.png" fetchpriority="high">
-  <link rel="preload" as="style" href="styles.css?v=20260412c">
+  <link rel="preload" as="style" href="styles.css?v=20260412d">
   <!-- Kick off hero video fetch as early as possible without sacrificing
        quality. Modern browsers honour as="video"; legacy ones fall through
        to the <video preload="auto"> tag. -->
@@ -301,13 +301,13 @@
   <!-- Fonts (swap so text renders immediately) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.css">
-  <link rel="stylesheet" href="styles.css?v=20260412c">
+  <link rel="stylesheet" href="styles.css?v=20260412d">
 
   <!-- Scripts: defer external libs so parsing isn't blocked -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="script.js?v=20260412c" defer></script>
+  <script src="script.js?v=20260412d" defer></script>
 </head>
 <body>
 
@@ -403,46 +403,38 @@
       <div class="story-divider-line"></div>
     </div>
 
-    <!-- Bottom: founders. Editorial layout.
-         Giant ordinal numbers, two-line display names, tight metadata.
-         The name is the visual; everything else supports it. -->
+    <!-- Bottom: founders. Side-by-side, compact editorial.
+         Ordinal top-right, stacked display name, role, bio, link
+         all flowing in one column per card. -->
     <div class="story-founders reveal">
       <a class="story-fcard" href="https://www.linkedin.com/in/yashghere/" target="_blank" rel="noopener">
         <span class="story-fcard-ordinal" aria-hidden="true">01</span>
-        <div class="story-fcard-left">
-          <h3 class="story-fcard-name">
-            <span class="story-fcard-first">Yash</span>
-            <span class="story-fcard-last">Gupta.</span>
-          </h3>
-          <p class="story-fcard-role">Co&#8209;founder &amp; Director</p>
-        </div>
-        <div class="story-fcard-right">
-          <p class="story-fcard-bio">
-            Formerly <span class="story-fcard-hl">Google</span>. Shaped <span class="story-fcard-hl">Search</span> and <span class="story-fcard-hl">Performance Max</span> across North America.
-          </p>
-          <span class="story-fcard-link">
-            LinkedIn <span class="story-fcard-arrow" aria-hidden="true">&rarr;</span>
-          </span>
-        </div>
+        <h3 class="story-fcard-name">
+          <span class="story-fcard-first">Yash</span>
+          <span class="story-fcard-last">Gupta.</span>
+        </h3>
+        <p class="story-fcard-role">Co&#8209;founder &amp; Director</p>
+        <p class="story-fcard-bio">
+          Formerly <span class="story-fcard-hl">Google</span>. Shaped <span class="story-fcard-hl">Search</span> and <span class="story-fcard-hl">Performance Max</span> across North America.
+        </p>
+        <span class="story-fcard-link">
+          LinkedIn <span class="story-fcard-arrow" aria-hidden="true">&rarr;</span>
+        </span>
       </a>
 
       <a class="story-fcard" href="https://www.linkedin.com/in/satwikvaishnava/" target="_blank" rel="noopener">
         <span class="story-fcard-ordinal" aria-hidden="true">02</span>
-        <div class="story-fcard-left">
-          <h3 class="story-fcard-name">
-            <span class="story-fcard-first">Satwik</span>
-            <span class="story-fcard-last">Vaishnava.</span>
-          </h3>
-          <p class="story-fcard-role">Co&#8209;founder &amp; Director</p>
-        </div>
-        <div class="story-fcard-right">
-          <p class="story-fcard-bio">
-            Formerly <span class="story-fcard-hl">Google India</span>. Led <span class="story-fcard-hl">Marketing Research</span> and brand strategy.
-          </p>
-          <span class="story-fcard-link">
-            LinkedIn <span class="story-fcard-arrow" aria-hidden="true">&rarr;</span>
-          </span>
-        </div>
+        <h3 class="story-fcard-name">
+          <span class="story-fcard-first">Satwik</span>
+          <span class="story-fcard-last">Vaishnava.</span>
+        </h3>
+        <p class="story-fcard-role">Co&#8209;founder &amp; Director</p>
+        <p class="story-fcard-bio">
+          Formerly <span class="story-fcard-hl">Google India</span>. Led <span class="story-fcard-hl">Marketing Research</span> and brand strategy.
+        </p>
+        <span class="story-fcard-link">
+          LinkedIn <span class="story-fcard-arrow" aria-hidden="true">&rarr;</span>
+        </span>
       </a>
     </div>
   </div>
