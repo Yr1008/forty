@@ -40,10 +40,17 @@
      intrinsic size can shift layout, which invalidates the scroll-trigger
      positions captured on page load. A single refresh() per video on
      loadedmetadata keeps all downstream triggers honest. */
+  // Debounced refresh: multiple videos loading close together should
+  // only trigger one refresh, not N.
+  let refreshTimer;
+  const debouncedRefresh = () => {
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 200);
+  };
   document.querySelectorAll('video').forEach(v => {
-    v.addEventListener('loadedmetadata', () => ScrollTrigger.refresh(), { once: true });
+    v.addEventListener('loadedmetadata', debouncedRefresh, { once: true });
   });
-  window.addEventListener('load', () => ScrollTrigger.refresh());
+  window.addEventListener('load', debouncedRefresh);
 
   /* ── Menu overlay ─────────────────────────────────── */
   const burger = document.getElementById('burger');
@@ -372,91 +379,36 @@
     });
   });
 
-  /* ── Reel + brands carousels with smooth scroll-velocity boost ─ */
-  const allCarouselTracks = [];
-
-  // Reel tracks
+  /* ── Reel + brands carousels: constant-speed, GPU-composited ─
+     The previous scroll-velocity-boost system ran a global
+     ScrollTrigger + a separate rAF lerp loop on every scroll frame,
+     mutating timeScale on all carousel tweens. That competed with
+     the parallax scrubs for frame budget and caused jitter. Now
+     carousels just run at a steady pace. Simpler = smoother. */
   gsap.utils.toArray('.reel-track').forEach(track => {
     const isReverse = track.classList.contains('reel-track--reverse');
-    const isMobile = window.innerWidth <= 768;
-    const baseDuration = isMobile ? 24 : 40;
-    const tween = gsap.to(track, {
+    const dur = window.innerWidth <= 768 ? 24 : 40;
+    if (isReverse) gsap.set(track, { xPercent: -50 });
+    gsap.to(track, {
       xPercent: isReverse ? 0 : -50,
-      duration: baseDuration,
+      duration: dur,
       ease: 'none',
       repeat: -1,
       force3D: true
     });
-    if (isReverse) {
-      gsap.set(track, { xPercent: -50 });
-      tween.vars.xPercent = 0;
-      tween.invalidate();
-    }
-    allCarouselTracks.push({ tween, currentScale: 1, targetScale: 1 });
   });
 
-  // Brands track
   const brandsTrack = document.querySelector('.brands-track');
   if (brandsTrack) {
     brandsTrack.style.animation = 'none';
-    brandsTrack.style.willChange = 'transform';
-    const isMobileBrands = window.innerWidth <= 768;
-    const brandsDuration = isMobileBrands ? 22 : 50;
-    const tween = gsap.to(brandsTrack, {
+    gsap.to(brandsTrack, {
       xPercent: -50,
-      duration: brandsDuration,
+      duration: window.innerWidth <= 768 ? 22 : 50,
       ease: 'none',
       repeat: -1,
       force3D: true
     });
-    allCarouselTracks.push({ tween, currentScale: 1, targetScale: 1 });
   }
-
-  // Single rAF loop that smoothly lerps timeScale towards target (no per-tick tweens)
-  let carouselLoopRunning = false;
-  function carouselLoop() {
-    let stillAnimating = false;
-    allCarouselTracks.forEach(t => {
-      const diff = t.targetScale - t.currentScale;
-      if (Math.abs(diff) > 0.005) {
-        t.currentScale += diff * 0.08; // smooth lerp
-        t.tween.timeScale(t.currentScale);
-        stillAnimating = true;
-      } else if (t.currentScale !== t.targetScale) {
-        t.currentScale = t.targetScale;
-        t.tween.timeScale(t.currentScale);
-      }
-    });
-    if (stillAnimating) {
-      requestAnimationFrame(carouselLoop);
-    } else {
-      carouselLoopRunning = false;
-    }
-  }
-
-  // One ScrollTrigger that just updates target values (no tween creation)
-  let scrollIdleTimer;
-  ScrollTrigger.create({
-    start: 0,
-    end: 'max',
-    onUpdate: (self) => {
-      const velocity = Math.abs(self.getVelocity());
-      const boost = Math.min(4, 1 + velocity / 1000);
-      allCarouselTracks.forEach(t => { t.targetScale = boost; });
-      if (!carouselLoopRunning) {
-        carouselLoopRunning = true;
-        requestAnimationFrame(carouselLoop);
-      }
-      clearTimeout(scrollIdleTimer);
-      scrollIdleTimer = setTimeout(() => {
-        allCarouselTracks.forEach(t => { t.targetScale = 1; });
-        if (!carouselLoopRunning) {
-          carouselLoopRunning = true;
-          requestAnimationFrame(carouselLoop);
-        }
-      }, 200);
-    }
-  });
 
   /* ── Lazy video play/pause via IntersectionObserver ── */
   const lazyVideos = document.querySelectorAll('video[preload="none"], video[preload="metadata"]');
@@ -496,126 +448,47 @@
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!prefersReduced && !isTouchOnly && !lowEndDevice) {
-    // Unified, gentle scrub for all parallax so everything drifts in
-    // concert. Higher scrub = more lag = smoother glide behind the page.
-    const SCRUB = 1.4;
+    // Higher scrub = more smoothing = less per-frame jitter.
+    // 2.5 gives a buttery "floating" feel without feeling laggy.
+    const SCRUB = 2.5;
 
-    // Full-bleed background videos drift slightly as the section scrolls.
+    // Full-bleed background videos
     gsap.utils.toArray('.full-bleed .full-bleed-video').forEach(video => {
       gsap.to(video, {
-        yPercent: 3,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: video.closest('.full-bleed'),
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: SCRUB
-        }
+        yPercent: 3, ease: 'none', force3D: true,
+        scrollTrigger: { trigger: video.closest('.full-bleed'), start: 'top bottom', end: 'bottom top', scrub: SCRUB }
       });
     });
 
-    // Full-bleed content rises gently against the video drift
+    // Full-bleed content counter-drifts
     gsap.utils.toArray('.full-bleed .full-bleed-content').forEach(content => {
-      gsap.fromTo(content,
-        { y: 12 },
-        {
-          y: -12,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: content.closest('.full-bleed'),
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: SCRUB
-          }
-        }
-      );
+      gsap.fromTo(content, { y: 10 }, {
+        y: -10, ease: 'none', force3D: true,
+        scrollTrigger: { trigger: content.closest('.full-bleed'), start: 'top bottom', end: 'bottom top', scrub: SCRUB }
+      });
     });
 
-    // Case study hero image: a whisper of drift
-    gsap.utils.toArray('.case-study-img .case-study-media').forEach(img => {
-      gsap.fromTo(img,
-        { y: -5 },
-        {
-          y: 5,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: img.closest('.case-study'),
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: SCRUB
-          }
-        }
-      );
-    });
-
-    // Theory cards: very subtle staggered drift
-    gsap.utils.toArray('.theory-card').forEach((card, i) => {
-      const depth = 5 + (i % 3) * 2; // stagger depths: 5, 7, 9
-      gsap.fromTo(card,
-        { y: depth },
-        {
-          y: -depth,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: SCRUB
-          }
-        }
-      );
-    });
-
-    // Hero content lifts slightly as you scroll away from the hero
+    // Hero content lifts as you scroll past
     const heroContent = document.querySelector('.hero-content');
     if (heroContent) {
       gsap.to(heroContent, {
-        yPercent: -10,
-        opacity: 0.7,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.0
-        }
+        yPercent: -8, opacity: 0.75, ease: 'none', force3D: true,
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: SCRUB }
       });
     }
 
-    // Hero background video parallax: small and smooth
+    // Hero background video
     const heroVideoEl = document.querySelector('.hero-video');
     if (heroVideoEl) {
       gsap.to(heroVideoEl, {
-        yPercent: 5,
-        scale: 1.03,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.2
-        }
+        yPercent: 4, scale: 1.02, ease: 'none', force3D: true,
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: SCRUB }
       });
     }
 
-    // Ambient neon particles: a faint drift, with very low amplitude.
-    // This is the ONLY scroll-coupled motion particles have now.
-    gsap.utils.toArray('.neon-particle, .process-particle').forEach((p, i) => {
-      const depth = 8 + (i % 4) * 3; // 8, 11, 14, 17
-      gsap.fromTo(p,
-        { y: depth },
-        {
-          y: -depth,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: p.closest('section') || p,
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: SCRUB
-          }
-        }
-      );
-    });
+    // Removed: case-study media, theory-card, and particle parallax.
+    // Each was a separate scrub tween updating every scroll frame.
+    // Fewer scrubs = fewer per-frame calculations = smoother.
   }
 
 })();
