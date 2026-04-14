@@ -292,7 +292,7 @@
 
   <!-- Preload critical above-the-fold assets for fast LCP -->
   <link rel="preload" as="image" href="assets/logo-white.png" fetchpriority="high">
-  <link rel="preload" as="style" href="styles.css?v=20260412j">
+  <link rel="preload" as="style" href="styles.css?v=20260412k">
   <!-- Kick off hero video fetch as early as possible without sacrificing
        quality. Modern browsers honour as="video"; legacy ones fall through
        to the <video preload="auto"> tag. -->
@@ -301,13 +301,13 @@
   <!-- Fonts (swap so text renders immediately) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.css">
-  <link rel="stylesheet" href="styles.css?v=20260412j">
+  <link rel="stylesheet" href="styles.css?v=20260412k">
 
   <!-- Scripts: defer external libs so parsing isn't blocked -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="script.js?v=20260412j" defer></script>
+  <script src="script.js?v=20260412k" defer></script>
 </head>
 <body>
 
@@ -655,6 +655,21 @@
     <img src="assets/salty-13.jpg" alt="Salty lifestyle campaign" loading="lazy" decoding="async">
     <img src="assets/gallery-mentos.png" alt="Mentos campaign" loading="lazy" decoding="async">
   </div>
+
+  <!-- Inline concept disclaimer immediately under the image carousels.
+       Prominent but quiet so viewers see it in the same viewport as
+       the imagery they're attributing. -->
+  <p class="reel-disclaimer">
+    <span class="reel-disclaimer-label">Concept work</span>
+    Imagery shown above is <strong>speculative creative concepts</strong>
+    produced by Forty. Brand names, logos, packaging, and likenesses
+    including Salty, Mentos, Ray-Ban, Meta, Chitrapotli, Zoot, Pomelli,
+    Mogra House, Ace Blend, HealthFarm Nutrition, Vedar Group, Vanmed
+    Pharmaceuticals, Mashreq Bank, and Climb2Change are the property of
+    their respective owners and appear here under nominative fair use
+    for illustrative purposes only. No partnership, sponsorship, or
+    endorsement is expressed or implied. Full notice in the footer.
+  </p>
 </section>
 
 <!-- ═══════════════════════════════════════════════════════
@@ -1207,18 +1222,37 @@
   </div>
   <div class="footer-legal">
     <p>
-      All visuals, mockups, and campaign imagery shown on this site are
-      <strong>creative concepts</strong> produced by Forty to illustrate our
-      craft and approach. Unless stated otherwise, they are not official
-      communications of the brands referenced and should not be interpreted
-      as such. Brand names, logos, and trademarks (including Ray-Ban,
-      Meta, Google, Mashreq Bank, Y Combinator, and any Fortune 500
-      marks) are the property of their respective owners and are shown
-      here for identification and illustrative purposes only. Any
-      resemblance to official campaigns is either contextual or
-      coincidental. For licensing, clearance, or takedown enquiries,
-      please write to
+      <strong>Concept &amp; attribution notice.</strong>
+      All visuals, videos, mockups, and campaign imagery shown on this
+      site are <strong>speculative creative concepts</strong> produced
+      by Forty to illustrate our craft, capabilities, and approach.
+      Unless explicitly stated otherwise, they are not official
+      communications, campaigns, or commissioned work of the brands
+      referenced and must not be interpreted as such.
+      <strong>No partnership, sponsorship, endorsement, commercial
+      relationship, or affiliation with any brand is expressed or
+      implied</strong> by the appearance of a name, logo, product,
+      packaging, or likeness on this site.
+    </p>
+    <p>
+      All third-party brand names, logos, trademarks, trade dress, and
+      product likenesses, including but not limited to
+      Ray-Ban, Meta, Google, Mashreq Bank, Climb2Change, Y Combinator,
+      Salty, Mentos, Ace Blend, HealthFarm Nutrition, Vedar Group,
+      Vanmed Pharmaceuticals, Zoot, Chitrapotli, Mogra House, Pomelli,
+      and any Fortune 500 or Fortune Global 2000 marks,
+      are the exclusive property of their respective owners and are
+      shown here solely for identification, editorial, and illustrative
+      purposes under principles of nominative fair use. Any resemblance
+      to existing campaigns is either coincidental or serves to
+      contextualise the creative concept presented.
+    </p>
+    <p>
+      Brands, legal representatives, or rights holders with any
+      concern, licensing question, or takedown request are invited to
+      contact us at
       <a href="mailto:reachout2forty@gmail.com" class="footer-link">reachout2forty@gmail.com</a>.
+      We respond promptly and in good faith.
     </p>
   </div>
 </footer>
