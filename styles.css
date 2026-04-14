@@ -1750,6 +1750,43 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .footer-link:hover{color:var(--text)}
 .footer-copy{font-size:.65rem;color:var(--text-tertiary);font-weight:400}
 
+/* Legal: concept-work disclaimer + trademark attribution.
+   Small, tertiary, readable but quiet. Own row under the
+   main footer line. */
+.footer-legal{
+  max-width:1200px;
+  margin:20px auto 0;
+  padding:20px 40px 4px;
+  border-top:1px solid rgba(255,255,255,0.04);
+}
+.footer-legal p{
+  font-size:.62rem;
+  line-height:1.65;
+  color:rgba(255,255,255,0.28);
+  font-weight:400;
+  letter-spacing:.005em;
+  max-width:82ch;
+}
+.footer-legal strong{
+  color:rgba(255,255,255,0.48);
+  font-weight:500;
+}
+.footer-legal .footer-link{
+  font-size:.62rem;
+  color:rgba(255,255,255,0.38);
+  text-decoration:underline;
+  text-decoration-color:rgba(255,255,255,0.18);
+  text-underline-offset:2px;
+}
+.footer-legal .footer-link:hover{
+  color:rgba(255,255,255,0.7);
+  text-decoration-color:rgba(255,255,255,0.4);
+}
+@media(max-width:768px){
+  .footer-legal{padding:18px 22px 4px}
+  .footer-legal p{font-size:.58rem;line-height:1.6}
+}
+
 /* ═══════════════════════════════════════════════════════
    CASE STUDIES
    ═══════════════════════════════════════════════════════ */
