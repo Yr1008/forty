@@ -379,36 +379,80 @@
     });
   });
 
-  /* ── Reel + brands carousels: constant-speed, GPU-composited ─
-     The previous scroll-velocity-boost system ran a global
-     ScrollTrigger + a separate rAF lerp loop on every scroll frame,
-     mutating timeScale on all carousel tweens. That competed with
-     the parallax scrubs for frame budget and caused jitter. Now
-     carousels just run at a steady pace. Simpler = smoother. */
+  /* ── Reel + brands carousels with scroll-velocity parallax boost ─
+     Carousels move at a steady baseline speed and speed up as you
+     scroll, giving the whole strip a subtle parallax feel. A single
+     ScrollTrigger reads scroll velocity and a smooth rAF lerp loop
+     nudges timeScale toward a target boost, then decays back to 1.0
+     when scroll stops. Guarded by lowEndDevice so touch / data-save
+     users get the steady pace only. */
+  const allCarouselTracks = [];
+
   gsap.utils.toArray('.reel-track').forEach(track => {
     const isReverse = track.classList.contains('reel-track--reverse');
     const dur = window.innerWidth <= 768 ? 24 : 40;
     if (isReverse) gsap.set(track, { xPercent: -50 });
-    gsap.to(track, {
+    const tween = gsap.to(track, {
       xPercent: isReverse ? 0 : -50,
       duration: dur,
       ease: 'none',
       repeat: -1,
       force3D: true
     });
+    allCarouselTracks.push({ tween, currentScale: 1, targetScale: 1 });
   });
 
   const brandsTrack = document.querySelector('.brands-track');
   if (brandsTrack) {
     brandsTrack.style.animation = 'none';
-    gsap.to(brandsTrack, {
+    const tween = gsap.to(brandsTrack, {
       xPercent: -50,
       duration: window.innerWidth <= 768 ? 22 : 50,
       ease: 'none',
       repeat: -1,
       force3D: true
     });
+    allCarouselTracks.push({ tween, currentScale: 1, targetScale: 1 });
   }
+
+  // Smooth lerp loop. Only runs while scaling is mid-transition, so
+  // it's self-limiting: idle state costs zero frame budget.
+  if (!prefersReducedMotion() && !isTouchOnly && !lowEndDevice) {
+    let loopRunning = false;
+    const tick = () => {
+      let active = false;
+      allCarouselTracks.forEach(t => {
+        const diff = t.targetScale - t.currentScale;
+        if (Math.abs(diff) > 0.005) {
+          t.currentScale += diff * 0.08;
+          t.tween.timeScale(t.currentScale);
+          active = true;
+        } else if (t.currentScale !== t.targetScale) {
+          t.currentScale = t.targetScale;
+          t.tween.timeScale(t.currentScale);
+        }
+      });
+      if (active) requestAnimationFrame(tick);
+      else loopRunning = false;
+    };
+
+    let idleTimer;
+    ScrollTrigger.create({
+      start: 0, end: 'max',
+      onUpdate: self => {
+        const v = Math.abs(self.getVelocity());
+        const boost = Math.min(3.5, 1 + v / 1200);
+        allCarouselTracks.forEach(t => { t.targetScale = boost; });
+        if (!loopRunning) { loopRunning = true; requestAnimationFrame(tick); }
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(() => {
+          allCarouselTracks.forEach(t => { t.targetScale = 1; });
+          if (!loopRunning) { loopRunning = true; requestAnimationFrame(tick); }
+        }, 220);
+      }
+    });
+  }
+  function prefersReducedMotion(){ return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
 
   /* ── Lazy video play/pause via IntersectionObserver ── */
   const lazyVideos = document.querySelectorAll('video[preload="none"], video[preload="metadata"]');
