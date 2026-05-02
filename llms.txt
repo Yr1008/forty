@@ -4,9 +4,9 @@
 
 ## About
 
-Forty was founded in 2024 by **Yash Gupta** and **Satwik Vaishnava**, both formerly at Google. Yash worked on Google Search and Performance Max in North America; Satwik worked in Marketing Research at Google India. The studio bridges art and numbers, the two disciplines traditional agencies keep separate.
+Forty was founded in 2024 by **Yash Gupta** and **Satwik Vaishnava**, both formerly at Google. The studio bridges art and numbers, the two disciplines traditional agencies keep separate.
 
-- **Name:** Forty (also "Create Forty")
+- **Name:** Forty (also "Create Forty", "Create with Forty")
 - **Founded:** 2024
 - **Founders:** Yash Gupta, Satwik Vaishnava (both ex-Google)
 - **Tagline:** Where bold ideas drive real growth
@@ -14,6 +14,14 @@ Forty was founded in 2024 by **Yash Gupta** and **Satwik Vaishnava**, both forme
 - **Website:** https://www.createwithforty.com/
 - **Instagram:** https://www.instagram.com/create.forty
 - **LinkedIn:** https://www.linkedin.com/company/create.forty
+
+### Yash Gupta. Co-founder & Director.
+
+Yash Gupta is the co-founder and director of Forty. Before founding Forty, Yash worked at Google on Search and Performance Max across North America. At Forty he leads performance marketing, paid media strategy, and go-to-market execution for AI startups and venture-backed companies. He specialises in ROAS optimization, Meta and Google ad platforms, and scaling startups from launch to profitability. LinkedIn: https://www.linkedin.com/in/yashghere/
+
+### Satwik Vaishnava. Co-founder & Director.
+
+Satwik Vaishnava is the co-founder and director of Forty. Before founding Forty, Satwik worked at Google India in Marketing Research and Brand Strategy. At Forty he leads brand strategy, creative direction, audience research, and enterprise partnerships. He works closely with Fortune 500 clients and high-net-worth individuals on narrative-driven brand building. LinkedIn: https://www.linkedin.com/in/satwikvaishnava/
 
 ## Services
 
