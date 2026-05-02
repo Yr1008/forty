@@ -105,6 +105,19 @@
     });
   }
 
+  // Fade out the scroll indicator once user starts scrolling
+  const heroScroll = document.querySelector('.hero-scroll');
+  if (heroScroll) {
+    ScrollTrigger.create({
+      trigger: '.hero',
+      start: 'top top',
+      end: '20% top',
+      onUpdate: self => {
+        heroScroll.style.opacity = String(1 - self.progress * 3);
+      }
+    });
+  }
+
   /* ═══════════════════════════════════════════════════════
      PREMIUM ANIMATION SYSTEM
      One ease. One distance. One duration. Consistency
