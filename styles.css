@@ -268,6 +268,57 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   align-items:center;justify-content:center;flex-wrap:wrap;
 }
 
+/* Scroll indicator: a thin translucent track with a small dot
+   that glides down. Centered at the bottom of the hero,
+   fading out as the user scrolls past. */
+.hero-scroll{
+  position:absolute;
+  bottom:32px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:4;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  animation:heroScrollFadeIn 1s ease 2.2s forwards;
+}
+.hero-scroll-track{
+  width:1px;
+  height:48px;
+  border-radius:1px;
+  background:rgba(255,255,255,0.12);
+  position:relative;
+  overflow:hidden;
+}
+.hero-scroll-dot{
+  position:absolute;
+  top:-6px;
+  left:50%;
+  width:3px;
+  height:10px;
+  margin-left:-1.5px;
+  border-radius:3px;
+  background:rgba(255,255,255,0.7);
+  animation:heroScrollPulse 2.4s cubic-bezier(.4,0,.2,1) infinite;
+}
+@keyframes heroScrollFadeIn{
+  to{opacity:1}
+}
+@keyframes heroScrollPulse{
+  0%  {top:-6px;opacity:0}
+  20% {opacity:1}
+  80% {opacity:1}
+  100%{top:44px;opacity:0}
+}
+@media (prefers-reduced-motion: reduce){
+  .hero-scroll{display:none}
+}
+@media(max-width:768px){
+  .hero-scroll{bottom:24px}
+  .hero-scroll-track{height:36px}
+}
+
 /* ═══════════════════════════════════════════════════════
    ABOUT (full-bleed cinematic)
    ═══════════════════════════════════════════════════════ */
