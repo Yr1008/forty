@@ -28,7 +28,29 @@ body{
   overflow-x:hidden;
 }
 
-/* ── Ambient neon aurora (subtle, continuous) ─────── */
+/* ── Ambient waves: slow-moving sine curves across the page ── */
+body::after{
+  content:'';
+  position:fixed;
+  bottom:0;left:0;right:0;
+  height:40vh;
+  z-index:0;
+  pointer-events:none;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='none' stroke='rgba(255,255,255,0.03)' stroke-width='1' d='M0,160 C360,260 720,60 1080,160 S1440,260 1800,160'/%3E%3C/svg%3E") repeat-x,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='none' stroke='rgba(0,255,170,0.02)' stroke-width='1' d='M0,200 C360,100 720,300 1080,200 S1440,100 1800,200'/%3E%3C/svg%3E");
+  background-size:1440px 320px,1440px 320px;
+  background-position:0 0,200px 40px;
+  animation:ambientWaveDrift 30s linear infinite;
+  opacity:.7;
+}
+@keyframes ambientWaveDrift{
+  from{background-position:0 0,200px 40px}
+  to{background-position:-1440px 0,-1240px 40px}
+}
+@media(prefers-reduced-motion:reduce){body::after{animation:none}}
+
+/* ── Ambient aurora (subtle, static) ─────── */
 body::before{
   content:'';
   position:fixed;inset:0;
@@ -831,34 +853,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   position:relative;
   padding:120px 0;
   overflow:hidden;
-}
-.process-particle,
-.neon-particle{
-  position:absolute;
-  width:4px;height:4px;
-  border-radius:50%;
-  background:rgba(0,255,160,0.45);
-  box-shadow:0 0 8px rgba(0,255,160,0.55),0 0 18px rgba(0,255,160,0.25);
-  pointer-events:none;
-  z-index:0;
-}
-.neon-particle--sm{
-  width:3px;height:3px;
-  background:rgba(0,255,160,0.35);
-  box-shadow:0 0 6px rgba(0,255,160,0.45),0 0 12px rgba(0,255,160,0.18);
-}
-.neon-particle--lg{
-  width:5px;height:5px;
-  background:rgba(0,255,160,0.55);
-  box-shadow:0 0 12px rgba(0,255,160,0.7),0 0 28px rgba(0,255,160,0.3);
-}
-.neon-particle--blue{
-  background:rgba(80,180,255,0.45);
-  box-shadow:0 0 8px rgba(80,180,255,0.6),0 0 18px rgba(80,180,255,0.25);
-}
-.neon-particle--blue.neon-particle--sm{
-  background:rgba(80,180,255,0.35);
-  box-shadow:0 0 6px rgba(80,180,255,0.45),0 0 12px rgba(80,180,255,0.18);
 }
 .process-inner{
   position:relative;z-index:1;
