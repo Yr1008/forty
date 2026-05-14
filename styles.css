@@ -299,43 +299,36 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   align-items:center;justify-content:center;flex-wrap:wrap;
 }
 
-/* Scroll indicator: minimal mouse outline with a scroll-wheel
-   dot that drifts down inside. Universally understood, clean,
-   translucent. Fades in after hero entrance, fades out on scroll. */
+/* Scroll indicator: a single thin chevron that bobs gently. */
 .hero-scroll{
   position:absolute;
-  bottom:36px;
+  bottom:32px;
   left:50%;
   transform:translateX(-50%);
   z-index:4;
-  display:flex;
-  align-items:center;
-  justify-content:center;
   opacity:0;
-  animation:heroScrollFadeIn 1.2s ease 2.4s forwards;
+  animation:heroScrollFadeIn 1s ease 2.6s forwards;
 }
-.hero-scroll-mouse{
-  width:22px;
-  height:35px;
-  color:rgba(255,255,255,0.4);
+.hero-scroll-chevron{
+  width:20px;
+  height:20px;
+  color:rgba(255,255,255,0.5);
   display:block;
-}
-.hero-scroll-wheel{
-  animation:heroWheelDrift 2s cubic-bezier(.4,0,.2,1) infinite;
+  animation:heroChevronBob 2.4s ease-in-out infinite;
 }
 @keyframes heroScrollFadeIn{
   to{opacity:1}
 }
-@keyframes heroWheelDrift{
-  0%  {cy:10;opacity:1}
-  100%{cy:24;opacity:0}
+@keyframes heroChevronBob{
+  0%,100%{transform:translateY(0);opacity:.5}
+  50%    {transform:translateY(6px);opacity:.9}
 }
 @media (prefers-reduced-motion: reduce){
   .hero-scroll{display:none}
 }
 @media(max-width:768px){
-  .hero-scroll{bottom:26px}
-  .hero-scroll-mouse{width:18px;height:29px}
+  .hero-scroll{bottom:22px}
+  .hero-scroll-chevron{width:16px;height:16px}
 }
 
 /* ═══════════════════════════════════════════════════════
