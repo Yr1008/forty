@@ -382,110 +382,102 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 /* ═══════════════════════════════════════════════════════
-   INFLUENCER PROGRAMS. Apple-clean.
+   INFLUENCER PROGRAMS. CEO-focused, split layout.
    ═══════════════════════════════════════════════════════ */
 .viral{
-  padding:120px 0;
+  padding:140px 0 120px;
   position:relative;
   overflow:hidden;
 }
-/* Soft ambient gradient: Apple-subtle, not loud */
-.viral::before{
-  content:'';
-  position:absolute;
-  top:-30%;left:50%;
-  width:140%;height:80%;
-  transform:translateX(-50%);
-  background:radial-gradient(ellipse at 50% 30%,
-    rgba(0,255,170,0.04) 0%,
-    rgba(80,140,255,0.03) 40%,
-    transparent 70%);
-  pointer-events:none;
-  z-index:0;
+
+/* Ambient gradient: slow, warm, cinematic */
+.viral-ambient{
+  position:absolute;inset:0;
+  pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 40%,
+      rgba(0,255,170,0.05) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 60%,
+      rgba(80,140,255,0.04) 0%,transparent 55%);
 }
 
-.viral-top{
-  text-align:center;
-  margin-bottom:56px;
+/* Split: copy left, thumbnails right */
+.viral-split{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:clamp(40px,6vw,80px);
+  align-items:center;
   position:relative;
   z-index:1;
+}
+.viral-copy{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:0;
 }
 .viral-heading{
-  font-size:clamp(2rem,4vw,3.2rem);
+  font-size:clamp(1.8rem,3.2vw,2.6rem);
   font-weight:600;
-  letter-spacing:-.025em;
-  line-height:1.1;
+  letter-spacing:-.02em;
+  line-height:1.12;
   color:var(--text);
-  margin-top:14px;
+  margin:16px 0 20px;
 }
 .viral-sub{
-  font-size:.92rem;
+  font-size:.9rem;
   color:var(--text-secondary);
   line-height:1.6;
-  max-width:500px;
-  margin:18px auto 0;
+  max-width:440px;
   font-weight:400;
+  margin-bottom:36px;
 }
 
+/* Compact 2x2 metrics grid */
 .viral-metrics{
-  display:flex;
-  justify-content:center;
-  gap:clamp(32px,6vw,72px);
-  margin-bottom:56px;
-  position:relative;
-  z-index:1;
-}
-.viral-metric{
-  text-align:center;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px 40px;
+  margin-bottom:40px;
 }
 .viral-metric-num{
-  display:block;
-  font-size:clamp(2.4rem,4.5vw,3.8rem);
+  font-size:clamp(1.6rem,2.5vw,2.2rem);
   font-weight:600;
-  letter-spacing:-.03em;
+  letter-spacing:-.02em;
   line-height:1;
   color:var(--text);
   font-variant-numeric:tabular-nums;
 }
 .viral-metric-label{
-  display:block;
-  margin-top:10px;
-  font-size:.65rem;
+  margin-top:6px;
+  font-size:.6rem;
   font-weight:500;
   letter-spacing:.12em;
   text-transform:uppercase;
   color:var(--text-tertiary);
 }
 
-/* Staggered Apple-style grid: alternating cards offset vertically
-   to create a wave rhythm. Feels editorial, not spreadsheet. */
+/* Staggered 2x4 thumbnail grid */
 .viral-grid{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-  max-width:900px;
-  margin:0 auto;
-  position:relative;
-  z-index:1;
-  padding-bottom:32px;
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
 }
 .viral-card{
-  flex:0 0 calc((100% - 98px) / 8);
-  min-width:0;
-  border-radius:16px;
+  border-radius:14px;
   overflow:hidden;
   transition:transform .5s var(--ease),box-shadow .5s var(--ease);
 }
 .viral-card:nth-child(even){
-  transform:translateY(28px);
+  transform:translateY(20px);
 }
 .viral-card:hover{
-  transform:translateY(-6px);
-  box-shadow:0 24px 48px -12px rgba(0,0,0,0.4);
+  transform:translateY(-4px);
+  box-shadow:0 20px 40px -10px rgba(0,0,0,0.4);
 }
 .viral-card:nth-child(even):hover{
-  transform:translateY(22px);
-  box-shadow:0 24px 48px -12px rgba(0,0,0,0.4);
+  transform:translateY(16px);
+  box-shadow:0 20px 40px -10px rgba(0,0,0,0.4);
 }
 .viral-card img{
   width:100%;
@@ -493,24 +485,25 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   object-fit:cover;
   display:block;
 }
-.viral-cta{
-  text-align:center;
-  margin-top:56px;
-}
 
+@media(max-width:960px){
+  .viral-split{grid-template-columns:1fr;gap:48px}
+  .viral-copy{align-items:center;text-align:center}
+  .viral-sub{margin-left:auto;margin-right:auto}
+  .viral-metrics{justify-items:center}
+  .viral-grid{max-width:600px;margin:0 auto}
+}
 @media(max-width:768px){
-  .viral{padding:90px 0}
-  .viral-top{margin-bottom:40px}
-  .viral-metrics{gap:24px;margin-bottom:40px}
-  .viral-grid{gap:8px;flex-wrap:wrap}
-  .viral-card{flex:0 0 calc(25% - 6px);border-radius:12px}
-  .viral-card:nth-child(even){transform:translateY(16px)}
+  .viral{padding:100px 0 80px}
+  .viral-grid{gap:8px}
+  .viral-card{border-radius:10px}
+  .viral-card:nth-child(even){transform:translateY(14px)}
   .viral-card:nth-child(even):hover{transform:translateY(10px)}
 }
 @media(max-width:480px){
-  .viral{padding:72px 0}
-  .viral-metrics{flex-wrap:wrap;gap:20px 32px}
-  .viral-card{flex:0 0 calc(25% - 6px)}
+  .viral{padding:80px 0 64px}
+  .viral-metrics{gap:16px 28px}
+  .viral-grid{grid-template-columns:repeat(4,1fr)}
 }
 
 /* ═══════════════════════════════════════════════════════
