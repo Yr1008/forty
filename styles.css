@@ -1154,42 +1154,41 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   color:var(--text);
 }
 
-/* ── Bento layout: 4 equal columns ────────────────── */
+/* ── Services: 4 clean text cards ─────────────────── */
 .svc-bento{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:14px;
+  gap:1px;
+  background:rgba(255,255,255,0.06);
+  border-radius:20px;
+  overflow:hidden;
   margin-bottom:48px;
 }
 .svc-tile{
-  position:relative;
-  border-radius:18px;
-  border:1px solid rgba(255,255,255,0.06);
-  background:rgba(255,255,255,0.025);
-  overflow:hidden;
   display:flex;flex-direction:column;
-  transition:border-color .4s var(--ease),transform .4s var(--ease);
+  padding:40px 32px;
+  background:var(--canvas);
+  transition:background .4s var(--ease);
 }
 .svc-tile:hover{
-  border-color:rgba(255,255,255,0.12);
-  transform:translateY(-3px);
+  background:rgba(255,255,255,0.02);
 }
-.svc-tile--wide,.svc-tile--tall{min-height:auto}
+.svc-tile-num{
+  font-size:.7rem;
+  font-weight:500;
+  letter-spacing:.14em;
+  color:var(--text-tertiary);
+  margin-bottom:24px;
+}
 
 /* ── Tile content ──────────────────────────────────── */
-.svc-tile-visual{
-  flex:1;display:flex;align-items:center;justify-content:center;
-  padding:32px 28px 16px;
-  position:relative;overflow:hidden;
-}
-.svc-tile-info{padding:0 28px 28px}
 .svc-tile-title{
   font-size:1.1rem;font-weight:600;
-  margin-bottom:6px;color:var(--text);letter-spacing:-.01em;
+  margin-bottom:10px;color:var(--text);letter-spacing:-.01em;
 }
 .svc-tile-desc{
-  font-size:.8rem;color:var(--text-secondary);
-  line-height:1.55;font-weight:400;
+  font-size:.82rem;color:var(--text-secondary);
+  line-height:1.6;font-weight:400;
 }
 
 /* ── Viz: Engagement bars ──────────────────────────── */
@@ -2263,7 +2262,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ═══════════════════════════════════════════════════════ */
 @media(max-width:960px){
   .svc-bento{grid-template-columns:repeat(2,1fr)}
-  .svc-tile,.svc-tile--wide,.svc-tile--tall{min-height:auto}
+  .svc-tile{padding:32px 24px}
   .services{padding:80px 0}
   .perf-grid{grid-template-columns:repeat(2,1fr)}
   .perf-item:nth-child(2){border-right:none}
@@ -2374,7 +2373,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .nav-logo-img{width:48px;height:48px}
   .services-inner{padding:0 22px}
   .svc-bento{grid-template-columns:1fr}
-  .svc-tile,.svc-tile--wide,.svc-tile--tall{min-height:auto}
+  .svc-tile{padding:28px 20px}
   .perf-grid{grid-template-columns:repeat(2,1fr)}
   .work-project-name{font-size:1.3rem}
   .process-inner{padding:0 22px}
@@ -2411,8 +2410,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .nav-pill{top:10px;right:14px;padding:0}
   .perf-grid{grid-template-columns:1fr 1fr}
   .services-inner{padding:0 16px}
-  .svc-tile-info{padding:0 20px 20px}
-  .svc-tile-visual{padding:24px 20px 12px}
+  .svc-tile-num{margin-bottom:16px}
   .story-container{padding:0 16px}
   .story-heading{font-size:1.5rem}
   .story-fcard{padding:34px 20px 30px}
