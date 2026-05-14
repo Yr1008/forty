@@ -275,10 +275,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .hero-cycle-word{
   display:block;
   height:1.06em;
-  background:linear-gradient(135deg,rgba(0,255,170,1) 0%,rgba(80,200,255,1) 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
+  color:var(--text);
 }
 @keyframes heroCycle{
   0%,18%  {transform:translateY(0)}
