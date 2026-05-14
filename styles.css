@@ -250,7 +250,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   position:relative;z-index:3;
   flex:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
-  text-align:center;padding:120px 40px 80px;
+  text-align:center;padding:100px 40px 60px;
 }
 .hero-title{
   font-size:clamp(2.4rem,6.5vw,5rem);
@@ -326,7 +326,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    ABOUT (full-bleed cinematic)
    ═══════════════════════════════════════════════════════ */
-.about{padding:120px 0;margin-top:40px}
+.about{padding:90px 0;margin-top:20px}
 .about .full-bleed-video{opacity:1}
 .about .full-bleed-content{
   max-width:900px;margin:0 auto;padding:0 40px;
@@ -385,7 +385,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    INFLUENCER PROGRAMS. CEO-focused, split layout.
    ═══════════════════════════════════════════════════════ */
 .viral{
-  padding:140px 0 120px;
+  padding:100px 0 90px;
   position:relative;
   overflow:hidden;
 }
@@ -509,7 +509,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    STORY (premium centered)
    ═══════════════════════════════════════════════════════ */
-.story{padding:120px 0 90px;position:relative;overflow:hidden}
+.story{padding:90px 0 70px;position:relative;overflow:hidden}
 .story-container{
   max-width:900px;margin:0 auto;padding:0 40px;
   position:relative;z-index:1;
@@ -1163,7 +1163,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    SERVICES: Apple bento with animated visuals
    ═══════════════════════════════════════════════════════ */
-.services{padding:100px 0;position:relative;overflow:hidden}
+.services{padding:80px 0;position:relative;overflow:hidden}
 .services-inner{max-width:1100px;margin:0 auto;padding:0 40px;position:relative;z-index:1}
 .svc-header{text-align:center;margin-bottom:56px}
 .svc-heading{
@@ -1351,7 +1351,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    REEL
    ═══════════════════════════════════════════════════════ */
-.reel{overflow:hidden;padding:90px 0;position:relative;display:flex;flex-direction:column;gap:14px}
+.reel{overflow:hidden;padding:60px 0;position:relative;display:flex;flex-direction:column;gap:14px}
 .reel-track{
   display:flex;gap:14px;
   will-change:transform;
@@ -1460,7 +1460,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    DESIGN THEORY: website showcase
    ═══════════════════════════════════════════════════════ */
 .theory{
-  padding:120px 0;
+  padding:90px 0;
   position:relative;
   overflow:hidden;
 }
@@ -1618,7 +1618,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    PERFORMANCE / IMPACT (full-bleed cinematic)
    ═══════════════════════════════════════════════════════ */
-.perf{padding:120px 0}
+.perf{padding:90px 0}
 .perf .full-bleed-video{opacity:1}
 .perf .full-bleed-overlay{background:rgba(0,0,0,0.45)}
 .perf .full-bleed-content{
@@ -1674,7 +1674,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    FAQ (open canvas, accent-left style)
    ═══════════════════════════════════════════════════════ */
-.faq-section{padding:120px 0}
+.faq-section{padding:90px 0}
 .faq-section .section-open{padding:80px 56px}
 .faq-heading{
   text-align:center;
@@ -1799,7 +1799,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 
 .footer-cta-inner{
   position:relative;z-index:2;
-  padding:160px 0 140px;
+  padding:120px 0 100px;
   text-align:center;
 }
 
@@ -1873,12 +1873,12 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 
 @media(max-width:768px){
-  .footer-cta-inner{padding:110px 0 90px}
+  .footer-cta-inner{padding:90px 0 70px}
   .footer-cta-eyebrow{letter-spacing:.24em}
   .footer-cta-arc{opacity:.7}
 }
 @media(max-width:480px){
-  .footer-cta-inner{padding:84px 0 70px}
+  .footer-cta-inner{padding:70px 0 56px}
   .footer-cta-arc{opacity:.55}
 }
 
