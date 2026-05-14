@@ -314,7 +314,7 @@
 
   <!-- Preload critical above-the-fold assets for fast LCP -->
   <link rel="preload" as="image" href="assets/logo-white.png" fetchpriority="high">
-  <link rel="preload" as="style" href="styles.css?v=20260412u">
+  <link rel="preload" as="style" href="styles.css?v=20260412v">
   <!-- Kick off hero video fetch as early as possible without sacrificing
        quality. Modern browsers honour as="video"; legacy ones fall through
        to the <video preload="auto"> tag. -->
@@ -323,13 +323,13 @@
   <!-- Fonts (swap so text renders immediately) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.css">
-  <link rel="stylesheet" href="styles.css?v=20260412u">
+  <link rel="stylesheet" href="styles.css?v=20260412v">
 
   <!-- Scripts: defer external libs so parsing isn't blocked -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="script.js?v=20260412u" defer></script>
+  <script src="script.js?v=20260412v" defer></script>
 </head>
 <body>
 
@@ -409,16 +409,33 @@
   <div class="container">
     <span class="label reveal">Influencer Programs</span>
     <h2 class="viral-heading reveal">
-      Efficient, conversion-driven<br>
-      <span class="viral-heading-hl">influencer programs</span><br>
-      that actually scale.
+      Set up in days.<br>
+      Scaled across <span class="viral-heading-hl">countries</span>.<br>
+      Built to <span class="viral-heading-hl">convert</span>.
     </h2>
     <p class="viral-sub reveal">
-      We build and manage creator networks on TikTok and Instagram
-      for product-based SaaS startups and e-commerce brands launching
-      or scaling in the US, Europe, and beyond. Real creators. Real
-      conversions. Not vanity metrics.
+      We deploy full-scale influencer programs on TikTok and Instagram
+      in under a week. Hundreds of vetted creators, ICP-targeted
+      messaging, and conversion-optimised funnels for product-based
+      SaaS startups and e-commerce brands entering the US, Europe,
+      and new markets globally.
     </p>
+
+    <!-- Value props: why this works for startups -->
+    <div class="viral-props reveal">
+      <div class="viral-prop">
+        <h3 class="viral-prop-title">Launch fast</h3>
+        <p class="viral-prop-desc">From brief to live creators in under 7 days. No months of agency onboarding. We handle sourcing, briefing, contracts, and QA.</p>
+      </div>
+      <div class="viral-prop">
+        <h3 class="viral-prop-title">Target your ICP</h3>
+        <p class="viral-prop-desc">Every creator is matched to your ideal customer profile. Awareness for top-of-funnel, conversion content for bottom. Not spray-and-pray.</p>
+      </div>
+      <div class="viral-prop">
+        <h3 class="viral-prop-title">Scale globally</h3>
+        <p class="viral-prop-desc">One program, multiple countries. We run campaigns across the US, UK, Europe, and emerging markets from a single dashboard with localised creator pools.</p>
+      </div>
+    </div>
 
     <!-- Monthly metrics from the live dashboard -->
     <div class="viral-stats reveal">
@@ -449,9 +466,9 @@
     </div>
 
     <p class="viral-caption reveal">
-      Real creator content from campaigns we manage. Each video
-      is part of a structured influencer program designed for
-      installs, sign-ups, and purchases.
+      Real creator content from campaigns we run. Each video is part
+      of a structured program designed for installs, sign-ups, and
+      purchases.
     </p>
 
     <!-- Video thumbnail grid. To add thumbnails:
