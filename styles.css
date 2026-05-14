@@ -470,6 +470,33 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   transform:scale(1.1);
 }
 
+/* Stat badge at the bottom of each card */
+.viral-card-stat{
+  position:absolute;
+  bottom:12px;
+  left:12px;
+  padding:4px 10px;
+  font-size:.62rem;
+  font-weight:500;
+  letter-spacing:.04em;
+  color:rgba(255,255,255,0.85);
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-radius:50px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+/* Caption above the grid */
+.viral-caption{
+  font-size:.82rem;
+  color:var(--text-tertiary);
+  line-height:1.55;
+  margin-bottom:36px;
+  max-width:520px;
+  font-weight:400;
+}
+
 @media(max-width:960px){
   .viral-grid{grid-template-columns:repeat(3,1fr)}
 }
