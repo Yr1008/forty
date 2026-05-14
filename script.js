@@ -554,10 +554,10 @@
       );
     }
 
-    // Viral cards: staggered entrance
-    gsap.utils.toArray('.viral-card').forEach(el => gsap.set(el, { y: DIST, opacity: 0 }));
+    // Viral cards: staggered entrance (preserve even-card offset via CSS)
+    gsap.utils.toArray('.viral-card').forEach(el => gsap.set(el, { opacity: 0, scale: 0.95 }));
     ScrollTrigger.batch('.viral-card', {
-      onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: DUR, ease: EASE, stagger: 0.1 }),
+      onEnter: batch => gsap.to(batch, { opacity: 1, scale: 1, duration: 0.8, ease: EASE, stagger: 0.08 }),
       start: 'top 88%'
     });
   }
