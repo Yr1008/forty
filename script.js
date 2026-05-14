@@ -543,9 +543,23 @@
       });
     }
 
-    // Removed: case-study media, theory-card, and particle parallax.
-    // Each was a separate scrub tween updating every scroll frame.
-    // Fewer scrubs = fewer per-frame calculations = smoother.
+    // Viral grid: subtle upward drift as user scrolls past
+    const viralGrid = document.querySelector('.viral-grid');
+    if (viralGrid) {
+      gsap.fromTo(viralGrid,
+        { y: 30 },
+        { y: -20, ease: 'none', force3D: true,
+          scrollTrigger: { trigger: '.viral', start: 'top bottom', end: 'bottom top', scrub: SCRUB }
+        }
+      );
+    }
+
+    // Viral cards: staggered entrance
+    gsap.utils.toArray('.viral-card').forEach(el => gsap.set(el, { y: DIST, opacity: 0 }));
+    ScrollTrigger.batch('.viral-card', {
+      onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: DUR, ease: EASE, stagger: 0.1 }),
+      start: 'top 88%'
+    });
   }
 
 })();

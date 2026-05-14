@@ -258,6 +258,29 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   color:var(--text);letter-spacing:-.03em;
   margin-bottom:16px;
 }
+/* Single morphing word: smooth vertical crossfade on one keyword */
+.hero-morph-wrap{
+  display:inline-block;
+  height:1em;
+  overflow:hidden;
+  vertical-align:bottom;
+  position:relative;
+}
+.hero-morph{
+  display:flex;flex-direction:column;
+  animation:heroMorph 12s ease 3s infinite;
+}
+.hero-morph-word{
+  display:block;height:1em;
+}
+@keyframes heroMorph{
+  0%,20%  {transform:translateY(0)}
+  25%,45% {transform:translateY(-20%)}
+  50%,70% {transform:translateY(-40%)}
+  75%,95% {transform:translateY(-60%)}
+  100%    {transform:translateY(-80%)}
+}
+@media(prefers-reduced-motion:reduce){.hero-morph{animation:none}}
 .hero-sub{
   font-size:clamp(.85rem,1.3vw,1.05rem);
   font-weight:400;color:var(--text-secondary);
@@ -363,11 +386,29 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ═══════════════════════════════════════════════════════ */
 .viral{
   padding:120px 0;
+  position:relative;
+  overflow:hidden;
+}
+/* Soft ambient gradient: Apple-subtle, not loud */
+.viral::before{
+  content:'';
+  position:absolute;
+  top:-30%;left:50%;
+  width:140%;height:80%;
+  transform:translateX(-50%);
+  background:radial-gradient(ellipse at 50% 30%,
+    rgba(0,255,170,0.04) 0%,
+    rgba(80,140,255,0.03) 40%,
+    transparent 70%);
+  pointer-events:none;
+  z-index:0;
 }
 
 .viral-top{
   text-align:center;
   margin-bottom:56px;
+  position:relative;
+  z-index:1;
 }
 .viral-heading{
   font-size:clamp(2rem,4vw,3.2rem);
@@ -391,6 +432,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   justify-content:center;
   gap:clamp(32px,6vw,72px);
   margin-bottom:56px;
+  position:relative;
+  z-index:1;
 }
 .viral-metric{
   text-align:center;
@@ -420,14 +463,17 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   gap:16px;
   max-width:840px;
   margin:0 auto;
+  position:relative;
+  z-index:1;
 }
 .viral-card{
   border-radius:18px;
   overflow:hidden;
-  transition:transform .5s var(--ease);
+  transition:transform .5s var(--ease),box-shadow .5s var(--ease);
 }
 .viral-card:hover{
-  transform:translateY(-4px);
+  transform:translateY(-6px);
+  box-shadow:0 24px 48px -12px rgba(0,0,0,0.4);
 }
 .viral-card img{
   width:100%;
