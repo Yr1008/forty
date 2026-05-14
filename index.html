@@ -314,7 +314,7 @@
 
   <!-- Preload critical above-the-fold assets for fast LCP -->
   <link rel="preload" as="image" href="assets/logo-white.png" fetchpriority="high">
-  <link rel="preload" as="style" href="styles.css?v=20260412w">
+  <link rel="preload" as="style" href="styles.css?v=20260412x">
   <!-- Kick off hero video fetch as early as possible without sacrificing
        quality. Modern browsers honour as="video"; legacy ones fall through
        to the <video preload="auto"> tag. -->
@@ -323,13 +323,13 @@
   <!-- Fonts (swap so text renders immediately) -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.css">
-  <link rel="stylesheet" href="styles.css?v=20260412w">
+  <link rel="stylesheet" href="styles.css?v=20260412x">
 
   <!-- Scripts: defer external libs so parsing isn't blocked -->
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-  <script src="script.js?v=20260412w" defer></script>
+  <script src="script.js?v=20260412x" defer></script>
 </head>
 <body>
 
@@ -365,8 +365,19 @@
     <source src="assets/hero-video.mp4" type="video/mp4">
   </video>
   <div class="hero-content">
-    <h1 class="hero-title">Where bold ideas<br>drive real growth</h1>
-    <p class="hero-sub">A creative and performance studio founded by two ex-Googlers.</p>
+    <h1 class="hero-title">
+      The growth studio for<br>
+      <span class="hero-cycle-wrap">
+        <span class="hero-cycle">
+          <span class="hero-cycle-word">AI startups.</span>
+          <span class="hero-cycle-word">e-commerce brands.</span>
+          <span class="hero-cycle-word">global enterprises.</span>
+          <span class="hero-cycle-word">founder-led brands.</span>
+          <span class="hero-cycle-word">AI startups.</span>
+        </span>
+      </span>
+    </h1>
+    <p class="hero-sub">Creative and performance marketing by two ex-Googlers. From launch to category leadership.</p>
     <div class="hero-ctas">
       <a href="mailto:reachout2forty@gmail.com" class="btn btn--solid">Start a conversation</a>
       <a href="#work" class="btn btn--glass">Explore our work</a>
@@ -406,7 +417,14 @@
      INFLUENCER PROGRAMS
      ═══════════════════════════════════════════════════════ -->
 <section class="viral" id="viral">
-  <div class="container">
+  <!-- Background: gradient mesh + subtle grid for depth -->
+  <div class="viral-bg" aria-hidden="true">
+    <div class="viral-bg-grad viral-bg-grad--a"></div>
+    <div class="viral-bg-grad viral-bg-grad--b"></div>
+    <div class="viral-bg-grid"></div>
+  </div>
+
+  <div class="container viral-inner">
     <span class="label reveal">Influencer Programs</span>
     <h2 class="viral-heading reveal">
       Set up in days.<br>
@@ -421,23 +439,32 @@
       and new markets globally.
     </p>
 
-    <!-- Value props: why this works for startups -->
+    <!-- Value props with icons -->
     <div class="viral-props reveal">
       <div class="viral-prop">
+        <div class="viral-prop-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
         <h3 class="viral-prop-title">Launch fast</h3>
         <p class="viral-prop-desc">From brief to live creators in under 7 days. No months of agency onboarding. We handle sourcing, briefing, contracts, and QA.</p>
       </div>
       <div class="viral-prop">
+        <div class="viral-prop-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="6" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="2" fill="currentColor"/></svg>
+        </div>
         <h3 class="viral-prop-title">Target your ICP</h3>
         <p class="viral-prop-desc">Every creator is matched to your ideal customer profile. Awareness for top-of-funnel, conversion content for bottom. Not spray-and-pray.</p>
       </div>
       <div class="viral-prop">
+        <div class="viral-prop-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" stroke="currentColor" stroke-width="1.5"/></svg>
+        </div>
         <h3 class="viral-prop-title">Scale globally</h3>
         <p class="viral-prop-desc">One program, multiple countries. We run campaigns across the US, UK, Europe, and emerging markets from a single dashboard with localised creator pools.</p>
       </div>
     </div>
 
-    <!-- Monthly metrics from the live dashboard -->
+    <!-- Monthly metrics -->
     <div class="viral-stats reveal">
       <div class="viral-stat">
         <span class="viral-stat-num">15.7M</span>
@@ -471,34 +498,35 @@
       purchases.
     </p>
 
-    <!-- Video thumbnail grid. To add thumbnails:
-         1. Save cropped 9:16 images to assets/ (e.g. viral-1.jpg)
-         2. Replace the placeholder <div> inside each card with:
-            <img src="assets/viral-1.jpg" alt="Creator campaign" loading="lazy" decoding="async">
-         The play button overlay will sit on top automatically. -->
-    <div class="viral-grid reveal">
+    <div class="viral-grid">
       <div class="viral-card">
         <img src="assets/IMG_9726.png" alt="Creator campaign for SaaS product" loading="lazy" decoding="async">
+        <div class="viral-card-overlay"></div>
         <div class="viral-card-stat">280K likes</div>
       </div>
       <div class="viral-card">
         <img src="assets/IMG_9717.png" alt="Influencer content for e-commerce brand" loading="lazy" decoding="async">
+        <div class="viral-card-overlay"></div>
         <div class="viral-card-stat">12.6K likes</div>
       </div>
       <div class="viral-card">
         <img src="assets/IMG_9713.png" alt="TikTok creator campaign" loading="lazy" decoding="async">
+        <div class="viral-card-overlay"></div>
         <div class="viral-card-stat">103K likes</div>
       </div>
       <div class="viral-card">
         <img src="assets/IMG_9718.jpg" alt="UGC creator content for startup" loading="lazy" decoding="async">
+        <div class="viral-card-overlay"></div>
         <div class="viral-card-stat">16.9K likes</div>
       </div>
       <div class="viral-card">
         <img src="assets/IMG_0951.jpg" alt="Conversion-focused creator video" loading="lazy" decoding="async">
+        <div class="viral-card-overlay"></div>
         <div class="viral-card-stat">48K likes</div>
       </div>
       <div class="viral-card">
         <img src="assets/IMG_0952.jpg" alt="Viral influencer campaign" loading="lazy" decoding="async">
+        <div class="viral-card-overlay"></div>
         <div class="viral-card-stat">92K likes</div>
       </div>
     </div>
@@ -731,30 +759,54 @@
     <img src="assets/gallery-hana.png" alt="Hana perfume campaign" loading="lazy" decoding="async">
     <img src="assets/818-tequila-india.jpg" alt="818 Tequila Now in India" loading="lazy" decoding="async">
     <img src="assets/a18Ke2vxjc27zeDOHwQ_30.png" alt="Pichwai elephant artwork" loading="lazy" decoding="async">
+    <img src="assets/collab-rayban.png" alt="Ray-Ban Meta collaboration" loading="lazy" decoding="async">
     <img src="assets/pomelli-image (20).png" alt="Zoot green lifestyle" loading="lazy" decoding="async">
     <img src="assets/gallery-chitrapotli-frame.png" alt="Chitrapotli framed artwork" loading="lazy" decoding="async">
+    <img src="assets/ai-gen-1.png" alt="AI generated creative" loading="lazy" decoding="async">
     <img src="assets/pomelli-image (1).png" alt="Woman with Pichwai art" loading="lazy" decoding="async">
+    <img src="assets/woman-portrait.png" alt="Portrait photography" loading="lazy" decoding="async">
     <img src="assets/pomelli-image (15).png" alt="Zoot pink lifestyle" loading="lazy" decoding="async">
+    <img src="assets/ai-gen-3.png" alt="AI creative concept" loading="lazy" decoding="async">
     <!-- duplicate for seamless loop -->
     <img src="assets/pomelli-image (14).png" alt="Zoot Original purple product" loading="lazy" decoding="async">
     <img src="assets/gallery-hana.png" alt="Hana perfume campaign" loading="lazy" decoding="async">
     <img src="assets/818-tequila-india.jpg" alt="818 Tequila Now in India" loading="lazy" decoding="async">
     <img src="assets/a18Ke2vxjc27zeDOHwQ_30.png" alt="Pichwai elephant artwork" loading="lazy" decoding="async">
+    <img src="assets/collab-rayban.png" alt="Ray-Ban Meta collaboration" loading="lazy" decoding="async">
     <img src="assets/pomelli-image (20).png" alt="Zoot green lifestyle" loading="lazy" decoding="async">
     <img src="assets/gallery-chitrapotli-frame.png" alt="Chitrapotli framed artwork" loading="lazy" decoding="async">
+    <img src="assets/ai-gen-1.png" alt="AI generated creative" loading="lazy" decoding="async">
     <img src="assets/pomelli-image (1).png" alt="Woman with Pichwai art" loading="lazy" decoding="async">
+    <img src="assets/woman-portrait.png" alt="Portrait photography" loading="lazy" decoding="async">
     <img src="assets/pomelli-image (15).png" alt="Zoot pink lifestyle" loading="lazy" decoding="async">
+    <img src="assets/ai-gen-3.png" alt="AI creative concept" loading="lazy" decoding="async">
   </div>
   <div class="reel-track reel-track--reverse">
     <img src="assets/gallery-inhouse.png" alt="In-House app design" loading="lazy" decoding="async">
     <img src="assets/pomelli-image (22).png" alt="Zoot purple lifestyle" loading="lazy" decoding="async">
+    <img src="assets/collab-mashreq.png" alt="Mashreq Bank collaboration" loading="lazy" decoding="async">
     <img src="assets/aBzaTtgH6UA7dQwwRyh_II.png" alt="Buddha art piece" loading="lazy" decoding="async">
+    <img src="assets/ai-gen-2.png" alt="AI creative campaign" loading="lazy" decoding="async">
     <img src="assets/pomelli-image (2).png" alt="Woman viewing art gallery" loading="lazy" decoding="async">
+    <img src="assets/collab-aceblends.png" alt="Ace Blends collaboration" loading="lazy" decoding="async">
+    <img src="assets/ai-gen-4.png" alt="AI visual concept" loading="lazy" decoding="async">
+    <img src="assets/mockup-billboard.png" alt="Billboard mockup" loading="lazy" decoding="async">
+    <img src="assets/work-chitrapotli.png" alt="Chitrapotli brand work" loading="lazy" decoding="async">
+    <img src="assets/ai-gen-5.png" alt="AI generated visual" loading="lazy" decoding="async">
+    <img src="assets/collab-chitrapotli.png" alt="Chitrapotli collaboration" loading="lazy" decoding="async">
     <!-- duplicate for seamless loop -->
     <img src="assets/gallery-inhouse.png" alt="In-House app design" loading="lazy" decoding="async">
     <img src="assets/pomelli-image (22).png" alt="Zoot purple lifestyle" loading="lazy" decoding="async">
+    <img src="assets/collab-mashreq.png" alt="Mashreq Bank collaboration" loading="lazy" decoding="async">
     <img src="assets/aBzaTtgH6UA7dQwwRyh_II.png" alt="Buddha art piece" loading="lazy" decoding="async">
+    <img src="assets/ai-gen-2.png" alt="AI creative campaign" loading="lazy" decoding="async">
     <img src="assets/pomelli-image (2).png" alt="Woman viewing art gallery" loading="lazy" decoding="async">
+    <img src="assets/collab-aceblends.png" alt="Ace Blends collaboration" loading="lazy" decoding="async">
+    <img src="assets/ai-gen-4.png" alt="AI visual concept" loading="lazy" decoding="async">
+    <img src="assets/mockup-billboard.png" alt="Billboard mockup" loading="lazy" decoding="async">
+    <img src="assets/work-chitrapotli.png" alt="Chitrapotli brand work" loading="lazy" decoding="async">
+    <img src="assets/ai-gen-5.png" alt="AI generated visual" loading="lazy" decoding="async">
+    <img src="assets/collab-chitrapotli.png" alt="Chitrapotli collaboration" loading="lazy" decoding="async">
   </div>
 
   <!-- Inline concept disclaimer immediately under the image carousels.
