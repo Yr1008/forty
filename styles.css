@@ -253,16 +253,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   text-align:center;padding:120px 40px 80px;
 }
 .hero-title{
-  font-size:clamp(2.4rem,6.5vw,5rem);
-  font-weight:600;line-height:1.02;
-  color:var(--text);letter-spacing:-.03em;
-  margin-bottom:16px;
+  font-size:clamp(2.6rem,7vw,5.4rem);
+  font-weight:600;line-height:1;
+  color:var(--text);letter-spacing:-.035em;
+  margin-bottom:20px;
 }
-/* Cycling audience word: vertically scrolls through 4 ICP targets.
-   Container masks the overflow; the inner strip translates upward. */
+.hero-sub{
+  font-size:clamp(.92rem,1.3vw,1.1rem);
+  font-weight:400;color:var(--text-secondary);
+  letter-spacing:.005em;
+  line-height:1.55;
+  max-width:560px;
+  margin:0 auto;
+}
 .hero-cycle-wrap{
   display:inline-block;
-  height:1.06em;
+  height:1.2em;
   overflow:hidden;
   vertical-align:bottom;
   position:relative;
@@ -274,8 +280,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .hero-cycle-word{
   display:block;
-  height:1.06em;
+  height:1.2em;
   color:var(--text);
+  font-weight:500;
 }
 @keyframes heroCycle{
   0%,18%  {transform:translateY(0)}
@@ -286,13 +293,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 @media (prefers-reduced-motion: reduce){
   .hero-cycle{animation:none}
-}
-.hero-sub{
-  font-size:clamp(.85rem,1.3vw,1.05rem);
-  font-weight:400;color:var(--text-secondary);
-  letter-spacing:.01em;
-  max-width:520px;
-  margin:0 auto;
 }
 .hero-ctas{
   display:flex;gap:12px;margin-top:28px;
