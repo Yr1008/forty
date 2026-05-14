@@ -481,6 +481,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   object-fit:cover;
   display:block;
 }
+.viral-cta{
+  text-align:center;
+  margin-top:48px;
+}
 
 @media(max-width:768px){
   .viral{padding:90px 0}
