@@ -403,6 +403,43 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   padding-bottom:48px;
   border-bottom:1px solid rgba(255,255,255,0.06);
 }
+
+/* Value prop cards: three reasons why this works */
+.viral-props{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:32px;
+  margin-bottom:64px;
+}
+.viral-prop{
+  padding:32px 28px;
+  border-radius:16px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.015);
+  transition:border-color .5s var(--ease),background .5s var(--ease);
+}
+.viral-prop:hover{
+  border-color:rgba(255,255,255,0.14);
+  background:rgba(255,255,255,0.025);
+}
+.viral-prop-title{
+  font-size:1.05rem;
+  font-weight:500;
+  color:var(--text);
+  letter-spacing:-.01em;
+  margin-bottom:12px;
+}
+.viral-prop-desc{
+  font-size:.84rem;
+  color:var(--text-secondary);
+  line-height:1.6;
+  font-weight:400;
+}
+@media(max-width:768px){
+  .viral-props{grid-template-columns:1fr;gap:20px;margin-bottom:48px}
+  .viral-prop{padding:24px 22px}
+}
+
 .viral-stat{
   display:flex;
   flex-direction:column;
