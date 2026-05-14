@@ -1154,29 +1154,27 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   color:var(--text);
 }
 
-/* ── Bento layout ──────────────────────────────────── */
+/* ── Bento layout: 4 equal columns ────────────────── */
 .svc-bento{
   display:grid;
-  grid-template-columns:repeat(12,1fr);
+  grid-template-columns:repeat(4,1fr);
   gap:14px;
   margin-bottom:48px;
 }
 .svc-tile{
   position:relative;
-  border-radius:22px;
+  border-radius:18px;
   border:1px solid rgba(255,255,255,0.06);
   background:rgba(255,255,255,0.025);
   overflow:hidden;
   display:flex;flex-direction:column;
-  grid-column:span 6;
   transition:border-color .4s var(--ease),transform .4s var(--ease);
 }
 .svc-tile:hover{
   border-color:rgba(255,255,255,0.12);
   transform:translateY(-3px);
 }
-.svc-tile--wide{grid-column:span 7;min-height:340px}
-.svc-tile--tall{grid-column:span 5;min-height:420px}
+.svc-tile--wide,.svc-tile--tall{min-height:auto}
 
 /* ── Tile content ──────────────────────────────────── */
 .svc-tile-visual{
@@ -2264,8 +2262,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    RESPONSIVE
    ═══════════════════════════════════════════════════════ */
 @media(max-width:960px){
-  .svc-bento{grid-template-columns:repeat(6,1fr)}
-  .svc-tile,.svc-tile--wide,.svc-tile--tall{grid-column:span 6;min-height:auto}
+  .svc-bento{grid-template-columns:repeat(2,1fr)}
+  .svc-tile,.svc-tile--wide,.svc-tile--tall{min-height:auto}
   .services{padding:80px 0}
   .perf-grid{grid-template-columns:repeat(2,1fr)}
   .perf-item:nth-child(2){border-right:none}
@@ -2376,7 +2374,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   .nav-logo-img{width:48px;height:48px}
   .services-inner{padding:0 22px}
   .svc-bento{grid-template-columns:1fr}
-  .svc-tile,.svc-tile--wide,.svc-tile--tall{grid-column:1 / -1;min-height:auto}
+  .svc-tile,.svc-tile--wide,.svc-tile--tall{min-height:auto}
   .perf-grid{grid-template-columns:repeat(2,1fr)}
   .work-project-name{font-size:1.3rem}
   .process-inner{padding:0 22px}
