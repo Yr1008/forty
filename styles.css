@@ -457,22 +457,34 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   color:var(--text-tertiary);
 }
 
+/* Staggered Apple-style grid: alternating cards offset vertically
+   to create a wave rhythm. Feels editorial, not spreadsheet. */
 .viral-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-  max-width:840px;
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  max-width:900px;
   margin:0 auto;
   position:relative;
   z-index:1;
+  padding-bottom:32px;
 }
 .viral-card{
-  border-radius:18px;
+  flex:0 0 calc((100% - 98px) / 8);
+  min-width:0;
+  border-radius:16px;
   overflow:hidden;
   transition:transform .5s var(--ease),box-shadow .5s var(--ease);
 }
+.viral-card:nth-child(even){
+  transform:translateY(28px);
+}
 .viral-card:hover{
   transform:translateY(-6px);
+  box-shadow:0 24px 48px -12px rgba(0,0,0,0.4);
+}
+.viral-card:nth-child(even):hover{
+  transform:translateY(22px);
   box-shadow:0 24px 48px -12px rgba(0,0,0,0.4);
 }
 .viral-card img{
@@ -483,20 +495,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .viral-cta{
   text-align:center;
-  margin-top:48px;
+  margin-top:56px;
 }
 
 @media(max-width:768px){
   .viral{padding:90px 0}
   .viral-top{margin-bottom:40px}
   .viral-metrics{gap:24px;margin-bottom:40px}
-  .viral-grid{gap:10px}
-  .viral-card{border-radius:12px}
+  .viral-grid{gap:8px;flex-wrap:wrap}
+  .viral-card{flex:0 0 calc(25% - 6px);border-radius:12px}
+  .viral-card:nth-child(even){transform:translateY(16px)}
+  .viral-card:nth-child(even):hover{transform:translateY(10px)}
 }
 @media(max-width:480px){
   .viral{padding:72px 0}
   .viral-metrics{flex-wrap:wrap;gap:20px 32px}
-  .viral-grid{grid-template-columns:repeat(2,1fr);gap:10px}
+  .viral-card{flex:0 0 calc(25% - 6px)}
 }
 
 /* ═══════════════════════════════════════════════════════
