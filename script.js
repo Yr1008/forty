@@ -504,7 +504,7 @@
      ═══════════════════════════════════════════════════════ */
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (!prefersReduced && !isTouchOnly && !lowEndDevice) {
+  if (!prefersReduced) {
     // Higher scrub = more smoothing = less per-frame jitter.
     // 2.5 gives a buttery "floating" feel without feeling laggy.
     const SCRUB = 2.5;
