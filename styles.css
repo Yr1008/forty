@@ -438,6 +438,14 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   color:var(--text);
   margin-top:14px;
 }
+.viral-sub{
+  font-size:.92rem;
+  color:var(--text-secondary);
+  line-height:1.6;
+  max-width:560px;
+  margin:16px auto 0;
+  font-weight:400;
+}
 .viral-heading-hl{
   background:linear-gradient(135deg,rgba(0,255,170,1),rgba(80,200,255,1));
   -webkit-background-clip:text;background-clip:text;
@@ -474,11 +482,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   flex-shrink:0;
 }
 
-/* Grid: 4 columns, tight, the visual hero of the section */
+/* Grid: 4 cards in one clean row, centered */
 .viral-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:12px;
+  gap:14px;
+  max-width:780px;
+  margin:0 auto;
 }
 .viral-card{
   position:relative;
