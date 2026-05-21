@@ -326,9 +326,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ABOUT (full-bleed cinematic)
    ═══════════════════════════════════════════════════════ */
 .about{padding:90px 0;margin-top:140px}
-.about .full-bleed-video{display:none}
+.about .full-bleed-video{opacity:1}
 .about .full-bleed-overlay{
-  background:#0a0a0a;
+  background:transparent;
 }
 .about .full-bleed-content{
   max-width:900px;margin:0 auto;padding:0 40px;
