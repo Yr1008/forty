@@ -328,7 +328,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .about{padding:90px 0;margin-top:140px}
 .about .full-bleed-video{opacity:1}
 .about .full-bleed-overlay{
-  background:linear-gradient(180deg,rgba(10,10,10,1) 0%,rgba(10,10,10,1) 4%,rgba(10,10,10,0.85) 14%,rgba(10,10,10,0.65) 26%,rgba(10,10,10,0.65) 74%,rgba(10,10,10,0.85) 86%,rgba(10,10,10,1) 96%,rgba(10,10,10,1) 100%);
+  background:linear-gradient(180deg,rgba(10,10,10,1) 0%,rgba(10,10,10,1) 18%,rgba(10,10,10,0.92) 30%,rgba(10,10,10,0.85) 50%,rgba(10,10,10,0.92) 70%,rgba(10,10,10,1) 82%,rgba(10,10,10,1) 100%);
 }
 .about .full-bleed-content{
   max-width:900px;margin:0 auto;padding:0 40px;
