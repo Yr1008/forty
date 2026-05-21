@@ -1,6 +1,26 @@
 (() => {
   'use strict';
 
+  /* ── Mailto CTAs: Gmail web compose fallback ─────
+     mailto: silently does nothing if the user has no default mail
+     handler registered (common on desktop Chrome without Gmail set
+     as protocol handler, and on devices with no mail app). On click
+     we let mailto fire as primary; if the page is still visible and
+     focused ~600ms later, we open Gmail compose in a new tab. This
+     runs before any library-dependent code so it survives a CDN
+     failure of Lenis/GSAP. */
+  const GMAIL_COMPOSE = 'https://mail.google.com/mail/?view=cm&fs=1&to=reachout2forty@gmail.com';
+  document.querySelectorAll('a[href^="mailto:"]').forEach(a => {
+    a.addEventListener('click', () => {
+      const t = Date.now();
+      setTimeout(() => {
+        if (document.visibilityState === 'visible' && document.hasFocus() && Date.now() - t < 1500) {
+          window.open(GMAIL_COMPOSE, '_blank', 'noopener,noreferrer');
+        }
+      }, 600);
+    });
+  });
+
   /* ── Device + connection awareness ──────────────── */
   const isMobileViewport = window.matchMedia('(max-width: 768px)').matches;
   const isTouchOnly = window.matchMedia('(hover: none)').matches;
