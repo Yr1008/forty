@@ -327,6 +327,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
    ═══════════════════════════════════════════════════════ */
 .about{padding:90px 0;margin-top:20px}
 .about .full-bleed-video{opacity:1}
+.about .full-bleed-overlay{
+  background:linear-gradient(180deg,rgba(10,10,10,0.97) 0%,rgba(10,10,10,0.55) 22%,rgba(10,10,10,0.55) 78%,rgba(10,10,10,0.92) 100%);
+}
 .about .full-bleed-content{
   max-width:900px;margin:0 auto;padding:0 40px;
   text-align:center;
