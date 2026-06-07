@@ -1477,8 +1477,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 }
 .theory-grid{
   display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:24px;
+  grid-template-columns:repeat(4,1fr);
+  gap:20px;
 }
 .theory-card{
   display:flex;
