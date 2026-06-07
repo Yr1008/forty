@@ -1479,8 +1479,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:24px;
-  max-width:880px;
-  margin:0 auto;
 }
 .theory-card{
   display:flex;
