@@ -267,6 +267,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   width:100%;height:100%;object-fit:cover;
   transform:translateZ(0);
   backface-visibility:hidden;
+  filter:saturate(1.15) contrast(1.05);
 }
 .hero-content{
   position:relative;z-index:3;
@@ -325,8 +326,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    ABOUT (full-bleed cinematic)
    ═══════════════════════════════════════════════════════ */
-.about{padding:90px 0;margin-top:200px;margin-bottom:200px}
-.about .full-bleed-video{opacity:1}
+.about{padding:70px 0;margin-top:80px;margin-bottom:80px}
+.about .full-bleed-video{opacity:1;transform:scale(1.4);transform-origin:center 55%;will-change:transform}
 .about .full-bleed-overlay{
   background:transparent;
 }
@@ -519,7 +520,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    STORY (premium centered)
    ═══════════════════════════════════════════════════════ */
-.story{padding:90px 0 70px;position:relative;overflow:hidden}
+.story{padding:70px 0 60px;position:relative;overflow:hidden}
 .story-container{
   max-width:900px;margin:0 auto;padding:0 40px;
   position:relative;z-index:1;
@@ -1597,7 +1598,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    PERFORMANCE / IMPACT (full-bleed cinematic)
    ═══════════════════════════════════════════════════════ */
-.perf{padding:90px 0}
+.perf{padding:70px 0}
 .perf .full-bleed-video{opacity:1}
 .perf .full-bleed-overlay{background:rgba(0,0,0,0.45)}
 .perf .full-bleed-content{
@@ -1653,7 +1654,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 /* ═══════════════════════════════════════════════════════
    FAQ (open canvas, accent-left style)
    ═══════════════════════════════════════════════════════ */
-.faq-section{padding:90px 0}
+.faq-section{padding:70px 0}
 .faq-section .section-open{padding:80px 56px}
 .faq-heading{
   text-align:center;
