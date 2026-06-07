@@ -267,7 +267,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
   width:100%;height:100%;object-fit:cover;
   transform:translateZ(0);
   backface-visibility:hidden;
-  filter:saturate(1.15) contrast(1.05);
+  filter:saturate(1.06);
+  image-rendering:-webkit-optimize-contrast;
 }
 .hero-content{
   position:relative;z-index:3;
